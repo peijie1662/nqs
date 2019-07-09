@@ -26,8 +26,8 @@ public class TokenService {
 		long nowMillis = System.currentTimeMillis() + secrity.getExpireInterval();
 		Date expireDate = new Date(nowMillis);
 		String jwt = JWT.create().withExpiresAt(expireDate).withClaim("userId", user.getUserId())
-				.withClaim("roleId", user.getRoleId()).withJWTId(UUID.randomUUID().toString())
-				.sign(Algorithm.HMAC256(key));
+				.withClaim("userType", user.getUserType()).withClaim("userRole", user.getUserRole())
+				.withJWTId(UUID.randomUUID().toString()).sign(Algorithm.HMAC256(key));
 		return jwt;
 	}
 

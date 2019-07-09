@@ -53,8 +53,9 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 			DecodedJWT jm = JWT.decode(token);
 			User user = new User();
 			user.setUserId(jm.getClaim("userId").toString());
-			user.setRoleId(jm.getClaim("roleId").toString());
-			req.setAttribute("interceptor-user", user);
+			user.setUserType(jm.getClaim("userType").toString());
+			user.setUserRole(jm.getClaim("userRole").toString());
+			req.setAttribute("requester", user);
 			// 验证
 			String key = secrity.getKey();
 			JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(key)).build();
