@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import nbct.com.cn.customerquery.entity.Container;
+import nbct.com.cn.customerquery.entity.OrderReceive;
+import nbct.com.cn.customerquery.mapper.qry.CommonMapper;
 import nbct.com.cn.customerquery.mapper.qry.YardContainerMapper;
 
 /**
@@ -18,8 +20,15 @@ public class QryService {
 	@Autowired
 	YardContainerMapper yardContainerMapper;
 	
+	@Autowired
+	CommonMapper commonMapper;
+	
 	public List<Container> getYardContainers(){
 		return yardContainerMapper.getYardContainers();
 	};
+	
+	public List<OrderReceive> getOrderReceives(int dt){
+		return commonMapper.getOrderReceive(dt);
+	}
 
 }
