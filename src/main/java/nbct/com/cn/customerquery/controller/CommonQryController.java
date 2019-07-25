@@ -12,10 +12,8 @@ import com.alibaba.fastjson.JSONObject;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import nbct.com.cn.customerquery.annotation.TokenCheck;
 import nbct.com.cn.customerquery.entity.CallResult;
 import nbct.com.cn.customerquery.entity.OrderReceive;
-import nbct.com.cn.customerquery.entity.User;
 import nbct.com.cn.customerquery.service.QryService;
 
 /**

@@ -56,5 +56,10 @@ public class CallResult {
 	public void setOutMsg(String outMsg) {
 		this.outMsg = outMsg;
 	}
+
+	@Override
+	public String toString() {
+		return "CallResult [flag=" + flag + ", data=" + data + ", errMsg=" + errMsg + ", outMsg=" + outMsg + "]";
+	}
 	
 }

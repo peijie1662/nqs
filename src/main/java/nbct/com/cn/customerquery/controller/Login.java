@@ -1,5 +1,7 @@
 package nbct.com.cn.customerquery.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,9 +26,11 @@ import nbct.com.cn.customerquery.service.TokenService;
 @RestController
 public class Login {
 
+	private static final Logger logger = LoggerFactory.getLogger(Login.class);
+
 	@Autowired
 	LoginService loginService;
-	
+
 	@Autowired
 	TokenService tokenService;
 
@@ -39,9 +43,11 @@ public class Login {
 		if (user != null) {
 			r.setFlag(true);
 			r.setData(tokenService.getToken(user));
+			logger.info(loginUser.getUserId()+" login success.");
 		} else {
 			r.setFlag(false);
 			r.setErrMsg("用户或密码错误。");
+			logger.info(loginUser.getUserId()+" login fail.");
 		}
 		return r;
 	}
