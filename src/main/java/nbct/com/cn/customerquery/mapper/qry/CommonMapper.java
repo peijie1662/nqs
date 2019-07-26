@@ -17,4 +17,8 @@ public interface CommonMapper {
 	 */
 	List<OrderReceive> getOrderReceive(@Param("dt") int dt);
 
+	/**
+	 * 在场集卡列表
+	 */
+	List<YardTruckList> getYardTruckList();
 }
