@@ -27,7 +27,8 @@ public class GloablExceptionHandler {
 		}
 		r.setFlag(false);
 		r.setErrMsg(msg);
-		logger.error("Exception:" + r.getErrMsg());
+		logger.info("Exception:" + r.getErrMsg());
+		e.printStackTrace();
 		return r;
 	}
 }

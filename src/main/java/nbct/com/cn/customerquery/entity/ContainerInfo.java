@@ -1,5 +1,7 @@
 package nbct.com.cn.customerquery.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 单箱信息
  * 
@@ -19,6 +21,15 @@ public class ContainerInfo {
 	private String imvsvy;
 	
 	private String exvsvy;
+	
+	@JsonIgnore
+	private String curvscd;
+	
+	@JsonIgnore
+	private String curvsvy;
+	
+	@JsonIgnore
+	private String curvsdr;
 	
 	private String intd;
 	
@@ -305,6 +316,30 @@ public class ContainerInfo {
 
 	public void setSignVGM(String signVGM) {
 		this.signVGM = signVGM;
+	}
+
+	public String getCurvscd() {
+		return curvscd;
+	}
+
+	public void setCurvscd(String curvscd) {
+		this.curvscd = curvscd;
+	}
+
+	public String getCurvsvy() {
+		return curvsvy;
+	}
+
+	public void setCurvsvy(String curvsvy) {
+		this.curvsvy = curvsvy;
+	}
+
+	public String getCurvsdr() {
+		return curvsdr;
+	}
+
+	public void setCurvsdr(String curvsdr) {
+		this.curvsdr = curvsdr;
 	}
 	
 }

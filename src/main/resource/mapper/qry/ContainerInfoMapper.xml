@@ -2,7 +2,110 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="nbct.com.cn.customerquery.mapper.qry.ContainerInfoMapper">
 	<select id="getMainContainerInfo" resultType="nbct.com.cn.customerquery.entity.ContainerInfo">
-		
-		
+		select *
+		from
+		(select trim(cntrif) as cntrId,
+		lncdif as lncd,
+		ctszif as ctsz,
+		cttyif as ctty,
+		decode(trim(iyvscdif),
+		'',
+		' ',
+		trim(iyvscdif) || '/' || trim(iyvsvyif)
+		|| '-' ||
+		iyvsdrif) as imvsvy,
+		decode(trim(oyvscdif),
+		'',
+		' ',
+		trim(oyvscdif) || '/' || trim(oyvsvyif) || '-' ||
+		oyvsdrif) as exvsvy,
+		crvscdif as curvscd,
+		crvsvyif as curvsvy,
+		crvsdrif as curvsdr,
+		intdif as
+		intd,
+		infeif as infe,
+		inogif as inog,
+		inthif as inth,
+		inhzif as inhz,
+		indmif as indm,
+		decode(iydtif,
+		0,
+		'',
+		to_char(to_date(iydtif ||
+		lpad(iytmif, 6, '0'),
+		'yyyymmddhh24miss'),
+		'yyyy-mm-dd hh24:mi:ss')) as
+		inYardDt,
+		decode(oydtif,
+		0,
+		'',
+		to_char(to_date(oydtif || lpad(oytmif, 6,
+		'0'),
+		'yyyymmddhh24miss'),
+		'yyyy-mm-dd hh24:mi:ss')) as outYardDt,
+		decode(iyopcdif,
+		'IF',
+		'进口重箱',
+		'IE',
+		'进口空箱',
+		'RF',
+		'公路进重箱',
+		'RE',
+		'公路进空箱',
+		'LE',
+		'装箱',
+		'LI',
+		'拆箱') as inPortType,
+		decode(crvsdrif, 'I', ptldif, 'E',
+		ptdsif) as port,
+		ceil(decode(oydtif,
+		0,
+		sysdate,
+		to_date(oydtif ||
+		lpad(oytmif, 6, '0'),
+		'yyyymmddhh24miss')) -
+		to_date(iydtif ||
+		lpad(iytmif, 6, '0'),
+		'yyyymmddhh24miss')) as storageDays,
+		ctgwif as
+		weight,
+		decode(decode(crvsdrif, 'E', inotif), 'Y', 'Y', ' ') as loaded,
+		caagif as caag
+		from tcctifp
+		where cntrif = rpad(#{cntrId},12,' ')
+		order
+		by iydtif desc, iytmif desc) a
+		where rownum = 1
+	</select>
+
+	<select id="getCustomRelease" resultType="String">
+		select ctpfim from
+		custimp where vscdim = #{vscd} and vsvyim = #{vsvy} and vsdrim =
+		#{vsdr}
+		and
+		trim(ctpfim||lpad(ctnrim,6,'0')||ctckim) = #{cntrId} and
+		rownum = 1
+	</select>
+
+	<select id="getTerminalRelease" resultType="String">
+		select ctpfcc from
+		tcexccp where vscdcc = #{vscd} and vsvycc = #{vsvy}
+		and
+		trim(ctpfcc||lpad(ctnrcc,6,'0')||ctckcc) = #{cntrId} and rownum = 1
+	</select>
+
+	<select id="getCabl" resultType="String">
+		select cablmf from tcblmfp where
+		vscdmf = #{vscd} and vsvymf = #{vsvy} and vsdrmf = #{vsdr} and
+		trim(ctpfmf||lpad(ctnrmf,6,'0')||ctckmf) = #{cntrId} and rownum = 1
+	</select>
+
+	<select id="getVgm" resultType="nbct.com.cn.customerquery.entity.ContainerInfo">
+		select vgmmvg as weightingWayVGM,
+		vgmwvg as weightVGM,vgmsvg as signVGM
+		from ctnvgm where vscdvg = #{vscd} and vsvyvg = #{vsvy} and vsdrvg =
+		#{vsdr}
+		and cntrvg = #{cntrId}
 	</select>
 </mapper>
