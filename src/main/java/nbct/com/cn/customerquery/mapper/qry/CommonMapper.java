@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import nbct.com.cn.customerquery.entity.OrderReceive;
+import nbct.com.cn.customerquery.entity.YardTruck;
 
 /**
  * @author PJ
@@ -20,5 +21,5 @@ public interface CommonMapper {
 	/**
 	 * 在场集卡列表
 	 */
-	List<YardTruckList> getYardTruckList();
+	List<YardTruck> getYardTruckList();
 }

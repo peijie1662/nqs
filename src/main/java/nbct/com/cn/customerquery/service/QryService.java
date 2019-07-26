@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import nbct.com.cn.customerquery.entity.Container;
 import nbct.com.cn.customerquery.entity.OrderReceive;
+import nbct.com.cn.customerquery.entity.YardTruck;
 import nbct.com.cn.customerquery.mapper.qry.CommonMapper;
 import nbct.com.cn.customerquery.mapper.qry.YardContainerMapper;
 
@@ -29,6 +30,10 @@ public class QryService {
 	
 	public List<OrderReceive> getOrderReceives(int dt){
 		return commonMapper.getOrderReceive(dt);
+	}
+
+	public List<YardTruck> getYardTruckList(){
+		return commonMapper.getYardTruckList();
 	}
 
 }

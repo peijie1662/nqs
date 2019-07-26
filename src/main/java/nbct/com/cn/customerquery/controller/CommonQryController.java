@@ -14,6 +14,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import nbct.com.cn.customerquery.entity.CallResult;
 import nbct.com.cn.customerquery.entity.OrderReceive;
+import nbct.com.cn.customerquery.entity.YardTruck;
 import nbct.com.cn.customerquery.service.QryService;
 
 /**
@@ -35,6 +36,21 @@ public class CommonQryController {
 		try {
 			int dt = p.getIntValue("dt");
 			List<OrderReceive> list = qryService.getOrderReceives(dt);
+			r.setFlag(true);
+			r.setData(list);
+		} catch (Exception e) {
+			r.setFlag(false);
+			r.setErrMsg(e.getMessage());
+		}
+		return r;
+	}
+
+	@ApiOperation(value = "在场集卡列表", notes = "在场集卡列表")
+	@RequestMapping(value = "/yardtruck", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public CallResult getYardTruckList() {
+		CallResult r = new CallResult();
+		try {
+			List<YardTruck> list = qryService.getYardTruckList();
 			r.setFlag(true);
 			r.setData(list);
 		} catch (Exception e) {

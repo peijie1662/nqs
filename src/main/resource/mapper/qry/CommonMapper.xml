@@ -18,4 +18,12 @@
 		and dtldcs >= #{dt}
 		order by dtcscs, tmcscs, lncdcs
 	</select>
+
+	<select id="getYardTruckList" resultType="nbct.com.cn.customerquery.entity.YardTruck">
+		select trnrwk,trcdwk,dttrwk,tmtrwk,ROUND(TO_NUMBER(SYSDATE -
+		TO_DATE(dttrwk||LPAD(tmtrwk,6,'0'),'YYYY-MM-DD HH24:MI:SS')) * 24 *
+		60) DelayMinutes
+		from NBCT.TCJNWKP
+		order by dttrwk desc,tmtrwk desc
+	</select>
 </mapper>

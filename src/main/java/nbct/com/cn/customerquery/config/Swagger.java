@@ -21,7 +21,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Swagger配置<br>
- * http://localhost/swagger-ui.html#!/
+ * http://localhost:8864/swagger-ui.html#!/
  * 
  * @author PJ
  * @version 创建时间：2018年11月19日 上午11:04:53
