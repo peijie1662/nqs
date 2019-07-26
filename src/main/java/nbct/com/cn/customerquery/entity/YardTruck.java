@@ -1,7 +1,7 @@
 package nbct.com.cn.customerquery.entity;
 
 /**
- * @author xxx
+ * @author lsh
  * @date 2019-07-26 9:11
  * @description
  */

@@ -5,11 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import nbct.com.cn.customerquery.mapper.qry.CommonMapper;
+import nbct.com.cn.customerquery.mapper.qry.YardContainerMapper;
 import nbct.com.cn.customerquery.entity.Container;
 import nbct.com.cn.customerquery.entity.OrderReceive;
 import nbct.com.cn.customerquery.entity.YardTruck;
-import nbct.com.cn.customerquery.mapper.qry.CommonMapper;
-import nbct.com.cn.customerquery.mapper.qry.YardContainerMapper;
+import nbct.com.cn.customerquery.entity.CntrInCloseDate;
+import nbct.com.cn.customerquery.entity.SailingDateNotice;
+
 
 /**
 * @author PJ 
@@ -34,6 +37,14 @@ public class QryService {
 
 	public List<YardTruck> getYardTruckList(){
 		return commonMapper.getYardTruckList();
+	}
+
+	public List<CntrInCloseDate> getCntrInCloseDateList(int startdate,int enddate){
+		return commonMapper.getCntrInCloseDateList(startdate,enddate);
+	}
+
+	public List<SailingDateNotice> getSailingDateNoticeList(int startdate,int enddate){
+		return commonMapper.getSailingDateNotices(startdate,enddate);
 	}
 
 }

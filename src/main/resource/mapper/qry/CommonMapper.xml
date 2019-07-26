@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="nbct.com.cn.customerquery.mapper.qry.CommonMapper">
-	<select id="getOrderReceive" resultType="nbct.com.cn.customerquery.entity.OrderReceive">
+    <select id="getOrderReceive" resultType="nbct.com.cn.customerquery.entity.OrderReceive">
 		select trim(cnnmvr) as cnnmvr,
 		egnmvr,
 		vscdcs,
@@ -19,11 +19,138 @@
 		order by dtcscs, tmcscs, lncdcs
 	</select>
 
-	<select id="getYardTruckList" resultType="nbct.com.cn.customerquery.entity.YardTruck">
+    <select id="getYardTruckList" resultType="nbct.com.cn.customerquery.entity.YardTruck">
 		select trnrwk,trcdwk,dttrwk,tmtrwk,ROUND(TO_NUMBER(SYSDATE -
 		TO_DATE(dttrwk||LPAD(tmtrwk,6,'0'),'YYYY-MM-DD HH24:MI:SS')) * 24 *
 		60) DelayMinutes
 		from NBCT.TCJNWKP
 		order by dttrwk desc,tmtrwk desc
 	</select>
+
+	<select id="getCntrInCloseDateList" resultType="nbct.com.cn.customerquery.entity.CntrInCloseDate">
+		SELECT TRIM(CNNMVR) cnname,TRIM(EGNMVR) engName,A.VSCDLP vscd,TRIM(A.VYEXLP)
+		exvsvy,
+		TO_DATE(A.BG,'YYYY-MM-DD HH24:MI:SS') startdate,TO_DATE(A.ed,'YYYY-MM-DD HH24:MI:SS') enddate
+		FROM (
+		select max(lpad(to_char(dtbilp), 8, '0') || lpad(to_char(tmbilp), 6, '0'))
+		as bg,
+		min(lpad(to_char(dteilp), 8, '0') || lpad(to_char(tmeilp), 6, '0')) as ed,
+		vscdlp,
+		vyexlp from NBCT.syvslpp
+		where ((dtbilp between #{startdate} and #{enddate}) or (dteilp between #{startdate} and #{enddate}))
+		group by vscdlp, vyexlp
+		) A,NBCT.TCVSVRP
+		WHERE VSCDLP=VSCDVR(+)
+		order by vscdlp, vyexlp
+	</select>
+
+	<select id="getSailingDateNotices" resultType="nbct.com.cn.customerquery.entity.SailingDateNotice">
+		select lncd,cnvsname,engvsname,vscd, imvsvy,exvsvy,
+		decode(realberthdate,0,null,to_char(TO_DATE(realberthdate||LPAD(realberthtime,6,'0'),'YYYY-MM-DD HH24:MI:SS'),'YYYY-MM-DD HH24:MI:SS')) realberthdate,
+		decode(realunberthdate,0,null,to_char(TO_DATE(realunberthdate||LPAD(realunberthtime,6,'0'),'YYYY-MM-DD HH24:MI:SS'),'YYYY-MM-DD HH24:MI:SS')) realunberthdate,
+		decode(cntrindate,0,null,to_char(TO_DATE(cntrindate||LPAD(cntrintime,6,'0'),'YYYY-MM-DD HH24:MI:SS'),'YYYY-MM-DD HH24:MI:SS')) cntrindate,
+		decode(cntroutdate,0,null,to_char(TO_DATE(cntroutdate||LPAD(cntrouttime,6,'0'),'YYYY-MM-DD HH24:MI:SS'),'YYYY-MM-DD HH24:MI:SS')) cntroutdate,
+		decode(estberthdate,0,null,to_char(TO_DATE(estberthdate||LPAD(estberthtime,4,'0')||'00','YYYY-MM-DD HH24:MI:SS'),'YYYY-MM-DD HH24:MI:SS')) estberthdate,
+		decode(estunberthdate,0,null,to_char(TO_DATE(estunberthdate||LPAD(estunberthtime,4,'0')||'00','YYYY-MM-DD HH24:MI:SS'),'YYYY-MM-DD HH24:MI:SS')) estunberthdate,
+		decode(pubdate,0,null,to_char(TO_DATE(pubdate,'YYYY-MM-DD'),'YYYY-MM-DD')) pubdate,
+		btno
+		from (select c.lncdvr as lncd,
+		trim(c.cnnmvr) as cnvsname,
+		trim(c.egnmvr) as engvsname,
+		a.vscdvy as vscd,
+		trim(a.vsvyvy) as imvsvy,
+		trim(b.exvyre) as exvsvy,
+
+		a.dtabvy as realberthdate,
+		a.tmabvy as realberthtime,
+		a.dtdpvy as realunberthdate,
+		a.tmdpvy as realunberthtime,
+
+		a.dtbivy as cntrindate,
+		a.tmbivy as cntrintime,
+		a.dteivy as cntroutdate,
+		a.tmeivy as cntrouttime,
+
+		d.ibdt as estberthdate,
+		d.ibtm as estberthtime,
+		d.obdt as estunberthdate,
+		d.obtm as estunberthtime,
+
+		d.dtpub as pubdate,
+		d.tmpub as pubtime,
+
+		trim(btno) btno,
+		inst,
+
+		a.dteavy,
+		a.tmeavy,
+		e.ardt,
+		e.artm,
+		a.dtarvy,
+		a.tmarvy
+
+		from nbct.tcvsvyp a,
+		nbct.tcvyrep b,
+		nbct.tcvsvrp c,
+		(select x.pepldt,
+		x.vscd,
+		x.vsvyim,
+		x.vsvyex,
+		x.ibdt,
+		x.ibtm,
+		x.obdt,
+		x.obtm,
+		x.dttr dtpub,
+		x.dttm tmpub,
+		inst,
+		x.btno
+		from vplan.prepln x,
+		(select max(pepldt) pepldt, vscd, vsvyim, vsvyex
+		from vplan.prepln
+		where ((ibdt >= #{startdate}) or (obdt >= #{enddate})) and (substr(inst, 1,1) = '1')
+		group by vscd, vsvyim, vsvyex, inst) y
+		where x.pepldt = y.pepldt
+		and x.vscd = y.vscd
+		and x.vsvyim = y.vsvyim
+		and x.vsvyex = y.vsvyex
+		and x.vsno = 0
+		and substr(x.inst, 1, 1) = '1') d,
+
+		(select x.PERPDT, x.vscd, x.vsvyim, x.vsvyex, x.ardt, x.artm
+
+		from vplan.prerep x,
+		(select max(PERPDT) PERPDT, vscd, vsvyim, vsvyex
+		from vplan.prerep
+		where (ardt >= #{startdate})
+		group by vscd, vsvyim, vsvyex) y
+		where x.PERPDT = y.PERPDT
+		and x.vscd = y.vscd
+		and x.vsvyim = y.vsvyim
+		and x.vsvyex = y.vsvyex) e
+
+		where b.vscdre = a.vscdvy
+		and b.imvyre = a.vsvyvy
+		and a.vsdrvy = 'I'
+		and c.vscdvr = a.vscdvy
+		and d.vscd(+) = b.vscdre
+		and d.vsvyim(+) = b.imvyre
+		and d.vsvyex(+) = b.exvyre
+		and e.vscd(+) = b.vscdre
+		and e.vsvyim(+) = b.imvyre
+		and e.vsvyex(+) = b.exvyre
+
+		and (a.vscdvy not in (select vscdvs from nbct.tctrvsp)))
+		where ((realberthdate between #{startdate} and #{enddate}) or
+		(dteavy between #{startdate} and #{enddate}) or
+		(dtarvy between #{startdate} and #{enddate}) or
+		(cntrindate between #{startdate} and #{enddate}) or
+		(cntroutdate between #{startdate} and #{enddate}) or
+		(realunberthdate between #{startdate} and #{enddate}) or
+		(estberthdate between #{startdate} and #{enddate}) or
+		(estunberthdate between #{startdate} and #{enddate}) or
+		(ardt between #{startdate} and #{enddate}))
+		and substr(inst, 1, 1) = '1'
+		order by dteavy, tmeavy
+	</select>
+
 </mapper>
