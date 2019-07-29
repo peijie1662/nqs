@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -35,14 +37,18 @@ public class Login {
 	TokenService tokenService;
 
 	@ApiOperation(value = "用户登录", notes = "用户密码验证")
-	@ApiImplicitParam(name = "loginUser", value = "{userId:'xx',password:'xx'}", required = true, dataType = "User")
+	@ApiImplicitParam(name = "loginUser", required = true, dataType = "User")
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public CallResult login(@RequestBody User loginUser) {
 		CallResult r = new CallResult();
 		User user = loginService.findUserById(loginUser);
 		if (user != null) {
 			r.setFlag(true);
-			r.setData(tokenService.getToken(user));
+			String token =tokenService.getToken(user);
+			JSONObject data = new JSONObject();
+			data.put("token", token);
+			data.put("groups", user.getGroups());
+			r.setData(data);
 			logger.info(loginUser.getUserId()+" login success.");
 		} else {
 			r.setFlag(false);

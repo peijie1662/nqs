@@ -1,7 +1,5 @@
 package nbct.com.cn.customerquery.entity;
 
-import java.util.Date;
-
 /**
  * 客户信息
  * 
@@ -22,22 +20,17 @@ public class User {
 	private String userType;
 	
 	/**
-	 * 用户角色 10(普通用户),90(内部用户),99(管理员)
+	 * 用户对应功能组
 	 */
-	private String userRole;
+	private String groups;
 	
 	private String telephone;
-	
-	private Date addTime;
 	
 	private String address;
 	
 	private String company;
 	
-	/**
-	 * 代码
-	 */
-	private String cpyco;
+	private String companyId;
 
 	public String getUserId() {
 		return userId;
@@ -71,28 +64,12 @@ public class User {
 		this.userType = userType;
 	}
 
-	public String getUserRole() {
-		return userRole;
-	}
-
-	public void setUserRole(String userRole) {
-		this.userRole = userRole;
-	}
-
 	public String getTelephone() {
 		return telephone;
 	}
 
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
-	}
-
-	public Date getAddTime() {
-		return addTime;
-	}
-
-	public void setAddTime(Date addTime) {
-		this.addTime = addTime;
 	}
 
 	public String getAddress() {
@@ -111,18 +88,20 @@ public class User {
 		this.company = company;
 	}
 
-	public String getCpyco() {
-		return cpyco;
+	public String getGroups() {
+		return groups;
 	}
 
-	public void setCpyco(String cpyco) {
-		this.cpyco = cpyco;
+	public void setGroups(String groups) {
+		this.groups = groups;
 	}
 
-	@Override
-	public String toString() {
-		return "User [userId=" + userId + ", userName=" + userName + ", userType=" + userType + ", userRole=" + userRole
-				+ "]";
+	public String getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
 	}
 	
 }

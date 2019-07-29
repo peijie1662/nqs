@@ -54,7 +54,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 			User user = new User();
 			user.setUserId(jm.getClaim("userId").toString());
 			user.setUserType(jm.getClaim("userType").toString());
-			user.setUserRole(jm.getClaim("userRole").toString());
+			user.setCompanyId(jm.getClaim("companyId").toString());
+			user.setGroups(jm.getClaim("groups").toString());
 			req.setAttribute("requester", user);
 			// 验证
 			String key = secrity.getKey();

@@ -19,6 +19,6 @@ public class LoginService {
 	LoginMapper loginMapper;
 
 	public User findUserById(User loginUser) {
-		return loginMapper.findUserById(loginUser.getUserId());
+		return loginMapper.findUserById(loginUser.getUserId(), loginUser.getPassword());
 	}
 }

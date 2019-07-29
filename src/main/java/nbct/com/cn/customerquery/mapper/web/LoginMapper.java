@@ -11,6 +11,10 @@ import nbct.com.cn.customerquery.entity.User;
 
 public interface LoginMapper {
 	
-	User findUserById(@Param("userId") String userId);
+	/**
+	 * 用户登录 
+	 */
+	User findUserById(@Param("userId") String userId,@Param("password") String password);
+	
 
 }
