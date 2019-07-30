@@ -2,16 +2,12 @@ package nbct.com.cn.customerquery.service;
 
 import java.util.List;
 
+import nbct.com.cn.customerquery.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import nbct.com.cn.customerquery.mapper.qry.CommonMapper;
 import nbct.com.cn.customerquery.mapper.qry.YardContainerMapper;
-import nbct.com.cn.customerquery.entity.Container;
-import nbct.com.cn.customerquery.entity.OrderReceive;
-import nbct.com.cn.customerquery.entity.YardTruck;
-import nbct.com.cn.customerquery.entity.CntrInCloseDate;
-import nbct.com.cn.customerquery.entity.SailingDateNotice;
 
 
 /**
@@ -45,6 +41,18 @@ public class QryService {
 
 	public List<SailingDateNotice> getSailingDateNoticeList(int startdate,int enddate){
 		return commonMapper.getSailingDateNotices(startdate,enddate);
+	}
+
+	public ImCustomPassInfo getImCustomPassInfo(String cntrid){
+		return commonMapper.getImCustomPassInfo(cntrid);
+	}
+
+	public ExPortPassInfo getExPortPassInfo(String cntrid){
+		return commonMapper.getExPortPassInfo(cntrid);
+	}
+
+	public CheckMoveCtnrInfo getCheckMoveCtnrInfo(String cntrid){
+		return commonMapper.getCheckMoveCtnrInfo(cntrid);
 	}
 
 }
