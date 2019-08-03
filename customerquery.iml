@@ -11,7 +11,16 @@
   </component>
   <component name="FacetManager">
     <facet type="Spring" name="Spring">
-      <configuration />
+      <configuration>
+        <fileset id="fileset" name="Spring Application Context" removed="false">
+          <file>file://$MODULE_DIR$/src/main/java/nbct/com/cn/customerquery/CustomerQueryServer.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/nbct/com/cn/customerquery/config/InterceptorConfig.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/nbct/com/cn/customerquery/config/QryDataSourceConfiger.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/nbct/com/cn/customerquery/config/ServerSecrity.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/nbct/com/cn/customerquery/config/Swagger.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/nbct/com/cn/customerquery/config/WebDataSourceConfiger.java</file>
+        </fileset>
+      </configuration>
     </facet>
     <facet type="web" name="Web">
       <configuration>
