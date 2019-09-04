@@ -257,7 +257,11 @@ public class CommonQryController {
         }
 
         if (cntrInfo.getFeenum() > 0) {
-          cntrInfo.setPosstatuscn("已归位");
+          if (!cntrInfo.getCkstatus().trim().equals("3")) {
+            cntrInfo.setPosstatuscn("未归位");// 已收费但移箱指令还是未到位的显示未 未归位
+          } else {
+            cntrInfo.setPosstatuscn("已归位");
+          }
         } else {
           cntrInfo.setPosstatuscn("未归位");
         }
