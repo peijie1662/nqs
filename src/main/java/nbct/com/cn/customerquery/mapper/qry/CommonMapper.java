@@ -19,39 +19,38 @@ import nbct.com.cn.customerquery.entity.*;
  */
 public interface CommonMapper {
 
-	/**
-	 * 接单公告
-	 */
-	List<OrderReceive> getOrderReceive(@Param("dt") int dt);
+  /**
+   * 接单公告
+   */
+  List<OrderReceive> getOrderReceive(@Param("dt") int dt);
 
-	/**
-	 * 在场集卡列表
-	 */
-	List<YardTruck> getYardTruckList();
+  /**
+   * 在场集卡列表
+   */
+  List<YardTruck> getYardTruckList();
 
-	/**
-	 * 集装箱进箱截箱时间公告
-	 */
-	List<CntrInCloseDate> getCntrInCloseDateList(@Param("startdate") int startdate,@Param("enddate") int enddate);
+  /**
+   * 集装箱进箱截箱时间公告
+   */
+  List<CntrInCloseDate> getCntrInCloseDateList(@Param("startdate") int startdate, @Param("enddate") int enddate);
 
-	/**
-	 * 船舶预告
-	 * 此处是接口文件，函数名与XML文件设置一致
-	 */
-	List<SailingDateNotice> getSailingDateNotices(@Param("startdate") int startdate,@Param("enddate") int enddate);
+  /**
+   * 船舶预告 此处是接口文件，函数名与XML文件设置一致
+   */
+  List<SailingDateNotice> getSailingDateNotices(@Param("startdate") int startdate, @Param("enddate") int enddate);
 
-	/**
-	 * 进口箱海关放行查询
-	 */
-	ImCustomPassInfo getImCustomPassInfo(@Param("cntrid") String cntrid);
+  /**
+   * 进口箱海关放行查询
+   */
+  ImCustomPassInfo getImCustomPassInfo(@Param("cntrId") String cntrId);
 
-	/**
-	 * 出口箱码头放行查询
-	 */
-	ExPortPassInfo getExPortPassInfo(@Param("cntrid") String cntrid);
+  /**
+   * 出口箱码头放行查询
+   */
+  ExPortPassInfo getExPortPassInfo(@Param("cntrId") String cntrId);
 
-	/**
-	 * 查验箱移箱/归位情况查询
-	 */
-	CheckMoveCtnrInfo getCheckMoveCtnrInfo(@Param("cntrid") String cntrid);
+  /**
+   * 查验箱移箱/归位情况查询
+   */
+  CheckMoveCtnrInfo getCheckMoveCtnrInfo(@Param("cntrId") String cntrId);
 }

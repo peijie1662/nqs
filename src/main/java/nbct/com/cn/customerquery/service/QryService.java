@@ -9,50 +9,49 @@ import org.springframework.stereotype.Service;
 import nbct.com.cn.customerquery.mapper.qry.CommonMapper;
 import nbct.com.cn.customerquery.mapper.qry.YardContainerMapper;
 
-
 /**
-* @author PJ 
-* @version 创建时间：2019年7月9日 上午9:08:22
-*/
+ * @author PJ
+ * @version 创建时间：2019年7月9日 上午9:08:22
+ */
 @Service
 public class QryService {
-	
-	@Autowired
-	YardContainerMapper yardContainerMapper;
-	
-	@Autowired
-	CommonMapper commonMapper;
-	
-	public List<Container> getYardContainers(){
-		return yardContainerMapper.getYardContainers();
-	};
-	
-	public List<OrderReceive> getOrderReceives(int dt){
-		return commonMapper.getOrderReceive(dt);
-	}
 
-	public List<YardTruck> getYardTruckList(){
-		return commonMapper.getYardTruckList();
-	}
+  @Autowired
+  YardContainerMapper yardContainerMapper;
 
-	public List<CntrInCloseDate> getCntrInCloseDateList(int startdate,int enddate){
-		return commonMapper.getCntrInCloseDateList(startdate,enddate);
-	}
+  @Autowired
+  CommonMapper commonMapper;
 
-	public List<SailingDateNotice> getSailingDateNoticeList(int startdate,int enddate){
-		return commonMapper.getSailingDateNotices(startdate,enddate);
-	}
+  public List<Container> getYardContainers() {
+    return yardContainerMapper.getYardContainers();
+  };
 
-	public ImCustomPassInfo getImCustomPassInfo(String cntrid){
-		return commonMapper.getImCustomPassInfo(cntrid);
-	}
+  public List<OrderReceive> getOrderReceives(int dt) {
+    return commonMapper.getOrderReceive(dt);
+  }
 
-	public ExPortPassInfo getExPortPassInfo(String cntrid){
-		return commonMapper.getExPortPassInfo(cntrid);
-	}
+  public List<YardTruck> getYardTruckList() {
+    return commonMapper.getYardTruckList();
+  }
 
-	public CheckMoveCtnrInfo getCheckMoveCtnrInfo(String cntrid){
-		return commonMapper.getCheckMoveCtnrInfo(cntrid);
-	}
+  public List<CntrInCloseDate> getCntrInCloseDateList(int startdate, int enddate) {
+    return commonMapper.getCntrInCloseDateList(startdate, enddate);
+  }
+
+  public List<SailingDateNotice> getSailingDateNoticeList(int startdate, int enddate) {
+    return commonMapper.getSailingDateNotices(startdate, enddate);
+  }
+
+  public ImCustomPassInfo getImCustomPassInfo(String cntrId) {
+    return commonMapper.getImCustomPassInfo(cntrId);
+  }
+
+  public ExPortPassInfo getExPortPassInfo(String cntrId) {
+    return commonMapper.getExPortPassInfo(cntrId);
+  }
+
+  public CheckMoveCtnrInfo getCheckMoveCtnrInfo(String cntrId) {
+    return commonMapper.getCheckMoveCtnrInfo(cntrId);
+  }
 
 }
