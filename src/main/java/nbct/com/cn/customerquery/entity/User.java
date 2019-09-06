@@ -1,5 +1,7 @@
 package nbct.com.cn.customerquery.entity;
 
+import java.util.Date;
+
 /**
  * 客户信息
  * 
@@ -8,100 +10,120 @@ package nbct.com.cn.customerquery.entity;
  */
 public class User {
 
-	private String userId;
+  private String userId;
 
-	private String userName;
+  private String userName;
 
-	private String password;
-	
-	/**
-	 * 用户类型 A(管理员),C(海关),D(堆场),H(货代),V(船公司)
-	 */
-	private String userType;
-	
-	/**
-	 * 用户对应功能组
-	 */
-	private String groups;
-	
-	private String telephone;
-	
-	private String address;
-	
-	private String company;
-	
-	private String companyId;
+  private String password;
 
-	public String getUserId() {
-		return userId;
-	}
+  /**
+   * 用户类型 A(管理员),C(海关),D(堆场),H(货代),V(船公司)
+   */
+  private String userType;
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+  /**
+   * 用户对应功能组
+   */
+  private String groups;
 
-	public String getUserName() {
-		return userName;
-	}
+  private String telephone;
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+  private String address;
 
-	public String getPassword() {
-		return password;
-	}
+  private String company;
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+  private String companyId;
 
-	public String getUserType() {
-		return userType;
-	}
+  private String opUser;
 
-	public void setUserType(String userType) {
-		this.userType = userType;
-	}
+  private Date opDate;
 
-	public String getTelephone() {
-		return telephone;
-	}
+  public String getUserId() {
+    return userId;
+  }
 
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
-	}
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
 
-	public String getAddress() {
-		return address;
-	}
+  public String getUserName() {
+    return userName;
+  }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
 
-	public String getCompany() {
-		return company;
-	}
+  public String getPassword() {
+    return password;
+  }
 
-	public void setCompany(String company) {
-		this.company = company;
-	}
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-	public String getGroups() {
-		return groups;
-	}
+  public String getUserType() {
+    return userType;
+  }
 
-	public void setGroups(String groups) {
-		this.groups = groups;
-	}
+  public void setUserType(String userType) {
+    this.userType = userType;
+  }
 
-	public String getCompanyId() {
-		return companyId;
-	}
+  public String getTelephone() {
+    return telephone;
+  }
 
-	public void setCompanyId(String companyId) {
-		this.companyId = companyId;
-	}
-	
+  public void setTelephone(String telephone) {
+    this.telephone = telephone;
+  }
+
+  public String getAddress() {
+    return address;
+  }
+
+  public void setAddress(String address) {
+    this.address = address;
+  }
+
+  public String getCompany() {
+    return company;
+  }
+
+  public void setCompany(String company) {
+    this.company = company;
+  }
+
+  public String getGroups() {
+    return groups;
+  }
+
+  public void setGroups(String groups) {
+    this.groups = groups;
+  }
+
+  public String getCompanyId() {
+    return companyId;
+  }
+
+  public void setCompanyId(String companyId) {
+    this.companyId = companyId;
+  }
+
+  public String getOpUser() {
+    return opUser;
+  }
+
+  public void setOpUser(String opUser) {
+    this.opUser = opUser;
+  }
+
+  public Date getOpDate() {
+    return this.opDate;
+  }
+
+  public void setOpDate(Date opDate) {
+    this.opDate = opDate;
+  }
+
 }
