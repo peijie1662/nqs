@@ -36,7 +36,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 	TokenService tokenService;
 
 	@Override
-	public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object obj) throws Exception {
+	public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object obj)
+			throws JWTVerificationException {
 		String token = req.getHeader("token");
 		// 1.对象不是Controller方法
 		if (!(obj instanceof HandlerMethod)) {
@@ -47,7 +48,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 		// 2.检查
 		if (method.isAnnotationPresent(TokenCheck.class)) {
 			if (token == null) {
-				throw new RuntimeException("未经过验证，请重新登录");
+				throw new JWTVerificationException("未经过验证，请重新登录");
 			}
 			// 用户信息
 			DecodedJWT jm = JWT.decode(token);
@@ -63,7 +64,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 			try {
 				jwtVerifier.verify(token);
 			} catch (JWTVerificationException e) {
-				throw new RuntimeException("签名验证失败，请重新登录");
+				throw new JWTVerificationException("签名验证失败，请重新登录");
 			}
 			// 续签
 			Date expireDate = jm.getExpiresAt();
@@ -84,7 +85,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest req, HttpServletResponse res, Object arg2, ModelAndView arg3)
 			throws Exception {
-		 
+
 	}
 
 }

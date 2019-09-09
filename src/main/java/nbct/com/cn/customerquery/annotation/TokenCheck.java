@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 需要检查
+ * 需要检查令牌
  * 
  * @author PJ
  * @version 创建时间：2019年7月6日 下午4:53:24
