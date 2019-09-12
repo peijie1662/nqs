@@ -20,7 +20,7 @@ import nbct.com.cn.customerquery.service.RedisService;
  * @author PJ
  * @version 创建时间：2019年9月10日 上午9:39:15
  */
-public class CallSatisticsInterceptor implements HandlerInterceptor {
+public class CallStatisticsInterceptor implements HandlerInterceptor {
 
 	@Autowired
 	private RedisService redisService;

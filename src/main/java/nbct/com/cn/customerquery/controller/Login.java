@@ -31,37 +31,35 @@ import nbct.com.cn.customerquery.service.TokenService;
 @RestController
 public class Login {
 
-  private static final Logger logger = LoggerFactory.getLogger(Login.class);
+	private static final Logger logger = LoggerFactory.getLogger(Login.class);
 
-  @Autowired
-  LoginService loginService;
+	@Autowired
+	LoginService loginService;
 
-  @Autowired
-  TokenService tokenService;
+	@Autowired
+	TokenService tokenService;
 
-  @ApiOperation(value = "用户登录", notes = "用户密码验证")
-  @ApiImplicitParam(name = "loginUser", required = true, dataType = "User")
-  @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-  public CallResult login(@RequestBody User loginUser) {
-    CallResult r = new CallResult();
-    User user = loginService.findUserById(loginUser);
-    if (user != null) {
-      r.setFlag(true);
-      String token = tokenService.getToken(user);
-      JSONObject data = new JSONObject();
-      data.put("token", token);
-      data.put("company", user.getCompany());
-      data.put("companyId", user.getCompanyId());
-      data.put("groups", user.getGroups());
-      r.setData(data);
-      loginService.userLoginInfo(new UserLoginInfo(user.getUserId()));
-      logger.info(loginUser.getUserId() + " login success.");
-    } else {
-      r.setFlag(false);
-      r.setErrMsg("用户或密码错误。");
-      logger.info(loginUser.getUserId() + " login fail.");
-    }
-    return r;
-  }
+	@ApiOperation(value = "用户登录", notes = "用户密码验证")
+	@ApiImplicitParam(name = "loginUser", required = true, dataType = "User")
+	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public CallResult login(@RequestBody User loginUser) {
+		CallResult r = new CallResult();
+		User user = loginService.findUserById(loginUser);
+		if (user != null) {
+			String token = tokenService.getToken(user);
+			JSONObject data = new JSONObject();
+			data.put("token", token);
+			data.put("user", user);
+			r.setData(data);
+			r.setFlag(true);
+			loginService.userLoginInfo(new UserLoginInfo(user.getUserId()));
+			logger.info(loginUser.getUserId() + " login success.");
+		} else {
+			r.setFlag(false);
+			r.setErrMsg("用户或密码错误。");
+			logger.info(loginUser.getUserId() + " login fail.");
+		}
+		return r;
+	}
 
 }

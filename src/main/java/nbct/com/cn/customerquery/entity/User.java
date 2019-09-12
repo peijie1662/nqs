@@ -2,6 +2,8 @@ package nbct.com.cn.customerquery.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 客户信息
  * 
@@ -14,6 +16,7 @@ public class User {
 
   private String userName;
 
+  @JsonIgnore
   private String password;
 
   /**

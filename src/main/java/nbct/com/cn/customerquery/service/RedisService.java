@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
 
-import nbct.com.cn.customerquery.entity.CallSatisticsItem;
+import nbct.com.cn.customerquery.entity.CallStatisticsItem;
 
 /**
  * @author PJ
@@ -37,11 +37,11 @@ public class RedisService {
 		//
 		Set<String> items = ops.rangeByScore(dt, dt);
 		if (items.size() <= 0) {
-			String item = JSON.toJSONString(new CallSatisticsItem(curDt, 1));
+			String item = JSON.toJSONString(new CallStatisticsItem(curDt, 1));
 			ops.add(item, dt);
 		} else {
 			items.forEach(item -> {
-				CallSatisticsItem csi = JSON.parseObject(item,CallSatisticsItem.class);
+				CallStatisticsItem csi = JSON.parseObject(item,CallStatisticsItem.class);
 				csi.setCount(csi.getCount()+1);
 				ops.remove(item);
 				ops.add(JSON.toJSONString(csi),dt);
