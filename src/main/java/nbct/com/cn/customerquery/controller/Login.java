@@ -50,8 +50,9 @@ public class Login {
       String token = tokenService.getToken(user);
       JSONObject data = new JSONObject();
       data.put("token", token);
-      user.setPassword("");
-      data.put("user", user);
+      data.put("company", user.getCompany());
+      data.put("companyId", user.getCompanyId());
+      data.put("groups", user.getGroups());
       r.setData(data);
       loginService.userLoginInfo(new UserLoginInfo(user.getUserId()));
       logger.info(loginUser.getUserId() + " login success.");
