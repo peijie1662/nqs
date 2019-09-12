@@ -2,6 +2,7 @@ package nbct.com.cn.customerquery.interceptor;
 
 import java.lang.reflect.Method;
 import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -53,10 +54,10 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 			// 用户信息
 			DecodedJWT jm = JWT.decode(token);
 			User user = new User();
-			user.setUserId(jm.getClaim("userId").toString());
-			user.setUserType(jm.getClaim("userType").toString());
-			user.setCompanyId(jm.getClaim("companyId").toString());
-			user.setGroups(jm.getClaim("groups").toString());
+			user.setUserId(jm.getClaim("userId").asString());
+			user.setUserType(jm.getClaim("userType").asString());
+			user.setCompanyId(jm.getClaim("companyId").asString());
+			user.setGroups(jm.getClaim("groups").asString());
 			req.setAttribute("requester", user);
 			// 验证
 			String key = secrity.getKey();

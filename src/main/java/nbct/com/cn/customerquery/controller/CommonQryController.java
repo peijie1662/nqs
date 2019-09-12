@@ -2,8 +2,11 @@ package nbct.com.cn.customerquery.controller;
 
 import java.util.List;
 
+import nbct.com.cn.customerquery.annotation.CallStatistics;
+import nbct.com.cn.customerquery.annotation.NBCTWebFunction;
 import nbct.com.cn.customerquery.annotation.TokenCheck;
 import nbct.com.cn.customerquery.entity.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,6 +39,7 @@ public class CommonQryController {
    * 调用 { "dt": 20190726 }
    */
   @TokenCheck
+  @CallStatistics(NBCTWebFunction.ORDERRECEIVE) 
   @ApiOperation(value = "接单公告", notes = "接单公告")
   @RequestMapping(value = "/orderreceive", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult getOrderReceive(@RequestBody JSONObject p) {

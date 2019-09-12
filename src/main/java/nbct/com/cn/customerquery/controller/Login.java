@@ -47,17 +47,17 @@ public class Login {
 		User user = loginService.findUserById(loginUser);
 		if (user != null) {
 			r.setFlag(true);
-			String token =tokenService.getToken(user);
+			String token = tokenService.getToken(user);
 			JSONObject data = new JSONObject();
 			data.put("token", token);
 			data.put("groups", user.getGroups());
 			r.setData(data);
-		    loginService.userLoginInfo(new UserLoginInfo(user.getUserId()));
-			logger.info(loginUser.getUserId()+" login success.");
+			loginService.userLoginInfo(new UserLoginInfo(user.getUserId()));
+			logger.info(loginUser.getUserId() + " login success.");
 		} else {
 			r.setFlag(false);
 			r.setErrMsg("用户或密码错误。");
-			logger.info(loginUser.getUserId()+" login fail.");
+			logger.info(loginUser.getUserId() + " login fail.");
 		}
 		return r;
 	}
