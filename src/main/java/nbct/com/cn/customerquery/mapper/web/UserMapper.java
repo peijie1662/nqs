@@ -1,8 +1,9 @@
 package nbct.com.cn.customerquery.mapper.web;
 
-import nbct.com.cn.customerquery.entity.User;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
+
+import nbct.com.cn.customerquery.entity.User;
 
 /**
  * @author sdw

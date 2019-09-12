@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import nbct.com.cn.customerquery.entity.CallResult;
 import nbct.com.cn.customerquery.entity.User;
+import nbct.com.cn.customerquery.entity.UserLoginInfo;
 import nbct.com.cn.customerquery.service.LoginService;
 import nbct.com.cn.customerquery.service.TokenService;
 
@@ -52,6 +53,7 @@ public class Login {
       user.setPassword("");
       data.put("user", user);
       r.setData(data);
+      loginService.userLoginInfo(new UserLoginInfo(user.getUserId()));
       logger.info(loginUser.getUserId() + " login success.");
     } else {
       r.setFlag(false);

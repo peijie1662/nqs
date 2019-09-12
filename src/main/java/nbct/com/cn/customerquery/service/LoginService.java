@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import nbct.com.cn.customerquery.entity.User;
+import nbct.com.cn.customerquery.entity.UserLoginInfo;
 import nbct.com.cn.customerquery.mapper.web.LoginMapper;
 
 /**
@@ -20,5 +21,9 @@ public class LoginService {
 
 	public User findUserById(User loginUser) {
 		return loginMapper.findUserById(loginUser.getUserId(), loginUser.getPassword());
+	}
+	
+	public void userLoginInfo(UserLoginInfo uli){
+		loginMapper.userLoginInfo(uli);
 	}
 }

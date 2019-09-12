@@ -10,31 +10,40 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import nbct.com.cn.customerquery.annotation.TokenCheck;
 import nbct.com.cn.customerquery.service.QryService;
+import nbct.com.cn.customerquery.service.RedisService;
 
 /**
-* @author PJ 
-* @version 创建时间：2019年7月7日 下午2:20:10
-* 类说明
-*/
+ * @author PJ
+ * @version 创建时间：2019年7月7日 下午2:20:10 类说明
+ */
 @Api(value = "测试")
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class Test {
-	
+
 	@Autowired
 	QryService qryService;
-	
+
+	@Autowired
+	RedisService redisService;
+
 	@TokenCheck
 	@ApiOperation(value = "测试", notes = "令牌测试")
 	@RequestMapping(value = "/tokentest", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public String needToken() {
 		return "haha";
 	}
-	
+
 	@ApiOperation(value = "测试", notes = "QRY测试")
 	@RequestMapping(value = "/qrytest", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public Object YardContainer() {
 		return qryService.getYardContainers();
+	}
+
+	@ApiOperation(value = "Redis测试 ", notes = "Redis测试")
+	@RequestMapping(value = "/redistest", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public void redisTest() {
+		redisService.saveFunctionCallLog("AA", "BB");
 	}
 
 }

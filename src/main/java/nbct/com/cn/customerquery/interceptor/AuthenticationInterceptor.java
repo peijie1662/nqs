@@ -2,6 +2,7 @@ package nbct.com.cn.customerquery.interceptor;
 
 import java.lang.reflect.Method;
 import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -36,7 +37,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 	TokenService tokenService;
 
 	@Override
-	public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object obj) throws Exception {
+	public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object obj)
+			throws JWTVerificationException {
 		String token = req.getHeader("token");
 		// 1.对象不是Controller方法
 		if (!(obj instanceof HandlerMethod)) {
@@ -47,15 +49,15 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 		// 2.检查
 		if (method.isAnnotationPresent(TokenCheck.class)) {
 			if (token == null) {
-				throw new RuntimeException("未经过验证，请重新登录");
+				throw new JWTVerificationException("未经过验证，请重新登录");
 			}
 			// 用户信息
 			DecodedJWT jm = JWT.decode(token);
 			User user = new User();
-			user.setUserId(jm.getClaim("userId").toString());
-			user.setUserType(jm.getClaim("userType").toString());
-			user.setCompanyId(jm.getClaim("companyId").toString());
-			user.setGroups(jm.getClaim("groups").toString());
+			user.setUserId(jm.getClaim("userId").asString());
+			user.setUserType(jm.getClaim("userType").asString());
+			user.setCompanyId(jm.getClaim("companyId").asString());
+			user.setGroups(jm.getClaim("groups").asString());
 			req.setAttribute("requester", user);
 			// 验证
 			String key = secrity.getKey();
@@ -63,7 +65,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 			try {
 				jwtVerifier.verify(token);
 			} catch (JWTVerificationException e) {
-				throw new RuntimeException("签名验证失败，请重新登录");
+				throw new JWTVerificationException("签名验证失败，请重新登录");
 			}
 			// 续签
 			Date expireDate = jm.getExpiresAt();
@@ -84,7 +86,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest req, HttpServletResponse res, Object arg2, ModelAndView arg3)
 			throws Exception {
-		 
+
 	}
 
 }

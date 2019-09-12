@@ -6,6 +6,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import nbct.com.cn.customerquery.interceptor.AuthenticationInterceptor;
+import nbct.com.cn.customerquery.interceptor.CallSatisticsInterceptor;
 
 /**
  * 配置拦截器
@@ -19,11 +20,17 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(authenticationInterceptor()).addPathPatterns("/**");
+		registry.addInterceptor(callSatisticsInterceptor()).addPathPatterns("/**");
 	}
 
 	@Bean
 	public AuthenticationInterceptor authenticationInterceptor() {
 		return new AuthenticationInterceptor();
+	}
+
+	@Bean
+	public CallSatisticsInterceptor callSatisticsInterceptor() {
+		return new CallSatisticsInterceptor();
 	}
 
 }
