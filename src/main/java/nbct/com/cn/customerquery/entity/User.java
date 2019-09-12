@@ -2,7 +2,8 @@ package nbct.com.cn.customerquery.entity;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * 客户信息
@@ -12,121 +13,126 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 public class User {
 
-  private String userId;
+	private String userId;
 
-  private String userName;
+	private String userName;
 
-  @JsonIgnore
-  private String password;
+	@JSONField(serialize = false)
+	private String password;
 
-  /**
-   * 用户类型 A(管理员),C(海关),D(堆场),H(货代),V(船公司)
-   */
-  private String userType;
+	/**
+	 * 用户类型 A(管理员),C(海关),D(堆场),H(货代),V(船公司)
+	 */
+	private String userType;
 
-  /**
-   * 用户对应功能组
-   */
-  private String groups;
+	/**
+	 * 用户对应功能组
+	 */
+	private String groups;
 
-  private String telephone;
+	private String telephone;
 
-  private String address;
+	private String address;
 
-  private String company;
+	private String company;
 
-  private String companyId;
+	private String companyId;
 
-  private String opUser;
+	private String opUser;
 
-  private Date opDate;
+	private Date opDate;
 
-  public String getUserId() {
-    return userId;
-  }
+	public User ignorePassword() {
+		String origin = JSON.toJSONString(this);
+		return JSON.parseObject(origin, User.class);
+	}
 
-  public void setUserId(String userId) {
-    this.userId = userId;
-  }
+	public String getUserId() {
+		return userId;
+	}
 
-  public String getUserName() {
-    return userName;
-  }
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 
-  public void setUserName(String userName) {
-    this.userName = userName;
-  }
+	public String getUserName() {
+		return userName;
+	}
 
-  public String getPassword() {
-    return password;
-  }
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
+	public String getPassword() {
+		return password;
+	}
 
-  public String getUserType() {
-    return userType;
-  }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-  public void setUserType(String userType) {
-    this.userType = userType;
-  }
+	public String getUserType() {
+		return userType;
+	}
 
-  public String getTelephone() {
-    return telephone;
-  }
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
 
-  public void setTelephone(String telephone) {
-    this.telephone = telephone;
-  }
+	public String getTelephone() {
+		return telephone;
+	}
 
-  public String getAddress() {
-    return address;
-  }
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
 
-  public void setAddress(String address) {
-    this.address = address;
-  }
+	public String getAddress() {
+		return address;
+	}
 
-  public String getCompany() {
-    return company;
-  }
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
-  public void setCompany(String company) {
-    this.company = company;
-  }
+	public String getCompany() {
+		return company;
+	}
 
-  public String getGroups() {
-    return groups;
-  }
+	public void setCompany(String company) {
+		this.company = company;
+	}
 
-  public void setGroups(String groups) {
-    this.groups = groups;
-  }
+	public String getGroups() {
+		return groups;
+	}
 
-  public String getCompanyId() {
-    return companyId;
-  }
+	public void setGroups(String groups) {
+		this.groups = groups;
+	}
 
-  public void setCompanyId(String companyId) {
-    this.companyId = companyId;
-  }
+	public String getCompanyId() {
+		return companyId;
+	}
 
-  public String getOpUser() {
-    return opUser;
-  }
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
 
-  public void setOpUser(String opUser) {
-    this.opUser = opUser;
-  }
+	public String getOpUser() {
+		return opUser;
+	}
 
-  public Date getOpDate() {
-    return this.opDate;
-  }
+	public void setOpUser(String opUser) {
+		this.opUser = opUser;
+	}
 
-  public void setOpDate(Date opDate) {
-    this.opDate = opDate;
-  }
+	public Date getOpDate() {
+		return this.opDate;
+	}
+
+	public void setOpDate(Date opDate) {
+		this.opDate = opDate;
+	}
 
 }
