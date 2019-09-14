@@ -49,7 +49,7 @@ public class Login {
 			String token = tokenService.getToken(user);
 			JSONObject data = new JSONObject();
 			data.put("token", token);
-			data.put("user", user.ignorePassword());
+			data.put("user", user.ignoreProtectionFields());
 			r.setData(data);
 			r.setFlag(true);
 			loginService.userLoginInfo(new UserLoginInfo(user.getUserId()));

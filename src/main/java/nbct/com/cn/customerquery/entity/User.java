@@ -3,6 +3,7 @@ package nbct.com.cn.customerquery.entity;
 import java.util.Date;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 
 /**
@@ -30,21 +31,25 @@ public class User {
 	 */
 	private String groups;
 
+	@JSONField(serialize = false)
 	private String telephone;
 
+	@JSONField(serialize = false)
 	private String address;
 
 	private String company;
 
 	private String companyId;
 
+	@JSONField(serialize = false)
 	private String opUser;
 
+	@JSONField(serialize = false)
 	private Date opDate;
 
-	public User ignorePassword() {
+	public JSONObject ignoreProtectionFields() {
 		String origin = JSON.toJSONString(this);
-		return JSON.parseObject(origin, User.class);
+		return JSON.parseObject(origin, JSONObject.class);
 	}
 
 	public String getUserId() {
