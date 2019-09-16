@@ -5,8 +5,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+import com.auth0.jwt.exceptions.JWTVerificationException;
 
 import nbct.com.cn.customerquery.entity.CallResult;
+
+import org.springframework.http.HttpStatus;
 
 /**
  * @author PJ
@@ -17,16 +22,22 @@ public class GloablExceptionHandler {
 
 	private static final Logger logger = LoggerFactory.getLogger(GloablExceptionHandler.class);
 
+	@ExceptionHandler(value = JWTVerificationException.class)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	public CallResult handleJWTVerificationException(JWTVerificationException e) {
+		CallResult r = new CallResult();
+		r.setFlag(false);
+		r.setErrMsg("签名验证失败，请重新登录");
+		return r;
+	}
+
 	@ResponseBody
 	@ExceptionHandler(Exception.class)
-	public Object handleException(Exception e) {
+	public CallResult handleException(Exception e) {
 		CallResult r = new CallResult();
-		String msg = e.getMessage();
-		if (msg == null || msg.equals("")) {
-			msg = "服务器出错";
-		}
 		r.setFlag(false);
-		r.setErrMsg(msg);
+		r.setErrMsg(e.getMessage());
 		logger.info("Exception:" + r.getErrMsg());
 		e.printStackTrace();
 		return r;

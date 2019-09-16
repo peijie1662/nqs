@@ -20,30 +20,30 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
  * @version 创建时间：2019年7月8日 下午3:42:23
  */
 @Configuration
-@MapperScan(basePackages = QryDataSourceConfiger.PACKAGE , sqlSessionFactoryRef = "qrySqlSessionFactory")
+@MapperScan(basePackages = QryDataSourceConfiger.PACKAGE, sqlSessionFactoryRef = "qrySqlSessionFactory")
 public class QryDataSourceConfiger {
-	
- static final String PACKAGE = "nbct.com.cn.customerquery.mapper.qry";
- static final String MAPPER_LOCATION = "classpath:mapper/qry/*.xml";
 
- @Bean("qryDataSource")
- @ConfigurationProperties(prefix = "spring.datasource.qry")
- public DataSource qryDataSource() {
-     return DataSourceBuilder.create().build();
- }
+	static final String PACKAGE = "nbct.com.cn.customerquery.mapper.qry";
+	static final String MAPPER_LOCATION = "classpath:mapper/qry/*.xml";
 
- @Bean("qryTransactionManager")
- public DataSourceTransactionManager qryTransactionManager() {
-     return new DataSourceTransactionManager(qryDataSource());
- }
+	@Bean("qryDataSource")
+	@ConfigurationProperties(prefix = "spring.datasource.qry")
+	public DataSource qryDataSource() {
+		return DataSourceBuilder.create().build();
+	}
 
- @Bean("qrySqlSessionFactory")
- public SqlSessionFactory qrySqlSessionFactory(@Qualifier("qryDataSource") DataSource qryDataSource)
-         throws Exception {
-     final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-     sessionFactory.setDataSource(qryDataSource);
-     sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver()
-             .getResources(QryDataSourceConfiger.MAPPER_LOCATION));
-     return sessionFactory.getObject();
- }
+	@Bean("qryTransactionManager")
+	public DataSourceTransactionManager qryTransactionManager() {
+		return new DataSourceTransactionManager(qryDataSource());
+	}
+
+	@Bean("qrySqlSessionFactory")
+	public SqlSessionFactory qrySqlSessionFactory(@Qualifier("qryDataSource") DataSource qryDataSource)
+			throws Exception {
+		final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+		sessionFactory.setDataSource(qryDataSource);
+		sessionFactory.setMapperLocations(
+				new PathMatchingResourcePatternResolver().getResources(QryDataSourceConfiger.MAPPER_LOCATION));
+		return sessionFactory.getObject();
+	}
 }

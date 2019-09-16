@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import nbct.com.cn.customerquery.entity.User;
 import nbct.com.cn.customerquery.mapper.web.UserMapper;
+import java.util.List;
 
 /**
  * 用户新增\用户信息修改
@@ -16,30 +17,47 @@ import nbct.com.cn.customerquery.mapper.web.UserMapper;
 @Service
 public class UserService {
 
-    @Autowired
-    UserMapper userMapper;
+  @Autowired
+  UserMapper userMapper;
 
-    /**
-     * 新增用户
-     * @param user
-     */
-    public void addUser(User user){
-        userMapper.addUser(user);
-    }
+  /**
+   * 新增用户
+   * 
+   * @param user
+   */
+  public void addUser(User user) {
+    userMapper.addUser(user);
+  }
 
-    /**
-     * 用户信息修改
-     * @param user
-     */
-    public void updateUser(User user) {
-        userMapper.updateUser(user);
-    }
+  /**
+   * 用户信息修改
+   * 
+   * @param user
+   */
+  public void updateUser(User user) {
+    userMapper.updateUser(user);
+  }
 
-    /**
-     * 用户删除
-     * @param userId
-     */
-    public void deleteUser(String userId) {
-        userMapper.deleteUser(userId);
-    }
+  /**
+   * 用户删除
+   * 
+   * @param userId
+   */
+  public void deleteUser(String userId) {
+    userMapper.deleteUser(userId);
+  }
+
+  /**
+   * 获得用户信息
+   * 
+   * @param userId
+   * @return
+   */
+  public User getUser(String userId) {
+    return userMapper.getUser(userId);
+  }
+
+  public List<User> getUsers() {
+    return userMapper.getUsers();
+  }
 }

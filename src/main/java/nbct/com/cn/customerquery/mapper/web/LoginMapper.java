@@ -3,6 +3,7 @@ package nbct.com.cn.customerquery.mapper.web;
 import org.apache.ibatis.annotations.Param;
 
 import nbct.com.cn.customerquery.entity.User;
+import nbct.com.cn.customerquery.entity.UserLoginInfo;
 
 /**
 * @author PJ 
@@ -16,5 +17,9 @@ public interface LoginMapper {
 	 */
 	User findUserById(@Param("userId") String userId,@Param("password") String password);
 	
+	/**
+	 * 登录日志
+	 */
+	void userLoginInfo(UserLoginInfo uli);
 
 }

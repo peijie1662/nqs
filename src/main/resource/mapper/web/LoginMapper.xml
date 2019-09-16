@@ -6,4 +6,9 @@
 		where
 		userId=#{userId} and password=#{password}
 	</select>
+
+	<insert id="userLoginInfo" parameterType="nbct.com.cn.customerquery.entity.UserLoginInfo">
+		insert into weblogin
+		(logId,userId,loginDt) values (#{logId},#{userId},#{loginDt})
+	</insert>
 </mapper>

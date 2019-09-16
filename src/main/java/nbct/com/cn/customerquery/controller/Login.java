@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import nbct.com.cn.customerquery.entity.CallResult;
 import nbct.com.cn.customerquery.entity.User;
+import nbct.com.cn.customerquery.entity.UserLoginInfo;
 import nbct.com.cn.customerquery.service.LoginService;
 import nbct.com.cn.customerquery.service.TokenService;
 
@@ -34,7 +35,7 @@ public class Login {
 
 	@Autowired
 	LoginService loginService;
-
+//
 	@Autowired
 	TokenService tokenService;
 
@@ -45,17 +46,18 @@ public class Login {
 		CallResult r = new CallResult();
 		User user = loginService.findUserById(loginUser);
 		if (user != null) {
-			r.setFlag(true);
-			String token =tokenService.getToken(user);
+			String token = tokenService.getToken(user);
 			JSONObject data = new JSONObject();
 			data.put("token", token);
-			data.put("groups", user.getGroups());
+			data.put("user", user.ignoreProtectionFields());
 			r.setData(data);
-			logger.info(loginUser.getUserId()+" login success.");
+			r.setFlag(true);
+			loginService.userLoginInfo(new UserLoginInfo(user.getUserId()));
+			logger.info(loginUser.getUserId() + " login success.");
 		} else {
 			r.setFlag(false);
 			r.setErrMsg("用户或密码错误。");
-			logger.info(loginUser.getUserId()+" login fail.");
+			logger.info(loginUser.getUserId() + " login fail.");
 		}
 		return r;
 	}
