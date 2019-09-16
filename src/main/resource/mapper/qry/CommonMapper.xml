@@ -203,27 +203,4 @@
 		AND VSCDCO=VSCDCK(+) AND VSVYCO=VSVYCK(+) AND VSDRCO=VSDRCK(+)
 		AND ROWNUM=1
 	</select>
-
-	<select id="getVoyageList" resultType="nbct.com.cn.customerquery.entity.Voyage">
-		SELECT VSCDVY,VSVYVY,VSDRVY,EGNMVR,CNNMVR,LNCDVR FROM NBCT.TCVSVYP,NBCT.TCVSVRP
-		WHERE VSCDVY=VSCDVR
-		AND VSDRVY=#{vsdr}
-		<if test="lncd == '' and vsvy==''">
-			AND DTEAVY>to_number(to_char(SYSDATE-7,'YYYYMMDD'))
-		</if>
-		<if test="lncd == '' and vsvy!=''">
-			AND VSVYVY=#{vsvy}
-		</if>
-		<if test="lncd != '' and vsvy==''">
-			AND LNCDVR=#{lncd}
-			AND DTEAVY>to_number(to_char(add_months(trunc(sysdate),-1),'YYYYMMDD'))
-		</if>
-		<if test="lncd != '' and vsvy!=''">
-			AND LNCDVR=#{lncd}
-			AND VSVYVY=#{vsvy}
-		</if>
-
-		ORDER BY DTEAVY DESC
-	</select>
-
 </mapper>

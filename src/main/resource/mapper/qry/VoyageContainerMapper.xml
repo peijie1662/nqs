@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="nbct.com.cn.customerquery.mapper.qry.YardContainerMapper">
+	<select id="getVoyageList" resultType="nbct.com.cn.customerquery.entity.Voyage">
+		SELECT VSCDVY,VSVYVY,VSDRVY,EGNMVR,CNNMVR,LNCDVR FROM NBCT.TCVSVYP,NBCT.TCVSVRP
+		WHERE VSCDVY=VSCDVR
+		AND VSDRVY=#{vsdr}
+		<if test="lncd == '' and vsvy==''">
+			AND DTEAVY>to_number(to_char(SYSDATE-7,'YYYYMMDD'))
+		</if>
+		<if test="lncd == '' and vsvy!=''">
+			AND VSVYVY=#{vsvy}
+		</if>
+		<if test="lncd != '' and vsvy==''">
+			AND LNCDVR=#{lncd}
+			AND DTEAVY>to_number(to_char(add_months(trunc(sysdate),-1),'YYYYMMDD'))
+		</if>
+		<if test="lncd != '' and vsvy!=''">
+			AND LNCDVR=#{lncd}
+			AND VSVYVY=#{vsvy}
+		</if>
+
+		ORDER BY DTEAVY DESC
+	</select>
+</mapper>
