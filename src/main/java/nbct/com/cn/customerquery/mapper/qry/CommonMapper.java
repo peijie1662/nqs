@@ -6,13 +6,6 @@ import org.apache.ibatis.annotations.Param;
 
 import nbct.com.cn.customerquery.entity.*;
 
-//import nbct.com.cn.customerquery.entity.OrderReceive;
-//import nbct.com.cn.customerquery.entity.YardTruck;
-//import nbct.com.cn.customerquery.entity.CntrInCloseDate;
-//import nbct.com.cn.customerquery.entity.SailingDateNotice;
-//import nbct.com.cn.customerquery.entity.ImCustomPassInfo;
-//import nbct.com.cn.customerquery.entity.ExPortPassInfo;
-//import nbct.com.cn.customerquery.entity.CheckMoveCtnrInfo;
 /**
  * @author PJ
  * @version 创建时间：2019年7月22日 上午10:45:41 类说明
@@ -53,4 +46,9 @@ public interface CommonMapper {
    * 查验箱移箱/归位情况查询
    */
   CheckMoveCtnrInfo getCheckMoveCtnrInfo(@Param("cntrId") String cntrId);
+
+  /**
+   * 船舶列表
+   */
+  List<Voyage> getVoyageList(@Param("vsvy") String vsvy,@Param("vsdr") String vsdr,@Param("lncd") String lncd);
 }

@@ -54,4 +54,8 @@ public class QryService {
     return commonMapper.getCheckMoveCtnrInfo(cntrId);
   }
 
+  public List<Voyage> getVoyageList(String vsvy,String vsdr,String lncd){
+      return commonMapper.getVoyageList(vsvy,vsdr,lncd);
+  }
+
 }
