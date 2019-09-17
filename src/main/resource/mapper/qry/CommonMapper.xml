@@ -203,4 +203,10 @@
 		AND VSCDCO=VSCDCK(+) AND VSVYCO=VSVYCK(+) AND VSDRCO=VSDRCK(+)
 		AND ROWNUM=1
 	</select>
+
+
+	<select id="getEmptyContainer" resultType="nbct.com.cn.customerquery.entity.EmptyContainer">
+		SELECT CTPFCO||LPAD(CTNRCO,6,'0')||CTCKCO CNTRID,VSCDCO,VSVYCO,VSDRCO,CTSZCO,CTTYCO,INDMCO,LNCDCO FROM NBCT.TCMSCOP
+		WHERE LNCDCO=#{lncd} AND INFECO ='E' AND CTTYCO LIKE #{ctty}||'%'
+	</select>
 </mapper>
