@@ -52,6 +52,7 @@ public class Login {
       data.put("token", token);
       data.put("company", user.getCompany());
       data.put("companyId", user.getCompanyId());
+      data.put("userType", user.getUserType());
       data.put("groups", user.getGroups());
       r.setData(data);
       loginService.userLoginInfo(new UserLoginInfo(user.getUserId()));

@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Console;
 import java.util.Date;
 import java.util.List;
 
@@ -76,6 +77,31 @@ public class UserController {
   }
 
   /**
+   * 用户重置密码
+   * 
+   * @param p
+   * @return
+   */
+  @ApiOperation(value = "用户重置密码", notes = "用户重置密码")
+  @RequestMapping(value = "/resetpwuser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+  public CallResult resetPwUser(@RequestBody JSONObject p) {
+    CallResult r = new CallResult();
+    String userId = p.getString("userId");
+    User user = userService.getUser(userId);
+    if (user != null) {
+      user.setOpDate(new Date());
+      user.setPassword("e99a18c428cb38d5f260853678922e03");// 设置默认密码abc123
+      userService.updateUser(user);
+      r.setFlag(true);
+      r.setOutMsg("重置密码成功");
+    } else {
+      r.setFlag(false);
+      r.setErrMsg("找不到改用户");
+    }
+    return r;
+  }
+
+  /**
    * 用户删除
    * 
    * @param p
@@ -92,6 +118,13 @@ public class UserController {
     r.setOutMsg("删除用户成功");
     return r;
   }
+
+  /**
+   * 获得单一用户信息
+   * 
+   * @param p
+   * @return
+   */
 
   @ApiOperation(value = "获得单一用户信息", notes = "获得单一用户信息")
   @RequestMapping(value = "/getuser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -112,6 +145,12 @@ public class UserController {
     }
     return r;
   }
+
+  /**
+   * 获得所有用户信息
+   * 
+   * @return
+   */
 
   @ApiOperation(value = "获得所有用户信息", notes = "获得所有用户信息")
   @RequestMapping(value = "/getusers", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
