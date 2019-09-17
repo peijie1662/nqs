@@ -74,8 +74,9 @@ public class ContainerController {
 
 	/*
 	 * 调用 { "vscd":"YMPIN","vsdr": "I", "vsvy": "148E" ,"lncd":"YML"}
+	 * 调用(CMA下属船公司ANL) {"vscd":"XFEIZ","vsdr":"I","vsvy":"JK044N","lncd":"CMA"}
 	 */
-	@ApiOperation(value = "进口箱清单", notes = "根据航次和箱主列出所有该航次下所有的进口箱")
+	@ApiOperation(value = "进口箱清单", notes = "根据航次和箱主列出该航次下箱主所属的所有进口箱")
 	@RequestMapping(value = "/imcontainerlist", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public CallResult getImContainerList(@RequestBody JSONObject p) {
 		CallResult r = new CallResult();
