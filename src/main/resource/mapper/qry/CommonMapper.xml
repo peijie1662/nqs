@@ -203,5 +203,4 @@
 		AND VSCDCO=VSCDCK(+) AND VSVYCO=VSVYCK(+) AND VSDRCO=VSDRCK(+)
 		AND ROWNUM=1
 	</select>
-
 </mapper>

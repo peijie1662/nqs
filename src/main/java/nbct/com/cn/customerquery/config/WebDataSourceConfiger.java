@@ -21,33 +21,33 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
  * @version 创建时间：2019年7月8日 下午3:42:23
  */
 @Configuration
-@MapperScan(basePackages = WebDataSourceConfiger.PACKAGE , sqlSessionFactoryRef = "webSqlSessionFactory")
+@MapperScan(basePackages = WebDataSourceConfiger.PACKAGE, sqlSessionFactoryRef = "webSqlSessionFactory")
 public class WebDataSourceConfiger {
-	
- static final String PACKAGE = "nbct.com.cn.customerquery.mapper.web";
- static final String MAPPER_LOCATION = "classpath:mapper/web/*.xml";
 
- @Primary
- @Bean("webDataSource")
- @ConfigurationProperties(prefix = "spring.datasource.web")
- public DataSource webDataSource() {
-     return DataSourceBuilder.create().build();
- }
+	static final String PACKAGE = "nbct.com.cn.customerquery.mapper.web";
+	static final String MAPPER_LOCATION = "classpath:mapper/web/*.xml";
 
- @Primary
- @Bean("webTransactionManager")
- public DataSourceTransactionManager webTransactionManager() {
-     return new DataSourceTransactionManager(webDataSource());
- }
+	@Primary
+	@Bean("webDataSource")
+	@ConfigurationProperties(prefix = "spring.datasource.web")
+	public DataSource webDataSource() {
+		return DataSourceBuilder.create().build();
+	}
 
- @Primary
- @Bean("webSqlSessionFactory")
- public SqlSessionFactory webSqlSessionFactory(@Qualifier("webDataSource") DataSource webDataSource)
-         throws Exception {
-     final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-     sessionFactory.setDataSource(webDataSource);
-     sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver()
-             .getResources(WebDataSourceConfiger.MAPPER_LOCATION));
-     return sessionFactory.getObject();
- }
+	@Primary
+	@Bean("webTransactionManager")
+	public DataSourceTransactionManager webTransactionManager() {
+		return new DataSourceTransactionManager(webDataSource());
+	}
+
+	@Primary
+	@Bean("webSqlSessionFactory")
+	public SqlSessionFactory webSqlSessionFactory(@Qualifier("webDataSource") DataSource webDataSource)
+			throws Exception {
+		final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+		sessionFactory.setDataSource(webDataSource);
+		sessionFactory.setMapperLocations(
+				new PathMatchingResourcePatternResolver().getResources(WebDataSourceConfiger.MAPPER_LOCATION));
+		return sessionFactory.getObject();
+	}
 }

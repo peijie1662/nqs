@@ -1,10 +1,12 @@
 package nbct.com.cn.customerquery.service;
 
+import nbct.com.cn.customerquery.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import nbct.com.cn.customerquery.entity.ContainerInfo;
 import nbct.com.cn.customerquery.mapper.qry.ContainerInfoMapper;
+import nbct.com.cn.customerquery.mapper.qry.VoyageContainerMapper;
+
+import java.util.List;
 
 /**
  * @author PJ
@@ -15,6 +17,9 @@ public class ContainerService {
 
 	@Autowired
 	ContainerInfoMapper ciMapper;
+
+	@Autowired
+	VoyageContainerMapper vcMapper;
 
 	/**
 	 * 单箱主信息
@@ -82,6 +87,26 @@ public class ContainerService {
 	 */
 	public ContainerInfo getVgm(String vscd, String vsvy, String vsdr, String cntrId) {
 		return ciMapper.getVgm(vscd, vsvy, vsdr, cntrId);
+	}
+
+	/**
+	 * 航次列表
+	 */
+	public List<Voyage> getVoyageList(String vsvy, String vsdr, String lncd){
+		return vcMapper.getVoyageList(vsvy,vsdr,lncd);
+
+/*    List<Voyage> list = commonMapper.getVoyageList(vsvy,vsdr,lncd);
+    for(Voyage v:list){
+      v.setCnnmvr();
+    }
+    return list;*/
+	}
+
+	/**
+	 * 进口箱清单
+	 */
+	public List<ImContainer> getImContainerList(String vscd,String vsvy, String vsdr, String lncd){
+		return vcMapper.getImContainerList(vscd,vsvy,vsdr,lncd);
 	}
 
 }

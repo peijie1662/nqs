@@ -35,7 +35,7 @@ public class Login {
 
   @Autowired
   LoginService loginService;
-
+  //
   @Autowired
   TokenService tokenService;
 
@@ -46,15 +46,12 @@ public class Login {
     CallResult r = new CallResult();
     User user = loginService.findUserById(loginUser);
     if (user != null) {
-      r.setFlag(true);
       String token = tokenService.getToken(user);
       JSONObject data = new JSONObject();
       data.put("token", token);
-      data.put("company", user.getCompany());
-      data.put("companyId", user.getCompanyId());
-      data.put("userType", user.getUserType());
-      data.put("groups", user.getGroups());
+      data.put("user", user.ignoreProtectionFields());
       r.setData(data);
+      r.setFlag(true);
       loginService.userLoginInfo(new UserLoginInfo(user.getUserId()));
       logger.info(loginUser.getUserId() + " login success.");
     } else {

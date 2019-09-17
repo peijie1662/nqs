@@ -1,5 +1,6 @@
 package nbct.com.cn.customerquery.controller;
 
+import nbct.com.cn.customerquery.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,9 +12,9 @@ import com.alibaba.fastjson.JSONObject;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import nbct.com.cn.customerquery.entity.CallResult;
-import nbct.com.cn.customerquery.entity.ContainerInfo;
-import nbct.com.cn.customerquery.service.ContainerService;
+import nbct.com.cn.customerquery.service.*;
+
+import java.util.List;
 
 /**
 * @author PJ 
@@ -40,6 +41,54 @@ public class ContainerController {
 			r.setFlag(false);
 			r.setErrMsg(e.getMessage());
 			e.printStackTrace();
+		}
+		return r;
+	}
+
+	/*
+	 * 调用 { "vsdr": "I", "vsvy": "A90114" ,"lncd":"CMA"}
+	 */
+	@ApiOperation(value = "船舶列表", notes = "根据指定条件列出所有船舶")
+	@RequestMapping(value = "/voyagelist", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public CallResult getVoyageList(@RequestBody JSONObject p) {
+		CallResult r = new CallResult();
+		try {
+			String vsvy=p.getString("vsvy");
+			String vsdr=p.getString("vsdr");
+			String lncd=p.getString("lncd");
+
+			List<Voyage> list = containerService.getVoyageList(vsvy,vsdr,lncd);
+			// SQL返回空记录集时也不报错
+
+			r.setFlag(true);
+			r.setData(list);
+		} catch (Exception e) {
+			r.setFlag(false);
+			r.setErrMsg(e.getMessage());
+		}
+		return r;
+	}
+
+
+	/*
+	 * 调用 { "vscd":"YMPIN","vsdr": "I", "vsvy": "148E" ,"lncd":"YML"}
+	 */
+	@ApiOperation(value = "进口箱清单", notes = "根据航次和箱主列出所有该航次下所有的进口箱")
+	@RequestMapping(value = "/imcontainerlist", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public CallResult getImContainerList(@RequestBody JSONObject p) {
+		CallResult r = new CallResult();
+		try {
+			String vscd=p.getString("vscd");
+			String vsvy=p.getString("vsvy");
+			String vsdr=p.getString("vsdr");
+			String lncd=p.getString("lncd");
+
+			List<ImContainer> list = containerService.getImContainerList(vscd,vsvy,vsdr,lncd);
+			r.setFlag(true);
+			r.setData(list);
+		} catch (Exception e) {
+			r.setFlag(false);
+			r.setErrMsg(e.getMessage());
 		}
 		return r;
 	}

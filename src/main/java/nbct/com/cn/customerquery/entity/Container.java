@@ -2,6 +2,8 @@ package nbct.com.cn.customerquery.entity;
 /**
 * @author PJ 
 * @version 创建时间：2019年7月9日 上午8:57:39
+* qrytest 没什么用
+ * select vscdco,vsvyco,vsdrco,ctpfco,ctnrco,ctckco from tcmscop
 */
 public class Container {
 	

@@ -3,7 +3,7 @@ package nbct.com.cn.customerquery.entity;
 * @author PJ 
 * @version 创建时间：2019年9月12日 上午11:09:48
 */
-public class CallSatisticsItem {
+public class CallStatisticsItem {
 	
 	/**
 	 * 调用日期
@@ -15,11 +15,11 @@ public class CallSatisticsItem {
 	 */
 	private int count;
 	
-	public CallSatisticsItem(){
+	public CallStatisticsItem(){
 		
 	}
 	
-	public CallSatisticsItem(String callDt,int count){
+	public CallStatisticsItem(String callDt,int count){
 		this.callDt = callDt;
 		this.count = count;
 	}	
