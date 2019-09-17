@@ -53,5 +53,7 @@ public class QryService {
   public CheckMoveCtnrInfo getCheckMoveCtnrInfo(String cntrId) {
     return commonMapper.getCheckMoveCtnrInfo(cntrId);
   }
-
+  public List<EmptyContainer> getEmptyContainer(String lncd,String ctty) {
+    return commonMapper.getEmptyContainer(lncd,ctty);
+  }
 }

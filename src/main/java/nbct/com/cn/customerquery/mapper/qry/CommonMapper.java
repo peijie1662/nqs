@@ -46,5 +46,8 @@ public interface CommonMapper {
    * 查验箱移箱/归位情况查询
    */
   CheckMoveCtnrInfo getCheckMoveCtnrInfo(@Param("cntrId") String cntrId);
-
+  /**
+   * 在场空箱查询
+   */
+  List<EmptyContainer> getEmptyContainer(@Param("lncd") String lncd,@Param("ctty") String ctty);
 }

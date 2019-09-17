@@ -287,5 +287,23 @@ public class CommonQryController {
 		}
 		return r;
 	}
+	@ApiOperation(value = "在场空箱实时查询", notes = "在场空箱实时查询")
+	@RequestMapping(value = "/emptycontainer", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public CallResult getEmptyContainer(@RequestBody JSONObject p) {
+		CallResult r = new CallResult();
+
+		String lncd = p.getString("lncd");
+		String ctty = p.getString("ctty");
+		try {
+			List<EmptyContainer> list = qryService.getEmptyContainer(lncd,ctty);
+			r.setFlag(true);
+			r.setData(list);
+			//System.out.println(list);
+		} catch (Exception e) {
+			r.setFlag(false);
+			r.setErrMsg(e.getMessage());
+		}
+		return r;
+	}
 
 }
