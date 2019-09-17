@@ -68,4 +68,28 @@ public class ContainerController {
 		}
 		return r;
 	}
+
+
+	/*
+	 * 调用 { "vscd":"YMPIN","vsdr": "I", "vsvy": "148E" ,"lncd":"YML"}
+	 */
+	@ApiOperation(value = "进口箱清单", notes = "根据航次和箱主列出所有该航次下所有的进口箱")
+	@RequestMapping(value = "/imcontainerlist", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public CallResult getImContainerList(@RequestBody JSONObject p) {
+		CallResult r = new CallResult();
+		try {
+			String vscd=p.getString("vscd");
+			String vsvy=p.getString("vsvy");
+			String vsdr=p.getString("vsdr");
+			String lncd=p.getString("lncd");
+
+			List<ImContainer> list = containerService.getImContainerList(vscd,vsvy,vsdr,lncd);
+			r.setFlag(true);
+			r.setData(list);
+		} catch (Exception e) {
+			r.setFlag(false);
+			r.setErrMsg(e.getMessage());
+		}
+		return r;
+	}
 }

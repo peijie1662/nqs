@@ -1,6 +1,6 @@
 package nbct.com.cn.customerquery.mapper.qry;
 
-import nbct.com.cn.customerquery.entity.Voyage;
+import nbct.com.cn.customerquery.entity.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -15,4 +15,9 @@ public interface VoyageContainerMapper {
      * 船舶列表
      */
     List<Voyage> getVoyageList(@Param("vsvy") String vsvy, @Param("vsdr") String vsdr, @Param("lncd") String lncd);
+
+    /**
+     * 进口箱清单
+     */
+    List<ImContainer> getImContainerList(@Param("vscd") String vscd,@Param("vsvy") String vsvy, @Param("vsdr") String vsdr, @Param("lncd") String lncd);
 }

@@ -47,8 +47,4 @@ public interface CommonMapper {
    */
   CheckMoveCtnrInfo getCheckMoveCtnrInfo(@Param("cntrId") String cntrId);
 
-  /**
-   * 船舶列表
-   */
-  List<Voyage> getVoyageList(@Param("vsvy") String vsvy,@Param("vsdr") String vsdr,@Param("lncd") String lncd);
 }

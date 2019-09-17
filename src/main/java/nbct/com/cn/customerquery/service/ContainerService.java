@@ -101,4 +101,12 @@ public class ContainerService {
     }
     return list;*/
 	}
+
+	/**
+	 * 进口箱清单
+	 */
+	public List<ImContainer> getImContainerList(String vscd,String vsvy, String vsdr, String lncd){
+		return vcMapper.getImContainerList(vscd,vsvy,vsdr,lncd);
+	}
+
 }
