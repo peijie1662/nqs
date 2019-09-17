@@ -19,7 +19,7 @@
 			AND LNCDVR=#{lncd}
 			AND VSVYVY=#{vsvy}
 		</if>
-		AND ROWNUM=50
+		AND ROWNUM&lt;=50
 
 		ORDER BY DTEAVY DESC
 	</select>
