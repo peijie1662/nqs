@@ -287,6 +287,10 @@ public class CommonQryController {
 		}
 		return r;
 	}
+
+	/*
+	 * 调用 { "lncd": "CMA","ctty":"GP"}
+	 */
 	@ApiOperation(value = "在场空箱实时查询", notes = "在场空箱实时查询")
 	@RequestMapping(value = "/emptycontainer", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public CallResult getEmptyContainer(@RequestBody JSONObject p) {

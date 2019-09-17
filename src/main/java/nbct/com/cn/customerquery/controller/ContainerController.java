@@ -1,5 +1,6 @@
 package nbct.com.cn.customerquery.controller;
 
+import com.alibaba.druid.sql.visitor.functions.Substring;
 import nbct.com.cn.customerquery.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import nbct.com.cn.customerquery.service.*;
 
+import java.security.PrivateKey;
 import java.util.List;
 
 /**
@@ -83,9 +85,35 @@ public class ContainerController {
 			String vsdr=p.getString("vsdr");
 			String lncd=p.getString("lncd");
 
+			int ct20=0;
+			int ct40=0;
+			int teu=0;
+			String ctsz;
+
 			List<ImContainer> list = containerService.getImContainerList(vscd,vsvy,vsdr,lncd);
+
+			for(int i=0;i<list.size();i++){
+				ctsz=list.get(i).getCtszst();
+				if(ctsz.startsWith("2")){
+					ct20++;
+				}
+				if(ctsz.startsWith("4")){
+					ct40++;
+				}
+			}
+			teu=ct20+ct40*2;
+
+			JSONObject jo=new JSONObject();
+			jo.put("list",list);
+
+			JSONObject jot=new JSONObject();
+			jot.put("ct20",ct20);
+			jot.put("ct40",ct40);
+			jot.put("teu",teu);
+			jo.put("total",jot);
+
 			r.setFlag(true);
-			r.setData(list);
+			r.setData(jo);
 		} catch (Exception e) {
 			r.setFlag(false);
 			r.setErrMsg(e.getMessage());

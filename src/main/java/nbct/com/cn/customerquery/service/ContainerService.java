@@ -106,7 +106,33 @@ public class ContainerService {
 	 * 进口箱清单
 	 */
 	public List<ImContainer> getImContainerList(String vscd,String vsvy, String vsdr, String lncd){
-		return vcMapper.getImContainerList(vscd,vsvy,vsdr,lncd);
+		String crcd="";
+		String plncd="";
+
+		//船舶经营人
+
+		if ("YLIAN".equals(vscd)){
+			if(vsvy.trim().matches("2*N")){
+				crcd="FDS";
+			}
+			if(vsvy.trim().matches("4*N")){
+				crcd="MAR";
+			}
+		}else{
+			crcd=vcMapper.getCrcd(vscd);
+		}
+
+		//船舶经营人的母公司代码
+		if(!"".equals(crcd)){
+			plncd=vcMapper.getParentLncd(crcd);
+		}
+
+		//传入的船舶的经营人=传入的箱主 或 传入的船舶的经营人的母公司=传入的箱主 或 传入的箱主=YYY
+		if(crcd.equals(lncd)||plncd.equals(lncd)||"YYY".equals(lncd)){
+			return vcMapper.getImContainerList(vscd,vsvy,vsdr,"");
+		}else {
+			return vcMapper.getImContainerList(vscd,vsvy,vsdr,lncd);
+		}
 	}
 
 }

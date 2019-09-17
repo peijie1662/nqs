@@ -16,6 +16,12 @@ public interface VoyageContainerMapper {
      */
     List<Voyage> getVoyageList(@Param("vsvy") String vsvy, @Param("vsdr") String vsdr, @Param("lncd") String lncd);
 
+
+    //船舶经营人代码
+    String getCrcd(@Param("vscd") String vscd);
+
+    //船公司的母公司代码
+    String getParentLncd(@Param("lncd") String lncd);
     /**
      * 进口箱清单
      */
