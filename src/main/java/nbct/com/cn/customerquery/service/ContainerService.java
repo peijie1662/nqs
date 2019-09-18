@@ -128,7 +128,7 @@ public class ContainerService {
 		}
 
 		//传入的船舶的经营人=传入的箱主 或 传入的船舶的经营人的母公司=传入的箱主 或 传入的箱主=YYY
-		if(crcd.equals(lncd)||plncd.equals(lncd)||"YYY".equals(lncd)){
+		if(crcd.equals(lncd)||(plncd!=null&&plncd.equals(lncd))||"YYY".equals(lncd)){
 			return vcMapper.getImContainerList(vscd,vsvy,vsdr,"");
 		}else {
 			return vcMapper.getImContainerList(vscd,vsvy,vsdr,lncd);

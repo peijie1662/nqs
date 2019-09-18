@@ -44,7 +44,7 @@
 		FROM NBCT.TCVSSTP
 		WHERE TRIM (VSCDST)=#{vscd} AND TRIM (VSVYST)=#{vsvy} AND VSDRST=#{vsdr}
 		<if test="lncd != ''">
-			AND TRIM (LNCDVR) IN (SELECT TRIM(SYIDTB) FROM NBCT.SYCDTB WHERE SYCDTB='TCTBVO' AND (SYIDTB=#{lncd} OR SYC2TB=#{lncd}))
+			AND TRIM (LNCDST) IN (SELECT TRIM(SYIDTB) FROM NBCT.SYCDTBP WHERE SYCDTB='TCTBVO' AND (TRIM(SYIDTB)=#{lncd} OR TRIM(SYC2TB)=#{lncd}))
 		</if>
 		AND (INSTST IS NULL OR SUBSTR(INSTST,2,1)='0' OR SUBSTR(INSTST,2,1)=' ')
 		)
@@ -53,12 +53,12 @@
 
 	<!-- 船舶经营人代码-->
 	<select id="getCrcd" resultType="String">
-		SELECT TRIM(CRCDVR) CRCD FROM TCVSVRP WHERE VSCDVR=#{vscd} and rownum = 1
+		SELECT TRIM(CRCDVR) CRCD FROM TCVSVRP WHERE TRIM(VSCDVR)=#{vscd} and rownum = 1
 	</select>
 
 	<!-- 船公司的母公司代码-->
 	<select id="getParentLncd" resultType="String">
-		SELECT TRIM(SYC2TB) LNCD FROM NBCT.SYCDTBP WHERE SYCDTB='TCTBVO' AND SYIDTB=#{lncd} and rownum = 1
+		SELECT TRIM(SYC2TB) LNCD FROM NBCT.SYCDTBP WHERE SYCDTB='TCTBVO' AND TRIM(SYIDTB)=#{lncd} and rownum = 1
 	</select>
 
 </mapper>
