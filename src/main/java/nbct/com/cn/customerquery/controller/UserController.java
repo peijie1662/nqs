@@ -41,12 +41,21 @@ public class UserController {
    */
   @ApiOperation(value = "用户新增", notes = "用户新增")
   // @TokenCheck
-  @ApiImplicitParam(name = "user", required = true, dataType = "User")
   @RequestMapping(value = "/adduser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-  public CallResult addUser(@RequestBody User user) {
+  public CallResult addUser(@RequestBody JSONObject p) {
     CallResult r = new CallResult();
-    user.setOpDate(new Date());
+    User user = new User();
+    user.setUserId(p.getString("userId"));
+    user.setUserName(p.getString("userName"));
     user.setPassword("e99a18c428cb38d5f260853678922e03");// 设置默认密码abc123
+    user.setUserType(p.getString("userType"));
+    user.setTelephone(p.getString("telephone"));
+    user.setAddress(p.getString("address"));
+    user.setCompany(p.getString("company"));
+    user.setCompanyId(p.getString("companyId"));
+    user.setGroups(p.getString("groups"));
+    user.setOpUser(p.getString("opUser"));
+    user.setOpDate(new Date());
     logger.info(user.toString());
     userService.addUser(user);
     r.setFlag(true);
@@ -61,11 +70,22 @@ public class UserController {
    * @return 密码字段不为空时,为修改秘密,只更新秘密 密码字段为空,为修改用户信息,更新用户信息不包括密码
    */
   @ApiOperation(value = "用户修改", notes = "用户信息修改")
-  @ApiImplicitParam(name = "user", required = true, dataType = "User")
   @RequestMapping(value = "/edituser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-  public CallResult editUser(@RequestBody User user) {
+  public CallResult editUser(@RequestBody JSONObject p) {
     CallResult r = new CallResult();
+    User user = new User();
+    user.setUserId(p.getString("userId"));
+    user.setUserName(p.getString("userName"));
+    user.setPassword(p.getString("password"));// 设置默认密码abc123
+    user.setUserType(p.getString("userType"));
+    user.setTelephone(p.getString("telephone"));
+    user.setAddress(p.getString("address"));
+    user.setCompany(p.getString("company"));
+    user.setCompanyId(p.getString("companyId"));
+    user.setGroups(p.getString("groups"));
+    user.setOpUser(p.getString("opUser"));
     user.setOpDate(new Date());
+    logger.info(user.toString());
     userService.updateUser(user);
     r.setFlag(true);
     if (user.getPassword().isEmpty()) {

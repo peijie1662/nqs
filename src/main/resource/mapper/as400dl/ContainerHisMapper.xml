@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="nbct.com.cn.customerquery.mapper.as400dl.ContainerHisMapper">
+	<select id="getEmptyContainerInYardHis" resultType="nbct.com.cn.customerquery.entity.EmptyContainerInYardHis">
+		select dldtco as dtco,
+       lncdco as lncd,
+       inieco as inie,
+       decode(substr(ctszco, 0, 1), '2', '20', '40') as ctsz,
+       count(*) as moves,
+       sum(decode(substr(ctszco, 0, 1), '2', 1, 2)) as teu
+    from dltcmscop
+    where dldtco <![CDATA[>= ]]> #{dtbg}
+          and dldtco <![CDATA[<= ]]> #{dted}
+          and infeco = 'E'
+          and lncdco = #{lncd}
+    group by dldtco,
+             lncdco,
+             inieco,
+             decode(substr(ctszco, 0, 1), '2', '20', '40')
+    order by dtco, inie, ctsz
+	</select>
+</mapper>
