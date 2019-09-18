@@ -133,7 +133,7 @@ public class ContainerController {
 	/*
 	 * 调用 {"vscd":"OOLCA","vsdr":"E","vsvy":"066E","usertype":"H","caag":"CNC","ordertype":"PORT"}
 	 * 调用 {"vscd":"XMZ78","vsdr":"E","vsvy":"813N","usertype":"V""lncd":"OOL","ordertype":"PORT"}
-	 * 该功能仅支持 船公司进行查询，必须传入箱主代码
+	 * 该功能支持 船公司/货代进行查询，必须传入用户类型V/H和箱主/货代代码
 	 */
 	@ApiOperation(value = "船公司/货代出口箱清单", notes = "根据航次和箱主/货代列出该航次下箱主/货代所属的所有出口箱")
 	@RequestMapping(value = "/excontainerlist", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -189,16 +189,12 @@ public class ContainerController {
 
 			//已装船列表
 			List<ExContainer> list2 = containerService.getExContainerListInShip(vscd,vsvy,vsdr,usertype,lncd,caag,ordertype);
+			znum=0;
+			bnum=0;
 
 			if(list2!=null){
 				for(int i=0;i<list2.size();i++){
-					isPass=list2.get(i).getIsportpass();
 					ints=list2.get(i).getInts();
-					if("R".equals(isPass)){
-						rnum++;
-					}else{
-						hnum++;
-					}
 
 					if("Z".equals(ints)){
 						znum++;
