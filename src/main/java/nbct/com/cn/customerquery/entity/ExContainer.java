@@ -4,12 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @ Author     ：lsh
- * @ Date       ：Created in 2019-09-16 22:50
- * @ Description：进口箱
+ * @ Date       ：Created in 2019-09-18 8:58
+ * @ Description：出口箱实体类
  * @ Modified By：
  * @Version: 1.0
  */
-public class ImContainer {
+public class ExContainer {
     @JsonIgnore
     private String vscd;//船名航次
     @JsonIgnore
@@ -27,25 +27,37 @@ public class ImContainer {
     private String cntrid;
     private String ctsz;//尺寸箱型
     private String ctty;
+
+    private String lncd;//箱主
+    private String ptds;//港口
+
     private String ctgw;//重量
+    private String trwt;//过磅重量
+    private String intw;//是否双箱
+
+    private String vsba;//船仓位(贝列层)
+    private String vscl;
+    private String vsel;
+
     private String infe;//空重
     private String inog;//超限
     private String inth;//冷藏
     private String inhz;//危品
+    private String hzclhz;//危品等级
     private String indm;//残损
     private String intd;//内外贸标志
     private String ints;//中转标志
-    private String lncd;//箱主
-    private String ptds;//港口
+    private String isportpass;//扣留／放行标志
+    private String isnzwct;//内贸转外贸标志
+    private String isck;//是否查验箱
+    private String issrt;//是否海铁箱
 
     private String ctsn;//铅封号
     private String cabl;//提单号(只取第一个)
     private int cablnum;//提单总数
-    private String hzclhz;//危品等级
-    private String isportpass;//扣留／放行标志
-    private String isnzwct;//内贸转外贸标志
-    private String intime;//进场时间/卸船时间 20190101122356
-    private String outtime;//出场时间 20190101122356
+
+    private String intime;//进场时间 20190101122356
+    private String outtime;//出场时间/装船时间 20190101122356
 
     public String getVscd() {
         return vscd;
@@ -119,12 +131,68 @@ public class ImContainer {
         this.ctty = ctty;
     }
 
+    public String getLncd() {
+        return lncd;
+    }
+
+    public void setLncd(String lncd) {
+        this.lncd = lncd;
+    }
+
+    public String getPtds() {
+        return ptds;
+    }
+
+    public void setPtds(String ptds) {
+        this.ptds = ptds;
+    }
+
     public String getCtgw() {
         return ctgw;
     }
 
     public void setCtgw(String ctgw) {
         this.ctgw = ctgw;
+    }
+
+    public String getTrwt() {
+        return trwt;
+    }
+
+    public void setTrwt(String trwt) {
+        this.trwt = trwt;
+    }
+
+    public String getIntw() {
+        return intw;
+    }
+
+    public void setIntw(String intw) {
+        this.intw = intw;
+    }
+
+    public String getVsba() {
+        return vsba;
+    }
+
+    public void setVsba(String vsba) {
+        this.vsba = vsba;
+    }
+
+    public String getVscl() {
+        return vscl;
+    }
+
+    public void setVscl(String vscl) {
+        this.vscl = vscl;
+    }
+
+    public String getVsel() {
+        return vsel;
+    }
+
+    public void setVsel(String vsel) {
+        this.vsel = vsel;
     }
 
     public String getInfe() {
@@ -159,6 +227,14 @@ public class ImContainer {
         this.inhz = inhz;
     }
 
+    public String getHzclhz() {
+        return hzclhz;
+    }
+
+    public void setHzclhz(String hzclhz) {
+        this.hzclhz = hzclhz;
+    }
+
     public String getIndm() {
         return indm;
     }
@@ -183,20 +259,36 @@ public class ImContainer {
         this.ints = ints;
     }
 
-    public String getLncd() {
-        return lncd;
+    public String getIsportpass() {
+        return isportpass;
     }
 
-    public void setLncd(String lncd) {
-        this.lncd = lncd;
+    public void setIsportpass(String isportpass) {
+        this.isportpass = isportpass;
     }
 
-    public String getPtds() {
-        return ptds;
+    public String getIsnzwct() {
+        return isnzwct;
     }
 
-    public void setPtds(String ptds) {
-        this.ptds = ptds;
+    public void setIsnzwct(String isnzwct) {
+        this.isnzwct = isnzwct;
+    }
+
+    public String getIsck() {
+        return isck;
+    }
+
+    public void setIsck(String isck) {
+        this.isck = isck;
+    }
+
+    public String getIssrt() {
+        return issrt;
+    }
+
+    public void setIssrt(String issrt) {
+        this.issrt = issrt;
     }
 
     public String getCtsn() {
@@ -223,30 +315,6 @@ public class ImContainer {
         this.cablnum = cablnum;
     }
 
-    public String getHzclhz() {
-        return hzclhz;
-    }
-
-    public void setHzclhz(String hzclhz) {
-        this.hzclhz = hzclhz;
-    }
-
-    public String getIsportpass() {
-        return isportpass;
-    }
-
-    public void setIsportpass(String isportpass) {
-        this.isportpass = isportpass;
-    }
-
-    public String getIsnzwct() {
-        return isnzwct;
-    }
-
-    public void setIsnzwct(String isnzwct) {
-        this.isnzwct = isnzwct;
-    }
-
     public String getIntime() {
         return intime;
     }
@@ -263,5 +331,3 @@ public class ImContainer {
         this.outtime = outtime;
     }
 }
-
-

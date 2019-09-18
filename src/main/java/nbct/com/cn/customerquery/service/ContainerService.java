@@ -1,6 +1,8 @@
 package nbct.com.cn.customerquery.service;
 
+import com.alibaba.druid.sql.ast.statement.SQLIfStatement;
 import nbct.com.cn.customerquery.entity.*;
+import oracle.net.nl.NLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import nbct.com.cn.customerquery.mapper.qry.ContainerInfoMapper;
@@ -103,9 +105,9 @@ public class ContainerService {
 	}
 
 	/**
-	 * 进口箱清单
+	 * 船公司进口箱清单
 	 */
-	public List<ImContainer> getImContainerList(String vscd,String vsvy, String vsdr, String lncd){
+	public List<ImContainer> getImContainerList(String vscd,String vsvy, String vsdr, String lncd,String ordertype){
 		String crcd="";
 		String plncd="";
 
@@ -128,11 +130,124 @@ public class ContainerService {
 		}
 
 		//传入的船舶的经营人=传入的箱主 或 传入的船舶的经营人的母公司=传入的箱主 或 传入的箱主=YYY
-		if(crcd.equals(lncd)||(plncd!=null&&plncd.equals(lncd))||"YYY".equals(lncd)){
-			return vcMapper.getImContainerList(vscd,vsvy,vsdr,"");
+		if((crcd.equals(lncd))||(plncd!=null&&plncd.equals(lncd))||"YYY".equals(lncd)){
+			return vcMapper.getImContainerList(vscd,vsvy,vsdr,"",ordertype);
 		}else {
-			return vcMapper.getImContainerList(vscd,vsvy,vsdr,lncd);
+			if(lncd!=null&&lncd!=""){
+				return vcMapper.getImContainerList(vscd,vsvy,vsdr,lncd,ordertype);
+			}else{//lncd="",不能查询
+				return null;
+			}
 		}
+	}
+
+	/**
+	 * 船公司/货代出口箱清单-未装船
+	 */
+	public List<ExContainer> getExContainerListInYard(String vscd,String vsvy, String vsdr, String usertype, String lncd, String caag,String ordertype){
+		String crcd="";
+		String plncd="";
+
+		if("V".equals(usertype)){//船公司
+			//船舶经营人
+			if ("YLIAN".equals(vscd)){
+				if(vsvy.trim().matches("2*N")){
+					crcd="FDS";
+				}
+				if(vsvy.trim().matches("4*N")){
+					crcd="MAR";
+				}
+			}else{
+				crcd=vcMapper.getCrcd(vscd);
+			}
+
+			//船舶经营人的母公司代码
+			if(!"".equals(crcd)){
+				plncd=vcMapper.getParentLncd(crcd);
+			}
+			//传入的船舶的经营人=传入的箱主 或 传入的船舶的经营人的母公司=传入的箱主 或 传入的箱主=YYY
+			if((crcd.equals(lncd))||(plncd!=null&&plncd.equals(lncd))||"YYY".equals(lncd)){
+				return vcMapper.getExContainerListInYard(vscd,vsvy,vsdr,usertype,"","",ordertype);
+			}else {
+				if(lncd!=null&&lncd!=""){
+					return vcMapper.getExContainerListInYard(vscd,vsvy,vsdr,usertype,lncd,"",ordertype);
+				}else{//lncd="",不能查询
+					return null;
+				}
+			}
+		}
+		else if("H".equals(usertype)){//货代
+			if("YYY".equals(caag)){
+				return vcMapper.getExContainerListInYard(vscd,vsvy,vsdr,usertype,"","",ordertype);
+			}else{
+				if(caag!=null&&caag!=""){
+					return vcMapper.getExContainerListInYard(vscd,vsvy,vsdr,usertype,"",caag,ordertype);
+				}else{//caag="",不能查询
+					return null;
+				}
+			}
+
+		}else{
+			return null;
+		}
+	}
+
+	/**
+	 * 船公司/货代出口箱清单-已装船
+	 */
+	public List<ExContainer> getExContainerListInShip(String vscd,String vsvy, String vsdr, String usertype, String lncd, String caag,String ordertype){
+		String crcd="";
+		String plncd="";
+
+		if("V".equals(usertype)){//船公司
+			//船舶经营人
+			if ("YLIAN".equals(vscd)){
+				if(vsvy.trim().matches("2*N")){
+					crcd="FDS";
+				}
+				if(vsvy.trim().matches("4*N")){
+					crcd="MAR";
+				}
+			}else{
+				crcd=vcMapper.getCrcd(vscd);
+			}
+
+			//船舶经营人的母公司代码
+			if(!"".equals(crcd)){
+				plncd=vcMapper.getParentLncd(crcd);
+			}
+			//传入的船舶的经营人=传入的箱主 或 传入的船舶的经营人的母公司=传入的箱主 或 传入的箱主=YYY
+			if((crcd.equals(lncd))||(plncd!=null&&plncd.equals(lncd))||"YYY".equals(lncd)){
+				return vcMapper.getExContainerListInShip(vscd,vsvy,vsdr,usertype,"","",ordertype);
+			}else {
+				if(lncd!=null&&lncd!=""){
+					return vcMapper.getExContainerListInShip(vscd,vsvy,vsdr,usertype,lncd,"",ordertype);
+				}else{//lncd="",不能查询
+					return null;
+				}
+			}
+		}
+		else if("H".equals(usertype)){//货代
+			if("YYY".equals(caag)){
+				return vcMapper.getExContainerListInShip(vscd,vsvy,vsdr,usertype,"","",ordertype);
+			}else{
+				if(caag!=null&&caag!=""){
+					return vcMapper.getExContainerListInShip(vscd,vsvy,vsdr,usertype,"",caag,ordertype);
+				}else{//caag="",不能查询
+					return null;
+				}
+			}
+
+		}else{
+			return null;
+		}
+	}
+
+	/**
+	 *货代在场出口箱
+	 */
+	public List<Container> getExYardContainerListByCaag(String caag, String ordertype) {
+		return vcMapper.getExYardContainerListByCaag(caag, ordertype);
 	}
 
 }

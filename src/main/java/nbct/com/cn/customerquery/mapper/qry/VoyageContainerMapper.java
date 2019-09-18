@@ -22,8 +22,23 @@ public interface VoyageContainerMapper {
 
     //船公司的母公司代码
     String getParentLncd(@Param("lncd") String lncd);
+
     /**
-     * 进口箱清单
+     * 船公司进口箱清单
      */
-    List<ImContainer> getImContainerList(@Param("vscd") String vscd,@Param("vsvy") String vsvy, @Param("vsdr") String vsdr, @Param("lncd") String lncd);
+    List<ImContainer> getImContainerList(@Param("vscd") String vscd,@Param("vsvy") String vsvy, @Param("vsdr") String vsdr, @Param("lncd") String lncd,@Param("ordertype") String ordertype);
+
+    /**
+     * 船公司/货代出口箱清单-未装船
+     */
+    List<ExContainer> getExContainerListInYard(@Param("vscd") String vscd,@Param("vsvy") String vsvy, @Param("vsdr") String vsdr, @Param("usertype") String usertype,@Param("lncd") String lncd,@Param("caag") String caag,@Param("ordertype") String ordertype);
+    /**
+     * 船公司/货代出口箱清单-已装船
+     */
+    List<ExContainer> getExContainerListInShip(@Param("vscd") String vscd,@Param("vsvy") String vsvy, @Param("vsdr") String vsdr, @Param("usertype") String usertype,@Param("lncd") String lncd,@Param("caag") String caag,@Param("ordertype") String ordertype);
+
+    /**
+     * 货代在场出口箱
+     */
+    List<Container> getExYardContainerListByCaag(@Param("caag") String caag, @Param("ordertype") String ordertype);
 }

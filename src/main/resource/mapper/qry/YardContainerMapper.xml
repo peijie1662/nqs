@@ -3,6 +3,7 @@
 <mapper namespace="nbct.com.cn.customerquery.mapper.qry.YardContainerMapper">
 	<select id="getYardContainers" resultType="nbct.com.cn.customerquery.entity.Container">
 		select
-		vscdco,vsvyco,vsdrco,ctpfco,ctnrco,ctckco from tcmscop
+		vscdco vscd,vsvyco vsvy,vsdrco vsdr,ctpfco ctpf,ctnrco ctnr,ctckco ctck,ctpfco||LPAD(ctnrco,6,'0')||ctckco cntrid
+		 from tcmscop where rownum&lt;=100
 	</select>
 </mapper>

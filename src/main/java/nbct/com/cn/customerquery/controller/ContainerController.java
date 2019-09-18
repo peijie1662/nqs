@@ -50,6 +50,8 @@ public class ContainerController {
 	/*
 	 * 调用 { "vsdr": "I", "vsvy": "A90114" ,"lncd":"CMA"}
 	 */
+	//TODO 可能的优化：列出7天内航次时考虑该航次的进截箱关联箱主
+	//SELECT * FROM SYVSLPP WHERE CDTYLP='LNCD' AND VSCDLP='XFEIZ' AND VYIMLP='JK044N'
 	@ApiOperation(value = "船舶列表", notes = "根据指定条件列出所有船舶")
 	@RequestMapping(value = "/voyagelist", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public CallResult getVoyageList(@RequestBody JSONObject p) {
@@ -74,9 +76,10 @@ public class ContainerController {
 
 	/*
 	 * 调用 { "vscd":"YMPIN","vsdr": "I", "vsvy": "148E" ,"lncd":"YML"}
-	 * 调用(CMA下属船公司ANL) {"vscd":"XFEIZ","vsdr":"I","vsvy":"JK044N","lncd":"CMA"}
+	 * 调用(CMA下属船公司ANL) {"vscd":"XFEIZ","vsdr":"I","vsvy":"JK044N","lncd":"CMA","ordertype":"PORT"}
+	 * 该功能仅支持 船公司进行查询，必须传入箱主代码
 	 */
-	@ApiOperation(value = "进口箱清单", notes = "根据航次和箱主列出该航次下箱主所属的所有进口箱")
+	@ApiOperation(value = "船公司进口箱清单", notes = "根据航次和箱主列出该航次下箱主所属的所有进口箱")
 	@RequestMapping(value = "/imcontainerlist", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public CallResult getImContainerList(@RequestBody JSONObject p) {
 		CallResult r = new CallResult();
@@ -85,36 +88,182 @@ public class ContainerController {
 			String vsvy=p.getString("vsvy");
 			String vsdr=p.getString("vsdr");
 			String lncd=p.getString("lncd");
+			//排序方式：空，默认ISPASS/PORT港口/LNCD箱主/CTSZ尺寸/ISPASS按扣留/放行
+			String ordertype=p.getString("ordertype");
 
 			int ct20=0;
 			int ct40=0;
 			int teu=0;
 			String ctsz;
 
-			List<ImContainer> list = containerService.getImContainerList(vscd,vsvy,vsdr,lncd);
+			List<ImContainer> list = containerService.getImContainerList(vscd,vsvy,vsdr,lncd,ordertype);
 
-			for(int i=0;i<list.size();i++){
-				ctsz=list.get(i).getCtszst();
-				if(ctsz.startsWith("2")){
-					ct20++;
+			if(list!=null){
+				for(int i=0;i<list.size();i++){
+					ctsz=list.get(i).getCtsz();
+					if(ctsz.startsWith("2")){
+						ct20++;
+					}
+					if(ctsz.startsWith("4")){
+						ct40++;
+					}
 				}
-				if(ctsz.startsWith("4")){
-					ct40++;
-				}
+				teu=ct20+ct40*2;
+
+				JSONObject jo=new JSONObject();
+				jo.put("list",list);
+
+				JSONObject jot=new JSONObject();
+				jot.put("ct20",ct20);
+				jot.put("ct40",ct40);
+				jot.put("teu",teu);
+				jo.put("total",jot);
+				r.setData(jo);
 			}
-			teu=ct20+ct40*2;
-
-			JSONObject jo=new JSONObject();
-			jo.put("list",list);
-
-			JSONObject jot=new JSONObject();
-			jot.put("ct20",ct20);
-			jot.put("ct40",ct40);
-			jot.put("teu",teu);
-			jo.put("total",jot);
 
 			r.setFlag(true);
+
+		} catch (Exception e) {
+			r.setFlag(false);
+			r.setErrMsg(e.getMessage());
+		}
+		return r;
+	}
+
+	/*
+	 * 调用 {"vscd":"OOLCA","vsdr":"E","vsvy":"066E","usertype":"H","caag":"CNC","ordertype":"PORT"}
+	 * 调用 {"vscd":"XMZ78","vsdr":"E","vsvy":"813N","usertype":"V""lncd":"OOL","ordertype":"PORT"}
+	 * 该功能仅支持 船公司进行查询，必须传入箱主代码
+	 */
+	@ApiOperation(value = "船公司/货代出口箱清单", notes = "根据航次和箱主/货代列出该航次下箱主/货代所属的所有出口箱")
+	@RequestMapping(value = "/excontainerlist", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public CallResult getExContainerList(@RequestBody JSONObject p) {
+		CallResult r = new CallResult();
+		try {
+			String vscd=p.getString("vscd");
+			String vsvy=p.getString("vsvy");
+			String vsdr=p.getString("vsdr");
+			String usertype=p.getString("usertype");
+			String lncd=p.getString("lncd");
+			String caag=p.getString("caag");
+			//排序方式：空，默认ISPASS/PORT港口/LNCD箱主/CTSZ尺寸/ISPASS按扣留/放行
+			String ordertype=p.getString("ordertype");
+
+			int rnum=0;//放行箱量
+			int hnum=0;//未放行箱量
+			int znum=0;//国际中转箱量
+			int bnum=0;//内支线中转箱量
+			String isPass,ints;
+			JSONObject jo=new JSONObject();
+
+			//未装船列表
+			List<ExContainer> list1 = containerService.getExContainerListInYard(vscd,vsvy,vsdr,usertype,lncd,caag,ordertype);
+
+			if(list1!=null){
+				for(int i=0;i<list1.size();i++){
+					isPass=list1.get(i).getIsportpass();
+					ints=list1.get(i).getInts();
+					if("R".equals(isPass)){
+						rnum++;
+					}else{
+						hnum++;
+					}
+
+					if("Z".equals(ints)){
+						znum++;
+					}
+					if("B".equals(ints)){
+						bnum++;
+					}
+				}
+				jo.put("list1",list1);
+			}else{
+				jo.put("list1",null);
+			}
+			JSONObject jot1=new JSONObject();
+			jot1.put("rnum",rnum);
+			jot1.put("hnum",hnum);
+			jot1.put("znum",znum);
+			jot1.put("bnum",bnum);
+			jo.put("total1",jot1);
+
+			//已装船列表
+			List<ExContainer> list2 = containerService.getExContainerListInShip(vscd,vsvy,vsdr,usertype,lncd,caag,ordertype);
+
+			if(list2!=null){
+				for(int i=0;i<list2.size();i++){
+					isPass=list2.get(i).getIsportpass();
+					ints=list2.get(i).getInts();
+					if("R".equals(isPass)){
+						rnum++;
+					}else{
+						hnum++;
+					}
+
+					if("Z".equals(ints)){
+						znum++;
+					}
+					if("B".equals(ints)){
+						bnum++;
+					}
+				}
+				jo.put("list2",list2);
+			}else{
+				jo.put("list2",null);
+			}
+			JSONObject jot2=new JSONObject();
+			jot2.put("znum",znum);
+			jot2.put("bnum",bnum);
+			jo.put("total2",jot2);
+
 			r.setData(jo);
+			r.setFlag(true);
+
+		} catch (Exception e) {
+			r.setFlag(false);
+			r.setErrMsg(e.getMessage());
+		}
+		return r;
+	}
+
+	/*
+	 * 调用 { "caag": "CNC", "ordertype": "PORT"}
+	 */
+	@ApiOperation(value = " 货代在场出口箱列表", notes = "根据货代列出该货代的在场的出口箱")
+	@RequestMapping(value = "/exyardcontainerlist", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public CallResult getExYardContainerListByCaag(@RequestBody JSONObject p) {
+		CallResult r = new CallResult();
+		try {
+			String caag=p.getString("caag");
+			//排序方式：空，默认ISPASS/PORT港口/CNTRID箱号/VSVY船名航次/CTSZ尺寸/ISPASS按扣留/放行
+			String ordertype=p.getString("ordertype");
+
+			int rNum=0;//放行数量
+			int hNum=0;//扣留数量
+			String isPortPass;
+
+			List<Container> list = containerService.getExYardContainerListByCaag(caag,ordertype);
+
+			if(list!=null){
+				for(int i=0;i<list.size();i++){
+					if("R".equals(list.get(i).getIsportpass())){
+						rNum++;
+					}else{
+						hNum++;
+					}
+				}
+
+				JSONObject jo=new JSONObject();
+				jo.put("list",list);
+
+				JSONObject jot=new JSONObject();
+				jot.put("rnum",rNum);
+				jot.put("hnum",hNum);
+				jo.put("total",jot);
+				r.setData(jo);
+			}
+			r.setFlag(true);
+
 		} catch (Exception e) {
 			r.setFlag(false);
 			r.setErrMsg(e.getMessage());
