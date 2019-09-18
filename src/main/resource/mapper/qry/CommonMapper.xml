@@ -209,4 +209,10 @@
 		SELECT CTPFCO||LPAD(CTNRCO,6,'0')||CTCKCO CNTRID,VSCDCO,VSVYCO,VSDRCO,CTSZCO,CTTYCO,INDMCO,LNCDCO FROM NBCT.TCMSCOP
 		WHERE LNCDCO=#{lncd} AND INFECO ='E' AND CTTYCO LIKE #{ctty}||'%'
 	</select>
+
+  <select id="getSycds" resultType="nbct.com.cn.customerquery.entity.Sycdtbp">
+    select syidtb,sydstb,sycotb,syc1tb,syc2tb,syc3tb,syc4tb,syc5tb
+    from Sycdtbp
+    where sycdtb = #{sycd}
+  </select>
 </mapper>

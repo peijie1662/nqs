@@ -34,7 +34,7 @@
 	  </select>
     <select id="getUsers" resultType="nbct.com.cn.customerquery.entity.User">
       SELECT * FROM webuser
-      order by userId desc
+      order by lower(userId)
 	  </select>
 
 </mapper>

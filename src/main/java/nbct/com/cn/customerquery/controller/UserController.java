@@ -2,7 +2,6 @@ package nbct.com.cn.customerquery.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import nbct.com.cn.customerquery.annotation.TokenCheck;
 import nbct.com.cn.customerquery.entity.CallResult;
@@ -40,12 +39,21 @@ public class UserController {
    */
   @ApiOperation(value = "用户新增", notes = "用户新增")
   // @TokenCheck
-  @ApiImplicitParam(name = "user", required = true, dataType = "User")
   @RequestMapping(value = "/adduser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-  public CallResult addUser(@RequestBody User user) {
+  public CallResult addUser(@RequestBody JSONObject p) {
     CallResult r = new CallResult();
-    user.setOpDate(new Date());
+    User user = new User();
+    user.setUserId(p.getString("userId"));
+    user.setUserName(p.getString("userName"));
     user.setPassword("e99a18c428cb38d5f260853678922e03");// 设置默认密码abc123
+    user.setUserType(p.getString("userType"));
+    user.setTelephone(p.getString("telephone"));
+    user.setAddress(p.getString("address"));
+    user.setCompany(p.getString("company"));
+    user.setCompanyId(p.getString("companyId"));
+    user.setGroups(p.getString("groups"));
+    user.setOpUser(p.getString("opUser"));
+    user.setOpDate(new Date());
     logger.info(user.toString());
     userService.addUser(user);
     r.setFlag(true);
@@ -60,17 +68,53 @@ public class UserController {
    * @return 密码字段不为空时,为修改秘密,只更新秘密 密码字段为空,为修改用户信息,更新用户信息不包括密码
    */
   @ApiOperation(value = "用户修改", notes = "用户信息修改")
-  @ApiImplicitParam(name = "user", required = true, dataType = "User")
   @RequestMapping(value = "/edituser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-  public CallResult editUser(@RequestBody User user) {
+  public CallResult editUser(@RequestBody JSONObject p) {
     CallResult r = new CallResult();
+    User user = new User();
+    user.setUserId(p.getString("userId"));
+    user.setUserName(p.getString("userName"));
+    user.setPassword(p.getString("password"));// 设置默认密码abc123
+    user.setUserType(p.getString("userType"));
+    user.setTelephone(p.getString("telephone"));
+    user.setAddress(p.getString("address"));
+    user.setCompany(p.getString("company"));
+    user.setCompanyId(p.getString("companyId"));
+    user.setGroups(p.getString("groups"));
+    user.setOpUser(p.getString("opUser"));
     user.setOpDate(new Date());
+    logger.info(user.toString());
     userService.updateUser(user);
     r.setFlag(true);
     if (user.getPassword().isEmpty()) {
       r.setOutMsg("修改用户信息成功");
     } else {
       r.setOutMsg("修改用户密码成功");
+    }
+    return r;
+  }
+
+  /**
+   * 用户重置密码
+   * 
+   * @param p
+   * @return
+   */
+  @ApiOperation(value = "用户重置密码", notes = "用户重置密码")
+  @RequestMapping(value = "/resetpwuser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+  public CallResult resetPwUser(@RequestBody JSONObject p) {
+    CallResult r = new CallResult();
+    String userId = p.getString("userId");
+    User user = userService.getUser(userId);
+    if (user != null) {
+      user.setOpDate(new Date());
+      user.setPassword("e99a18c428cb38d5f260853678922e03");// 设置默认密码abc123
+      userService.updateUser(user);
+      r.setFlag(true);
+      r.setOutMsg("重置密码成功");
+    } else {
+      r.setFlag(false);
+      r.setErrMsg("找不到改用户");
     }
     return r;
   }
@@ -93,6 +137,13 @@ public class UserController {
     return r;
   }
 
+  /**
+   * 获得单一用户信息
+   * 
+   * @param p
+   * @return
+   */
+
   @ApiOperation(value = "获得单一用户信息", notes = "获得单一用户信息")
   @RequestMapping(value = "/getuser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult getUser(@RequestBody JSONObject p) {
@@ -112,6 +163,12 @@ public class UserController {
     }
     return r;
   }
+
+  /**
+   * 获得所有用户信息
+   * 
+   * @return
+   */
 
   @ApiOperation(value = "获得所有用户信息", notes = "获得所有用户信息")
   @RequestMapping(value = "/getusers", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
