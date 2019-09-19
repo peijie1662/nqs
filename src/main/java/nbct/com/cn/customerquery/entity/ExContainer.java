@@ -59,6 +59,10 @@ public class ExContainer {
     private String intime;//进场时间 20190101122356
     private String outtime;//出场时间/装船时间 20190101122356
 
+    private String vgmw;//VGM重量
+    private String vgmm;//VGM称重方式
+    private String vgms;//VGM签名
+
     public String getVscd() {
         return vscd;
     }
@@ -329,5 +333,29 @@ public class ExContainer {
 
     public void setOuttime(String outtime) {
         this.outtime = outtime;
+    }
+
+    public String getVgmw() {
+        return vgmw;
+    }
+
+    public void setVgmw(String vgmw) {
+        this.vgmw = vgmw;
+    }
+
+    public String getVgmm() {
+        return vgmm;
+    }
+
+    public void setVgmm(String vgmm) {
+        this.vgmm = vgmm;
+    }
+
+    public String getVgms() {
+        return vgms;
+    }
+
+    public void setVgms(String vgms) {
+        this.vgms = vgms;
     }
 }
