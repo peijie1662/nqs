@@ -214,5 +214,6 @@
     select syidtb,sydstb,sycotb,syc1tb,syc2tb,syc3tb,syc4tb,syc5tb
     from Sycdtbp
     where sycdtb = #{sycd}
+    and syidtb <![CDATA[!= ]]>  #{sycd}
   </select>
 </mapper>
