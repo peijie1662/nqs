@@ -27,6 +27,7 @@ public class ContainerHisController {
   @RequestMapping(value = "/getemptycontainerinyardhis", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult getEmptyContainerInYardHis(@RequestBody JSONObject p) {
     CallResult r = new CallResult();
+    JSONObject data = new JSONObject();
 
     String dtbg = p.getString("dtbg");
     String dted = p.getString("dted");
@@ -36,12 +37,13 @@ public class ContainerHisController {
         lncd);
     if (EmptyContainerInYardHises.size() != 0) {
       r.setFlag(true);
-      JSONObject data = new JSONObject();
+
       data.put("eCTInHis", EmptyContainerInYardHises);
       r.setData(data);
     } else {
-      r.setFlag(false);
-      r.setErrMsg("集装箱在场空箱历史查询信息失败");
+      r.setFlag(true);
+      data.put("eCTInHis", "[]");
+      r.setData(data);
     }
     return r;
   }

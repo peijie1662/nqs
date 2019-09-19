@@ -1,5 +1,6 @@
 package nbct.com.cn.customerquery.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -322,9 +323,9 @@ public class CommonQryController {
   @RequestMapping(value = "/getusercompanyhadcodes", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult getUserCompanyHadCodes(@RequestBody JSONObject p) {
     CallResult r = new CallResult();
-    List<Sycdtbp> sycds = null;
-    List<Sycdtbp> filteredSycds = null;
-    List<String> result = null;
+    List<Sycdtbp> sycds = new ArrayList<>();
+    List<Sycdtbp> filteredSycds = new ArrayList<>();
+    List<String> result = new ArrayList<>();
 
     String companyId = p.getString("companyId");
     String userType = p.getString("userType");
@@ -332,19 +333,29 @@ public class CommonQryController {
     if ("V".equals(userType)) {
       // 船公司
       sycds = qryService.getSycds("TCTBLN");
-      filteredSycds = sycds.stream()
-          .filter((Sycdtbp sycd) -> sycd.getSyc5tb() != null && companyId.equals(sycd.getSyc5tb().trim()))
-          .collect(Collectors.toList());
-      result = filteredSycds.stream().map((Sycdtbp sycd) -> sycd.getSyidtb().trim()).collect(Collectors.toList());
+      if ("YYY".equals(companyId)) {
+        result = sycds.stream().map((Sycdtbp sycd) -> sycd.getSyidtb().trim()).collect(Collectors.toList());
+      } else {
+        filteredSycds = sycds.stream()
+            .filter((Sycdtbp sycd) -> sycd.getSyc5tb() != null && companyId.equals(sycd.getSyc5tb().trim()))
+            .collect(Collectors.toList());
+        result = filteredSycds.stream().map((Sycdtbp sycd) -> sycd.getSyidtb().trim()).collect(Collectors.toList());
+      }
+      result = result.stream().distinct().collect(Collectors.toList());
       r.setData(result);
 
     } else if ("D".equals(userType)) {
       // 堆场
       sycds = qryService.getSycds("TCYDLN");
-      filteredSycds = sycds.stream()
-          .filter((Sycdtbp sycd) -> sycd.getSycotb() != null && companyId.equals(sycd.getSycotb().trim()))
-          .collect(Collectors.toList());
-      result = filteredSycds.stream().map((Sycdtbp sycd) -> sycd.getSycotb().trim()).collect(Collectors.toList());
+      if ("YYY".equals(companyId)) {
+        result = sycds.stream().map((Sycdtbp sycd) -> sycd.getSyc1tb().trim()).collect(Collectors.toList());
+      } else {
+        filteredSycds = sycds.stream()
+            .filter((Sycdtbp sycd) -> sycd.getSycotb() != null && companyId.equals(sycd.getSycotb().trim()))
+            .collect(Collectors.toList());
+        result = filteredSycds.stream().map((Sycdtbp sycd) -> sycd.getSyc1tb().trim()).collect(Collectors.toList());
+      }
+      result = result.stream().distinct().collect(Collectors.toList());
       r.setData(result);
     } else if ("H".equals(userType)) {
       // 货代
