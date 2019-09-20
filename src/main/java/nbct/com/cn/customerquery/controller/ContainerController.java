@@ -15,8 +15,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import nbct.com.cn.customerquery.service.*;
 
-import java.security.PrivateKey;
 import java.util.List;
+import nbct.com.cn.customerquery.utils.*;
 
 /**
 * @author PJ 
@@ -48,7 +48,7 @@ public class ContainerController {
 	}
 
 	/*
-	 * 调用 { "vsdr": "I", "vsvy": "A90114" ,"lncd":"CMA"}
+	 * 调用 { "vsdr": "I", "vsvy": "JK044N" ,"lncd":"COS"}
 	 */
 	//TODO 可能的优化：列出7天内航次时考虑该航次的进截箱关联箱主
 	//SELECT * FROM SYVSLPP WHERE CDTYLP='LNCD' AND VSCDLP='XFEIZ' AND VYIMLP='JK044N'
@@ -57,9 +57,9 @@ public class ContainerController {
 	public CallResult getVoyageList(@RequestBody JSONObject p) {
 		CallResult r = new CallResult();
 		try {
-			String vsvy=p.getString("vsvy");
+			String vsvy=Utils.getFillSr(p.getString("vsvy"),"R",20," ");
 			String vsdr=p.getString("vsdr");
-			String lncd=p.getString("lncd");
+			String lncd=Utils.getFillSr(p.getString("lncd"),"R",3," ");
 
 			List<Voyage> list = containerService.getVoyageList(vsvy,vsdr,lncd);
 			// SQL返回空记录集时也不报错
@@ -84,10 +84,11 @@ public class ContainerController {
 	public CallResult getImContainerList(@RequestBody JSONObject p) {
 		CallResult r = new CallResult();
 		try {
-			String vscd=p.getString("vscd");
-			String vsvy=p.getString("vsvy");
+			String vscd=Utils.getFillSr(p.getString("vscd"),"R",5," ");
+			String vsvy=Utils.getFillSr(p.getString("vsvy"),"R",20," ");
 			String vsdr=p.getString("vsdr");
-			String lncd=p.getString("lncd");
+			String lncd=Utils.getFillSr(p.getString("lncd"),"R",3," ");
+
 			//排序方式：空，默认ISPASS/PORT港口/LNCD箱主/CTSZ尺寸/ISPASS按扣留/放行
 			String ordertype=p.getString("ordertype");
 
@@ -131,7 +132,7 @@ public class ContainerController {
 	}
 
 
-	
+
 	/*
 	 * 调用 {"vscd":"OOLCA","vsdr":"E","vsvy":"066E","usertype":"H","caag":"CNC","ordertype":"PORT"}
 	 * 调用 {"vscd":"XMZ78","vsdr":"E","vsvy":"813N","usertype":"V""lncd":"OOL","ordertype":"PORT"}
@@ -142,12 +143,12 @@ public class ContainerController {
 	public CallResult getExContainerList(@RequestBody JSONObject p) {
 		CallResult r = new CallResult();
 		try {
-			String vscd=p.getString("vscd");
-			String vsvy=p.getString("vsvy");
+			String vscd=Utils.getFillSr(p.getString("vscd"),"R",5," ");
+			String vsvy=Utils.getFillSr(p.getString("vsvy"),"R",20," ");
 			String vsdr=p.getString("vsdr");
+			String lncd=Utils.getFillSr(p.getString("lncd"),"R",3," ");
 			String usertype=p.getString("usertype");
-			String lncd=p.getString("lncd");
-			String caag=p.getString("caag");
+			String caag=Utils.getFillSr(p.getString("caag"),"R",6," ");
 			//排序方式：空，默认ISPASS/PORT港口/LNCD箱主/CTSZ尺寸/ISPASS按扣留/放行
 			String ordertype=p.getString("ordertype");
 
@@ -232,13 +233,12 @@ public class ContainerController {
 	public CallResult getExYardContainerListByCaag(@RequestBody JSONObject p) {
 		CallResult r = new CallResult();
 		try {
-			String caag=p.getString("caag");
+			String caag=Utils.getFillSr(p.getString("caag"),"R",6," ");
 			//排序方式：空，默认ISPASS/PORT港口/CNTRID箱号/VSVY船名航次/CTSZ尺寸/ISPASS按扣留/放行
 			String ordertype=p.getString("ordertype");
 
 			int rNum=0;//放行数量
 			int hNum=0;//扣留数量
-			String isPortPass;
 
 			List<Container> list = containerService.getExYardContainerListByCaag(caag,ordertype);
 
