@@ -57,6 +57,7 @@ public class ExContainer {
     private String cabl;//提单号(只取第一个)
     private int cablnum;//提单总数
 
+
     private String passtime;//放行时间 20190101122356
     private String intime;//进场时间 20190101122356
     private String outtime;//出场时间/装船时间 20190101122356
