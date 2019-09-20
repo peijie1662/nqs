@@ -1,8 +1,6 @@
 package nbct.com.cn.customerquery.service;
 
-import com.alibaba.druid.sql.ast.statement.SQLIfStatement;
 import nbct.com.cn.customerquery.entity.*;
-import oracle.net.nl.NLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import nbct.com.cn.customerquery.mapper.qry.ContainerInfoMapper;

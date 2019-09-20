@@ -20,7 +20,7 @@ public class Utils {
     //填充字符串
     public static String getFillSr(String sSrc, String sSign, Integer iLen, String sFill) {
         String sTemp = "";
-        if(sSrc==null){
+        if(sSrc==null || sSrc.isEmpty()){
             return sTemp;
         }
         for (int i = 0; i < iLen - sSrc.length(); i++)
