@@ -192,7 +192,7 @@
 
 	</select>
 
-	<!-- 货代在场出口箱  排序：空，默认ISPASS/PORT港口/CNTRID箱号/VSVY船名航次/CTSZ尺寸/ISPASS按扣留/放行-->
+	<!-- 货代在场出口箱  排序：空，默认ISPASS/PORT港口/CNTRID箱号/VSVY船名航次/CTSZ尺寸/ISPASS按扣留/放行 -->
 	<select id="getExYardContainerListByCaag" resultType="nbct.com.cn.customerquery.entity.Container">
        SELECT * FROM (
 		SELECT
