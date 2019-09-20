@@ -1,7 +1,7 @@
 package nbct.com.cn.customerquery.controller;
 
-import com.alibaba.druid.sql.visitor.functions.Substring;
-import nbct.com.cn.customerquery.entity.*;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,10 +13,14 @@ import com.alibaba.fastjson.JSONObject;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import nbct.com.cn.customerquery.service.*;
-
-import java.util.List;
-import nbct.com.cn.customerquery.utils.*;
+import nbct.com.cn.customerquery.entity.CallResult;
+import nbct.com.cn.customerquery.entity.Container;
+import nbct.com.cn.customerquery.entity.ContainerInfo;
+import nbct.com.cn.customerquery.entity.ExContainer;
+import nbct.com.cn.customerquery.entity.ImContainer;
+import nbct.com.cn.customerquery.entity.Voyage;
+import nbct.com.cn.customerquery.service.ContainerService;
+import nbct.com.cn.customerquery.utils.Utils;
 
 /**
 * @author PJ 
