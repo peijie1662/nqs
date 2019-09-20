@@ -48,6 +48,7 @@ public class ExContainer {
     private String intd;//内外贸标志
     private String ints;//中转标志
     private String isportpass;//扣留／放行标志
+
     private String isnzwct;//内贸转外贸标志
     private String isck;//是否查验箱
     private String issrt;//是否海铁箱
@@ -56,6 +57,7 @@ public class ExContainer {
     private String cabl;//提单号(只取第一个)
     private int cablnum;//提单总数
 
+    private String passtime;//放行时间 20190101122356
     private String intime;//进场时间 20190101122356
     private String outtime;//出场时间/装船时间 20190101122356
 
@@ -357,5 +359,13 @@ public class ExContainer {
 
     public void setVgms(String vgms) {
         this.vgms = vgms;
+    }
+
+    public String getPasstime() {
+        return passtime;
+    }
+
+    public void setPasstime(String passtime) {
+        this.passtime = passtime;
     }
 }
