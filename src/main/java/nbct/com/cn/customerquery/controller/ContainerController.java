@@ -1,7 +1,9 @@
 package nbct.com.cn.customerquery.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import com.alibaba.druid.sql.visitor.functions.Substring;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,14 +15,11 @@ import com.alibaba.fastjson.JSONObject;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import nbct.com.cn.customerquery.entity.CallResult;
-import nbct.com.cn.customerquery.entity.Container;
-import nbct.com.cn.customerquery.entity.ContainerInfo;
-import nbct.com.cn.customerquery.entity.ExContainer;
-import nbct.com.cn.customerquery.entity.ImContainer;
-import nbct.com.cn.customerquery.entity.Voyage;
+import nbct.com.cn.customerquery.entity.*;
 import nbct.com.cn.customerquery.service.ContainerService;
 import nbct.com.cn.customerquery.utils.Utils;
+
+import java.util.Map;
 
 /**
 * @author PJ 
@@ -61,9 +60,9 @@ public class ContainerController {
 	public CallResult getVoyageList(@RequestBody JSONObject p) {
 		CallResult r = new CallResult();
 		try {
-			String vsvy=Utils.getFillSr(p.getString("vsvy"),"R",20," ");
+			String vsvy=Utils.getFillStr(p.getString("vsvy"),"R",20," ");
 			String vsdr=p.getString("vsdr");
-			String lncd=Utils.getFillSr(p.getString("lncd"),"R",3," ");
+			String lncd=Utils.getFillStr(p.getString("lncd"),"R",3," ");
 
 			List<Voyage> list = containerService.getVoyageList(vsvy,vsdr,lncd);
 			// SQL返回空记录集时也不报错
@@ -88,10 +87,10 @@ public class ContainerController {
 	public CallResult getImContainerList(@RequestBody JSONObject p) {
 		CallResult r = new CallResult();
 		try {
-			String vscd=Utils.getFillSr(p.getString("vscd"),"R",5," ");
-			String vsvy=Utils.getFillSr(p.getString("vsvy"),"R",20," ");
+			String vscd=Utils.getFillStr(p.getString("vscd"),"R",5," ");
+			String vsvy=Utils.getFillStr(p.getString("vsvy"),"R",20," ");
 			String vsdr=p.getString("vsdr");
-			String lncd=Utils.getFillSr(p.getString("lncd"),"R",3," ");
+			String lncd=Utils.getFillStr(p.getString("lncd"),"R",3," ");
 
 			//排序方式：空，默认ISPASS/PORT港口/LNCD箱主/CTSZ尺寸/ISPASS按扣留/放行
 			String ordertype=p.getString("ordertype");
@@ -146,12 +145,12 @@ public class ContainerController {
 	public CallResult getExContainerList(@RequestBody JSONObject p) {
 		CallResult r = new CallResult();
 		try {
-			String vscd=Utils.getFillSr(p.getString("vscd"),"R",5," ");
-			String vsvy=Utils.getFillSr(p.getString("vsvy"),"R",20," ");
+			String vscd=Utils.getFillStr(p.getString("vscd"),"R",5," ");
+			String vsvy=Utils.getFillStr(p.getString("vsvy"),"R",20," ");
 			String vsdr=p.getString("vsdr");
-			String lncd=Utils.getFillSr(p.getString("lncd"),"R",3," ");
+			String lncd=Utils.getFillStr(p.getString("lncd"),"R",3," ");
 			String usertype=p.getString("usertype");
-			String caag=Utils.getFillSr(p.getString("caag"),"R",6," ");
+			String caag=Utils.getFillStr(p.getString("caag"),"R",6," ");
 			//排序方式：空，默认ISPASS/PORT港口/LNCD箱主/CTSZ尺寸/ISPASS按扣留/放行
 			String ordertype=p.getString("ordertype");
 
@@ -236,7 +235,7 @@ public class ContainerController {
 	public CallResult getExYardContainerListByCaag(@RequestBody JSONObject p) {
 		CallResult r = new CallResult();
 		try {
-			String caag=Utils.getFillSr(p.getString("caag"),"R",6," ");
+			String caag=Utils.getFillStr(p.getString("caag"),"R",6," ");
 			//排序方式：空，默认ISPASS/PORT港口/CNTRID箱号/VSVY船名航次/CTSZ尺寸/ISPASS按扣留/放行
 			String ordertype=p.getString("ordertype");
 
@@ -268,6 +267,90 @@ public class ContainerController {
 		} catch (Exception e) {
 			r.setFlag(false);
 			r.setErrMsg(e.getMessage());
+		}
+		return r;
+	}
+
+	/*
+	 * 调用 {"cntrid": "OOLU1448337"}
+	 */
+	@ApiOperation(value = "在场单箱信息", notes = "在场单箱信息查询")
+	@RequestMapping(value = "/yardcontainerinfo", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public CallResult getYardContainerInfo(@RequestBody JSONObject p) {
+		CallResult r = new CallResult();
+		Map<String,String> map = Utils.breakCntr(p.getString("cntrid"));
+		try {
+			Container c = containerService.getYardContainerInfo(map.get("ctpf"),map.get("ctnr"),map.get("ctck"));
+			r.setFlag(true);
+			r.setData(c);
+		} catch (Exception e) {
+			r.setFlag(false);
+			r.setErrMsg(e.getMessage());
+			e.printStackTrace();
+		}
+		return r;
+	}
+
+	/*
+	 * 调用 {"accd": "C","jbnr": "33270803","jbns": "1"}
+	 */
+	@ApiOperation(value = "单箱历史详情", notes = "按作业号查看单箱历史信息详情")
+	@RequestMapping(value = "/containerhisdetail", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public CallResult getContainerHisInfo(@RequestBody JSONObject p) {
+		CallResult r = new CallResult();
+		String accd=p.getString("accd");
+		String jbnr=p.getString("jbnr");
+		String jbns=p.getString("jbns");
+		try {
+			ContainerHis c = containerService.getContainerHisInfo(accd,jbnr,jbns);
+			r.setFlag(true);
+			r.setData(c);
+		} catch (Exception e) {
+			r.setFlag(false);
+			r.setErrMsg(e.getMessage());
+			e.printStackTrace();
+		}
+		return r;
+	}
+
+	/*
+	 * 调用 {"cntrid": "OOLU1448337"}
+	 */
+	@ApiOperation(value = "单箱历史列表", notes = "查看单箱历史列表")
+	@RequestMapping(value = "/containerhislist", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public CallResult getContainerHisList(@RequestBody JSONObject p) {
+		CallResult r = new CallResult();
+		Map<String,String> map = Utils.breakCntr(p.getString("cntrid"));
+		try {
+			List<ContainerHis> c = containerService.getContainerHisList(map.get("ctpf"),map.get("ctnr"),map.get("ctck"));
+			r.setFlag(true);
+			r.setData(c);
+		} catch (Exception e) {
+			r.setFlag(false);
+			r.setErrMsg(e.getMessage());
+			e.printStackTrace();
+		}
+		return r;
+	}
+
+	/*
+	 * 调用 {"accd": "C","jbnr": "33270803","jbns": "1"}
+	 */
+	@ApiOperation(value = "某一单箱历史对应的提单信息列表", notes = "单箱某一历史记录对应的提单信息列表")
+	@RequestMapping(value = "/containerhiscabl", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public CallResult getBLList(@RequestBody JSONObject p) {
+		CallResult r = new CallResult();
+		String accd=p.getString("accd");
+		String jbnr=p.getString("jbnr");
+		String jbns=p.getString("jbns");
+		try {
+			List<BLInfo> c = containerService.getBLList(accd,jbnr,jbns);
+			r.setFlag(true);
+			r.setData(c);
+		} catch (Exception e) {
+			r.setFlag(false);
+			r.setErrMsg(e.getMessage());
+			e.printStackTrace();
 		}
 		return r;
 	}

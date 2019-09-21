@@ -29,11 +29,37 @@ public class Container {
 	private String ctck;
 
 	private String cntrId;//箱号
+
+	private String ptld;//装箱港
 	private String ptds;//卸货港
+	private String fdcd;//目的港
+
 	private String ctsz;//箱尺寸
 	private String ctty;//箱类型
-	private String ctgw;//净重
+	private String ctgw;//箱子总重
+	private String ctnw;//货物净重
 	private String ctsn;//铅封号
+
+	private String ydst;//场地位置
+	private String ydln;
+	private String ydrw;
+	private String ydel;
+
+	private String caag;//货代
+	private String inst;//状态标志
+
+	private String infe;//空重
+	private String inog;//超限
+	private String inth;//冷藏
+	private String inhz;//危品
+	private String hzclhz;//危品等级
+	private String indm;//残损
+	private String intd;//内外贸标志
+	private String ints;//中转标志
+
+	private String isnzwct;//内贸转外贸标志
+	private String isck;//是否查验箱
+	private String issrt;//是否海铁箱
 
 	@JsonIgnore
 	private String dtgi;//进场时间
@@ -210,6 +236,170 @@ public class Container {
 
 	public void setIsportpass(String isportpass) {
 		this.isportpass = isportpass;
+	}
+
+	public String getPtld() {
+		return ptld;
+	}
+
+	public void setPtld(String ptld) {
+		this.ptld = ptld;
+	}
+
+	public String getFdcd() {
+		return fdcd;
+	}
+
+	public void setFdcd(String fdcd) {
+		this.fdcd = fdcd;
+	}
+
+	public String getCtnw() {
+		return ctnw;
+	}
+
+	public void setCtnw(String ctnw) {
+		this.ctnw = ctnw;
+	}
+
+	public String getYdst() {
+		return ydst;
+	}
+
+	public void setYdst(String ydst) {
+		this.ydst = ydst;
+	}
+
+	public String getYdln() {
+		return ydln;
+	}
+
+	public void setYdln(String ydln) {
+		this.ydln = ydln;
+	}
+
+	public String getYdrw() {
+		return ydrw;
+	}
+
+	public void setYdrw(String ydrw) {
+		this.ydrw = ydrw;
+	}
+
+	public String getYdel() {
+		return ydel;
+	}
+
+	public void setYdel(String ydel) {
+		this.ydel = ydel;
+	}
+
+	public String getCaag() {
+		return caag;
+	}
+
+	public void setCaag(String caag) {
+		this.caag = caag;
+	}
+
+	public String getInst() {
+		return inst;
+	}
+
+	public void setInst(String inst) {
+		this.inst = inst;
+	}
+
+	public String getInfe() {
+		return infe;
+	}
+
+	public void setInfe(String infe) {
+		this.infe = infe;
+	}
+
+	public String getInog() {
+		return inog;
+	}
+
+	public void setInog(String inog) {
+		this.inog = inog;
+	}
+
+	public String getInth() {
+		return inth;
+	}
+
+	public void setInth(String inth) {
+		this.inth = inth;
+	}
+
+	public String getInhz() {
+		return inhz;
+	}
+
+	public void setInhz(String inhz) {
+		this.inhz = inhz;
+	}
+
+	public String getHzclhz() {
+		return hzclhz;
+	}
+
+	public void setHzclhz(String hzclhz) {
+		this.hzclhz = hzclhz;
+	}
+
+	public String getIndm() {
+		return indm;
+	}
+
+	public void setIndm(String indm) {
+		this.indm = indm;
+	}
+
+	public String getIntd() {
+		return intd;
+	}
+
+	public void setIntd(String intd) {
+		this.intd = intd;
+	}
+
+	public String getInts() {
+		return ints;
+	}
+
+	public void setInts(String ints) {
+		if("".equals(ints.trim())){
+			this.ints="N";
+		}else{
+			this.ints = ints;
+		}
+	}
+
+	public String getIsnzwct() {
+		return isnzwct;
+	}
+
+	public void setIsnzwct(String isnzwct) {
+		this.isnzwct = isnzwct;
+	}
+
+	public String getIsck() {
+		return isck;
+	}
+
+	public void setIsck(String isck) {
+		this.isck = isck;
+	}
+
+	public String getIssrt() {
+		return issrt;
+	}
+
+	public void setIssrt(String issrt) {
+		this.issrt = issrt;
 	}
 }
 
