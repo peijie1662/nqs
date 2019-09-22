@@ -7,9 +7,9 @@
 		vscdcs,
 		exvycs,
 		dtcscs,
-		tmcscs,
+		lpad(tmcscs,6,'0') as tmcscs,
 		dtldcs,
-		tmldcs,
+		lpad(tmldcs,6,'0') as tmldcs,
 		lncdcs,
 		remkcs,
 		dtvccs
