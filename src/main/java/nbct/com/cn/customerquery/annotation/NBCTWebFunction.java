@@ -8,7 +8,12 @@ package nbct.com.cn.customerquery.annotation;
  */
 public enum NBCTWebFunction {
 
-	ORDERRECEIVE("接单公告"), CONTAINERINFO("单箱信息"), NODEFINED("未定义");
+	ORDERRECEIVE("接单公告"), //
+	CONTAINERINFO("单箱信息"), //
+	EXCONTAINERLIST("出口箱信息"), //
+	IMCONTAINERLIST("进口箱信息"), //
+	EXYARDCONTAINERLIST("货代在场出口箱列"), //
+	NODEFINED("未定义");
 
 	private final String functionName;
 

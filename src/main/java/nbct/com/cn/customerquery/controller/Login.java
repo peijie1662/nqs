@@ -18,6 +18,7 @@ import nbct.com.cn.customerquery.entity.CallResult;
 import nbct.com.cn.customerquery.entity.User;
 import nbct.com.cn.customerquery.entity.UserLoginInfo;
 import nbct.com.cn.customerquery.service.LoginService;
+import nbct.com.cn.customerquery.service.RedisService;
 import nbct.com.cn.customerquery.service.TokenService;
 
 /**
@@ -39,6 +40,9 @@ public class Login {
 	@Autowired
 	TokenService tokenService;
 
+	@Autowired
+	RedisService redisService;
+
 	@ApiOperation(value = "用户登录", notes = "用户密码验证")
 	@ApiImplicitParam(name = "loginUser", required = true, dataType = "User")
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -58,6 +62,29 @@ public class Login {
 			r.setFlag(false);
 			r.setErrMsg("用户或密码错误。");
 			logger.info(loginUser.getUserId() + " login fail.");
+		}
+		return r;
+	}
+
+	@ApiOperation(value = "访问日志", notes = "查询时间范围内访问日志")
+	@RequestMapping(value = "/periodlog", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public CallResult periodFunctionCallLog(@RequestBody JSONObject p) {
+		CallResult r = new CallResult();
+		r.setFlag(true);
+		int bg = p.getInteger("bg");
+		int ed = p.getInteger("ed");
+		String option = p.getString("option");
+		if ("ORIGIN".equals(option)) {
+			r.setData(redisService.periodFunctionCallLog(bg, ed));
+		} else if ("GROUPBYUSER".equals(option)) {
+			r.setData(redisService.groupByUser(bg, ed));
+		} else if ("GROUPBYFUNCTION".equals(option)) {
+			r.setData(redisService.groupByFunction(bg, ed));
+		} else if ("GROUPBYDATE".equals(option)) {
+			r.setData(redisService.groupByCallDt(bg, ed));
+		} else {
+			r.setFlag(false);
+			r.setErrMsg("指定选项无效。");
 		}
 		return r;
 	}
