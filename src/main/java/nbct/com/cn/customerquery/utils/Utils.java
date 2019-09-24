@@ -16,4 +16,21 @@ public class Utils {
 
         return bTmp;
     }
+
+    //填充字符串
+    public static String getFillSr(String sSrc, String sSign, Integer iLen, String sFill) {
+        String sTemp = "";
+        if(sSrc==null || sSrc.isEmpty()){
+            return sTemp;
+        }
+        for (int i = 0; i < iLen - sSrc.length(); i++)
+            sTemp = sTemp + sFill;
+        if (iLen - sSrc.length() < 0)
+            return sSrc.substring(0, iLen);
+        if (sSign.toUpperCase().equals("L"))
+            return sTemp + sSrc;
+        if (sSign.toUpperCase().equals("R"))
+            return sSrc + sTemp;
+        return sSrc;
+    }
 }

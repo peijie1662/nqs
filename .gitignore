@@ -79,3 +79,23 @@ fabric.properties
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
 application.yml
+web-logs/logFile.2019-09-20.log
+web-logs/logFile.2019-09-17.log
+web-logs/logFile.2019-09-16.log
+web-logs/logFile.2019-09-10.log
+web-logs/logFile.2019-09-06.log
+web-logs/logFile.2019-07-29.log
+src/main/java/META-INF/MANIFEST.MF
+sql/f_getInOutTime.fnc
+.idea/artifacts/customerquery_jar.xml
+web-logs/logFile.2019-07-30.log
+web-logs/logFile.2019-09-03.log
+.idea/vcs.xml
+.idea/modules.xml
+.idea/misc.xml
+.idea/jsLibraryMappings.xml
+.idea/eclipseCodeFormatter.xml
+.idea/compiler.xml
+customerquery.iml
+.idea/.name
+.idea/encodings.xml
