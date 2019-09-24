@@ -216,4 +216,5 @@
     where sycdtb = #{sycd}
     and syidtb <![CDATA[!= ]]>  #{sycd}
   </select>
+
 </mapper>
