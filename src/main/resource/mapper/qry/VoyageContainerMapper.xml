@@ -207,7 +207,7 @@
 		AND VSCDCO=VSCDVR
 		)
 		<if test="ordertype== null||ordertype== ''||ordertype=='ISPASS'">
-			ORDER BY VSCD,VSVY,ISPORTPASS
+			ORDER BY ISPORTPASS,VSCD,VSVY
 		</if>
 		<if test="ordertype== 'PORT'">
 			ORDER BY PTDS,VSCD,VSVY,CTSZ

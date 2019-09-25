@@ -60,6 +60,7 @@ public class ContainerController {
 	public CallResult getVoyageList(@RequestBody JSONObject p) {
 		CallResult r = new CallResult();
 		try {
+			//lncd=""&vsvy=""返回7天内出口航次
 			String vsvy=Utils.getFillStr(p.getString("vsvy"),"R",20," ");
 			String vsdr=p.getString("vsdr");
 			String lncd=Utils.getFillStr(p.getString("lncd"),"R",3," ");

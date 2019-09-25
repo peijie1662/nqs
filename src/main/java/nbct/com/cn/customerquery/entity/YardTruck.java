@@ -1,5 +1,7 @@
 package nbct.com.cn.customerquery.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * @author lsh
  * @date 2019-07-26 9:11
@@ -10,9 +12,12 @@ public class YardTruck {
     private String trnrwk;
     //集卡号
     private String trcdwk;
-    //进场时间
-    private int dttrwk;
 
+    //进场时间
+    private  String intime;//20190924121545
+    @JsonIgnore
+    private int dttrwk;
+    @JsonIgnore
     private int tmtrwk;
 
     //停留时间
@@ -56,5 +61,13 @@ public class YardTruck {
 
     public void setDelayMinutes(int delayMinutes) {
         DelayMinutes = delayMinutes;
+    }
+
+    public String getIntime() {
+        return intime;
+    }
+
+    public void setIntime(String intime) {
+        this.intime = intime;
     }
 }
