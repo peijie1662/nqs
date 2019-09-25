@@ -67,4 +67,5 @@ public class QryService {
   public List<Sycdtbp> getSycds(String sycd) {
     return commonMapper.getSycds(sycd);
   }
+
 }

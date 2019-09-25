@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="nbct.com.cn.customerquery.mapper.web.EfinReportMapper">
+<select id="getEfinReport" resultType="nbct.com.cn.customerquery.entity.EfinReport">
+    select fnpycocd, intd, inva, dtbg, dted, userid,
+      dttr, tmtr, inie, filetype ,skey
+    from EFIN.EFINREPORT
+    where Inva='Y'
+    <if test="fnPyCocd != ''">
+      and trim(fnpycocd) = #{fnPyCocd}
+    </if>
+	  and dtbg <![CDATA[>= ]]> #{dtbg}
+    order by dtbg desc  
+  </select>
+  <select id="getEfinReportFile" resultType="nbct.com.cn.customerquery.entity.EfinReportFile">
+    select filedata,trim(fnpycocd)||'-'||inie||'('||dtbg||'-'||dted||').'||filetype as filename 
+    from efin.efinreport
+    where skey = #{skey}
+    and trim(fnpycocd) = #{fnPyCocd}
+  </select>
+ </mapper>

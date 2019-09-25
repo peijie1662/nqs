@@ -10,11 +10,7 @@ import nbct.com.cn.customerquery.annotation.TokenCheck;
 import nbct.com.cn.customerquery.entity.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -315,7 +311,7 @@ public class CommonQryController {
   /**
    * 获得用户公司关联代码 userType:V(船公司) 系统代码表 TCTBLN 根据companyId(公司代码)获得 D(堆场) 系统代码表
    * TCYDLN 根据companyId(公司代码)获得
-   * 
+   *
    * @param p
    * @return
    */

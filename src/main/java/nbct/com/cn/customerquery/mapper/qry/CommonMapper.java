@@ -59,4 +59,5 @@ public interface CommonMapper {
    * @return
    */
   List<Sycdtbp> getSycds(@Param("sycd") String sycd);
+
 }
