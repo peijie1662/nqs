@@ -139,4 +139,8 @@ public class EfinReport {
     return "";
   }
 
+  public void setFileName(String fileName) {
+    this.fileName = fileName;
+  }
+
 }

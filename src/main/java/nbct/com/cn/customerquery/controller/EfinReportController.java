@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import nbct.com.cn.customerquery.annotation.TokenCheck;
 import nbct.com.cn.customerquery.entity.CallResult;
 import nbct.com.cn.customerquery.entity.EfinReport;
 import nbct.com.cn.customerquery.entity.EfinReportFile;
@@ -42,6 +43,7 @@ public class EfinReportController {
    */
 
   @ApiOperation(value = "获得EfinReport报表列表", notes = "获得EfinReport报表列表")
+  @TokenCheck
   @RequestMapping(value = "/getefinreports", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult getEfinReports(@RequestBody JSONObject p) {
     CallResult r = new CallResult();
@@ -65,6 +67,7 @@ public class EfinReportController {
    * @param response
    */
   @ApiOperation(value = "下载Efin报表文件", notes = "下载Efin报表文件")
+  @TokenCheck
   @RequestMapping(value = "/downloadefinreport", method = RequestMethod.POST)
   public void downloadEfinReport(@RequestBody JSONObject p, HttpServletResponse response) {
     ServletOutputStream out = null;

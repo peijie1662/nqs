@@ -39,7 +39,7 @@ public class UserController {
    * @return
    */
   @ApiOperation(value = "用户新增", notes = "用户新增")
-  // @TokenCheck
+  @TokenCheck
   @RequestMapping(value = "/adduser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult addUser(@RequestBody JSONObject p) {
     CallResult r = new CallResult();
@@ -70,6 +70,7 @@ public class UserController {
    * @return 密码字段不为空时,为修改秘密,只更新秘密 密码字段为空,为修改用户信息,更新用户信息不包括密码
    */
   @ApiOperation(value = "用户修改", notes = "用户信息修改")
+  @TokenCheck
   @RequestMapping(value = "/edituser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult editUser(@RequestBody JSONObject p) {
     CallResult r = new CallResult();
@@ -105,6 +106,7 @@ public class UserController {
    * @return
    */
   @ApiOperation(value = "用户修改密码", notes = "用户修改密码")
+  @TokenCheck
   @RequestMapping(value = "/changepwuser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult changePwUser(@RequestBody JSONObject p) {
     CallResult r = new CallResult();
@@ -136,6 +138,7 @@ public class UserController {
    * @return
    */
   @ApiOperation(value = "用户重置密码", notes = "用户重置密码")
+  @TokenCheck
   @RequestMapping(value = "/resetpwuser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult resetPwUser(@RequestBody JSONObject p) {
     CallResult r = new CallResult();
@@ -168,6 +171,7 @@ public class UserController {
    */
 
   @ApiOperation(value = "用户删除", notes = "用户删除")
+  @TokenCheck
   @RequestMapping(value = "/deleteuser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult updateUser(@RequestBody JSONObject p) {
     CallResult r = new CallResult();
@@ -186,6 +190,7 @@ public class UserController {
    */
 
   @ApiOperation(value = "获得单一用户信息", notes = "获得单一用户信息")
+  @TokenCheck
   @RequestMapping(value = "/getuser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult getUser(@RequestBody JSONObject p) {
     CallResult r = new CallResult();
@@ -211,6 +216,7 @@ public class UserController {
    */
 
   @ApiOperation(value = "获得所有用户信息", notes = "获得所有用户信息")
+  @TokenCheck
   @RequestMapping(value = "/getusers", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult getUsers() {
     CallResult r = new CallResult();

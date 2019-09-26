@@ -316,6 +316,7 @@ public class CommonQryController {
    * @return
    */
   @ApiOperation(value = "获得用户公司关联代码", notes = "获得用户公司关联代码")
+  @TokenCheck
   @RequestMapping(value = "/getusercompanyhadcodes", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult getUserCompanyHadCodes(@RequestBody JSONObject p) {
     CallResult r = new CallResult();

@@ -7,8 +7,7 @@ import nbct.com.cn.customerquery.annotation.TokenCheck;
 import nbct.com.cn.customerquery.entity.CallResult;
 import nbct.com.cn.customerquery.entity.EmptyContainerInYardHis;
 import nbct.com.cn.customerquery.service.ContainerHisService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,12 +17,13 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class ContainerHisController {
-  private static final Logger logger = LoggerFactory.getLogger(Login.class);
+  // private static final Logger logger = LoggerFactory.getLogger(Login.class);
 
   @Autowired
   ContainerHisService containerHisService;
 
   @ApiOperation(value = "获得集装箱在场空箱历史", notes = "获得集装箱在场空箱历史")
+  @TokenCheck
   @RequestMapping(value = "/getemptycontainerinyardhis", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult getEmptyContainerInYardHis(@RequestBody JSONObject p) {
     CallResult r = new CallResult();
