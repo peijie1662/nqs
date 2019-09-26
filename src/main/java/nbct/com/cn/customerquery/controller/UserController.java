@@ -24,7 +24,6 @@ import java.util.List;
  * 
  */
 @Api(value = "用户维护")
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class UserController {
   private static final Logger logger = LoggerFactory.getLogger(Login.class);

@@ -26,8 +26,6 @@ public class EfinReport {
 
   private String skey;// 文件编号
 
-  private String fileName; // 文件名
-
   public JSONObject ignoreProtectionFields() {
     String origin = JSON.toJSONString(this);
     return JSON.parseObject(origin, JSONObject.class);
@@ -140,7 +138,6 @@ public class EfinReport {
   }
 
   public void setFileName(String fileName) {
-    this.fileName = fileName;
   }
 
 }

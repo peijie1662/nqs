@@ -25,7 +25,6 @@ import nbct.com.cn.customerquery.utils.Utils;
  *          调用路径：http://localhost:8864/swagger-ui.html
  */
 @Api(value = "QRY查询")
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class CommonQryController {
 

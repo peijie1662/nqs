@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Api(value = "集装箱历史AS400DL库")
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class ContainerHisController {
   // private static final Logger logger = LoggerFactory.getLogger(Login.class);
