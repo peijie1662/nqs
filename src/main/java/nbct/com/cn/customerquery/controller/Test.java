@@ -1,14 +1,19 @@
 package nbct.com.cn.customerquery.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.auth0.jwt.exceptions.JWTVerificationException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import nbct.com.cn.customerquery.annotation.TokenCheck;
+import nbct.com.cn.customerquery.entity.CallResult;
 import nbct.com.cn.customerquery.service.QryService;
 import nbct.com.cn.customerquery.service.RedisService;
 
@@ -27,11 +32,16 @@ public class Test {
 	@Autowired
 	RedisService redisService;
 
-	@TokenCheck
+	//@TokenCheck
 	@ApiOperation(value = "测试", notes = "令牌测试")
 	@RequestMapping(value = "/tokentest", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public String needToken() {
-		return "haha";
+	public void needToken() {
+		//CallResult r = new CallResult();
+		//r.setFlag(false);
+		//r.setErrMsg("error!");
+		//return r;
+		
+		throw new JWTVerificationException("jwt error!");
 	}
 
 	@ApiOperation(value = "测试", notes = "QRY测试")

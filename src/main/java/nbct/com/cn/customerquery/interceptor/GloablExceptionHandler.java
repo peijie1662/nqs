@@ -3,9 +3,11 @@ package nbct.com.cn.customerquery.interceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
@@ -23,12 +25,12 @@ public class GloablExceptionHandler {
 	private static final Logger logger = LoggerFactory.getLogger(GloablExceptionHandler.class);
 
 	@ExceptionHandler(value = JWTVerificationException.class)
-	@ResponseBody
+	@CrossOrigin(origins = "*", maxAge = 3600)
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
 	public CallResult handleJWTVerificationException(JWTVerificationException e) {
 		CallResult r = new CallResult();
 		r.setFlag(false);
-		r.setErrMsg("签名验证失败，请重新登录");
+		r.setErrMsg(e.getMessage());
 		return r;
 	}
 
