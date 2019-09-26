@@ -10,6 +10,17 @@ public class EmptyContainer {
     private String indmco;
     private String lncdco;
 
+    private String ctgwco;//毛重
+
+    private String ydstco;//场地位置
+    private String ydlnco;
+    private String ydrwco;
+    private String ydelco;
+
+    private String intime;//进场时间 20190101122356
+
+    private String injt;//是否禁提
+
     public String getCntrid() {
         return cntrid;
     }
@@ -72,5 +83,61 @@ public class EmptyContainer {
 
     public void setLncdco(String lncdco) {
         this.lncdco = lncdco;
+    }
+
+    public String getCtgwco() {
+        return ctgwco;
+    }
+
+    public void setCtgwco(String ctgwco) {
+        this.ctgwco = ctgwco;
+    }
+
+    public String getYdstco() {
+        return ydstco;
+    }
+
+    public void setYdstco(String ydstco) {
+        this.ydstco = ydstco;
+    }
+
+    public String getYdlnco() {
+        return ydlnco;
+    }
+
+    public void setYdlnco(String ydlnco) {
+        this.ydlnco = ydlnco;
+    }
+
+    public String getYdrwco() {
+        return ydrwco;
+    }
+
+    public void setYdrwco(String ydrwco) {
+        this.ydrwco = ydrwco;
+    }
+
+    public String getYdelco() {
+        return ydelco;
+    }
+
+    public void setYdelco(String ydelco) {
+        this.ydelco = ydelco;
+    }
+
+    public String getIntime() {
+        return intime;
+    }
+
+    public void setIntime(String intime) {
+        this.intime = intime;
+    }
+
+    public String getInjt() {
+        return injt;
+    }
+
+    public void setInjt(String injt) {
+        this.injt = injt;
     }
 }

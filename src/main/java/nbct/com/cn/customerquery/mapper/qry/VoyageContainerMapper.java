@@ -41,4 +41,19 @@ public interface VoyageContainerMapper {
      * 货代在场出口箱
      */
     List<Container> getExYardContainerListByCaag(@Param("caag") String caag, @Param("ordertype") String ordertype);
+
+    /**
+     * 在场单箱信息
+     */
+    Container getYardContainerInfo(@Param("ctpf") String ctpf,@Param("ctnr") String ctnr,@Param("ctck") String ctck);
+
+    /**
+     * 单箱历史列表
+     */
+    List<ContainerHis> getContainerHisList(@Param("ctpf") String ctpf,@Param("ctnr") String ctnr,@Param("ctck") String ctck,@Param("accd") String accd,@Param("jbnr") String jbnr,@Param("jbns") String jbns);
+
+    /**
+     * 单箱某一历史记录对应的提单信息列表
+     */
+    List<BLInfo> getBLList(@Param("accd") String accd,@Param("jbnr") String jbnr,@Param("jbns") String jbns);
 }

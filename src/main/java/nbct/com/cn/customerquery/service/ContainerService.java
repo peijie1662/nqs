@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import nbct.com.cn.customerquery.mapper.qry.ContainerInfoMapper;
 import nbct.com.cn.customerquery.mapper.qry.VoyageContainerMapper;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 /**
@@ -248,4 +249,35 @@ public class ContainerService {
 		return vcMapper.getExYardContainerListByCaag(caag, ordertype);
 	}
 
+	/**
+	 *在场单箱信息
+	 */
+	public Container getYardContainerInfo(String ctpf,String ctnr,String ctck) {
+		return vcMapper.getYardContainerInfo(ctpf,ctnr,ctck);
+	}
+
+	/**
+	 *单箱历史详情
+	 */
+	public ContainerHis getContainerHisInfo(String accd,String jbnr,String jbns) {
+		List<ContainerHis> containerHis = vcMapper.getContainerHisList("","","", accd,jbnr,jbns);
+	    if(containerHis.size()>0){
+	    	return containerHis.get(0);
+		}
+			return null;
+	}
+
+	/**
+	 *单箱历史列表
+	 */
+	public List<ContainerHis> getContainerHisList(String ctpf,String ctnr,String ctck) {
+		return vcMapper.getContainerHisList(ctpf,ctnr,ctck,"","","");
+	}
+
+	/**
+	 *单箱某一历史记录对应的提单信息列表
+	 */
+	public List<BLInfo> getBLList(String accd,String jbnr,String jbns) {
+		return vcMapper.getBLList(accd,jbnr,jbns);
+	}
 }

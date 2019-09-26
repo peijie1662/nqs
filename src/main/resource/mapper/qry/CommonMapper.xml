@@ -20,8 +20,9 @@
 	</select>
 
     <select id="getYardTruckList" resultType="nbct.com.cn.customerquery.entity.YardTruck">
-		select trnrwk,trcdwk,dttrwk,tmtrwk,ROUND(TO_NUMBER(SYSDATE -
-		TO_DATE(dttrwk||LPAD(tmtrwk,6,'0'),'YYYY-MM-DD HH24:MI:SS')) * 24 *
+		select trnrwk,trcdwk,dttrwk,tmtrwk,
+		DECODE(DTTRWK,0,'',DTTRWK || LPAD(TMTRWK, 6, '0')) INTIME,
+		ROUND(TO_NUMBER(SYSDATE -TO_DATE(dttrwk||LPAD(tmtrwk,6,'0'),'YYYY-MM-DD HH24:MI:SS')) * 24 *
 		60) DelayMinutes
 		from NBCT.TCJNWKP
 		order by dttrwk desc,tmtrwk desc
@@ -206,8 +207,12 @@
 
 
 	<select id="getEmptyContainer" resultType="nbct.com.cn.customerquery.entity.EmptyContainer">
-		SELECT CTPFCO||LPAD(CTNRCO,6,'0')||CTCKCO CNTRID,VSCDCO,VSVYCO,VSDRCO,CTSZCO,CTTYCO,INDMCO,LNCDCO FROM NBCT.TCMSCOP
+		SELECT CTPFCO||LPAD(CTNRCO,6,'0')||CTCKCO CNTRID,VSCDCO,VSVYCO,VSDRCO,CTSZCO,CTTYCO,INDMCO,LNCDCO,
+		YDSTCO,YDLNCO,YDRWCO,YDELCO,CTGWCO,DECODE(SUBSTR(INSTCO,20,1),'1','Y','N') INJT,
+		(SELECT IYDTIF || LPAD(IYTMIF, 6, '0') FROM NBCT.TCCTIFP WHERE IYVSCDIF=VSCDCO AND IYVSVYIF=VSVYCO AND CTPFIF=CTPFCO AND CTNRIF=CTNRCO AND CTCKIF=CTCKCO AND ROWNUM=1) INTIME
+		FROM NBCT.TCMSCOP
 		WHERE LNCDCO=#{lncd} AND INFECO ='E' AND CTTYCO LIKE #{ctty}||'%'
+		ORDER BY VSCDCO,VSVYCO,VSDRCO,CTPFCO,CTNRCO,CTCKCO
 	</select>
 
   <select id="getSycds" resultType="nbct.com.cn.customerquery.entity.Sycdtbp">
