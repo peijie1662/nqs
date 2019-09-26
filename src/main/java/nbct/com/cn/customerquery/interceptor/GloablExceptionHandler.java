@@ -22,6 +22,7 @@ public class GloablExceptionHandler {
 
 	private static final Logger logger = LoggerFactory.getLogger(GloablExceptionHandler.class);
 
+	@ResponseBody
 	@ExceptionHandler(value = JWTVerificationException.class)
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
 	@CrossOrigin(origins = "*",maxAge = 3600)

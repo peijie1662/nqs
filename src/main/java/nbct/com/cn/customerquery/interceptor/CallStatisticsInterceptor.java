@@ -34,14 +34,14 @@ public class CallStatisticsInterceptor implements HandlerInterceptor {
 		HandlerMethod handlerMethod = (HandlerMethod) obj;
 		Method method = handlerMethod.getMethod();
 		// 2.检查
-		User user = (User) req.getAttribute("requester");
-		if (user == null) {
-			return true;
-		}
+		String userId = req.getHeader("userId");
 		if (method.isAnnotationPresent(CallStatistics.class)) {
 			CallStatistics cs = method.getAnnotation(CallStatistics.class);
 			String functionId = cs.value().toString();
-			redisService.saveFunctionCallLog(user.getUserId(), functionId);
+			redisService.saveFunctionCallLog(userId, functionId);
+
+			System.out.println("header userId:" + userId);
+
 		}
 		return true;
 	}

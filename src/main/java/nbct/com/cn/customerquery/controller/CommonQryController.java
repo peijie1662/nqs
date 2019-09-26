@@ -40,7 +40,7 @@ public class CommonQryController {
 	@CallStatistics(NBCTWebFunction.ORDERRECEIVE)
 	@ApiOperation(value = "接单公告", notes = "接单公告")
 	@RequestMapping(value = "/orderreceive", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public CallResult getOrderReceive(@RequestBody JSONObject p) {
+	public CallResult getOrderReceive(@RequestBody JSONObject p) {	
 		CallResult r = new CallResult();
 		int dt = p.getIntValue("dt");
 		List<OrderReceive> list = qryService.getOrderReceives(dt);
