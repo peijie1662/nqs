@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import nbct.com.cn.customerquery.annotation.TokenCheck;
 import nbct.com.cn.customerquery.entity.CallResult;
 import nbct.com.cn.customerquery.entity.User;
+import nbct.com.cn.customerquery.entity.UserPasswordChange;
 import nbct.com.cn.customerquery.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,10 +43,10 @@ public class UserController {
   @RequestMapping(value = "/adduser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult addUser(@RequestBody JSONObject p) {
     CallResult r = new CallResult();
+    // 设置用户信息
     User user = new User();
     user.setUserId(p.getString("userId"));
     user.setUserName(p.getString("userName"));
-    user.setPassword("e99a18c428cb38d5f260853678922e03");// 设置默认密码abc123
     user.setUserType(p.getString("userType"));
     user.setTelephone(p.getString("telephone"));
     user.setAddress(p.getString("address"));
@@ -56,6 +57,7 @@ public class UserController {
     user.setOpDate(new Date());
     logger.info(user.toString());
     userService.addUser(user);
+
     r.setFlag(true);
     r.setOutMsg("新增成功");
     return r;
@@ -74,7 +76,6 @@ public class UserController {
     User user = new User();
     user.setUserId(p.getString("userId"));
     user.setUserName(p.getString("userName"));
-    user.setPassword(p.getString("password"));// 设置默认密码abc123
     user.setUserType(p.getString("userType"));
     user.setTelephone(p.getString("telephone"));
     user.setAddress(p.getString("address"));
@@ -84,12 +85,46 @@ public class UserController {
     user.setOpUser(p.getString("opUser"));
     user.setOpDate(new Date());
     logger.info(user.toString());
-    userService.updateUser(user);
-    r.setFlag(true);
-    if (user.getPassword().isEmpty()) {
-      r.setOutMsg("修改用户信息成功");
+    int reslut = userService.updateUser(user);
+
+    if (reslut != 0) {
+      r.setFlag(true);
+      r.setOutMsg("修改用户信息成功!");
     } else {
-      r.setOutMsg("修改用户密码成功");
+      r.setFlag(false);
+      r.setErrMsg("修改用户信息失败!找不到该用户");
+    }
+
+    return r;
+  }
+
+  /**
+   * 用户修改密码
+   * 
+   * @param p
+   * @return
+   */
+  @ApiOperation(value = "用户修改密码", notes = "用户修改密码")
+  @RequestMapping(value = "/changepwuser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+  public CallResult changePwUser(@RequestBody JSONObject p) {
+    CallResult r = new CallResult();
+    String userId = p.getString("userId");
+    String opUser = p.getString("opUser");
+    String oldPassword = p.getString("oldPassword");
+    String newPassword = p.getString("newPassword");
+    UserPasswordChange userPasswordChange = new UserPasswordChange();
+    userPasswordChange.setNewPassword(newPassword);
+    userPasswordChange.setOldPassword(oldPassword);
+    userPasswordChange.setUserId(userId);
+    userPasswordChange.setOpUser(opUser);
+    userPasswordChange.setOpDate(new Date());
+    int result = userService.changeUserPassword(userPasswordChange);
+    if (result != 0) {
+      r.setFlag(true);
+      r.setOutMsg("修改密码成功");
+    } else {
+      r.setFlag(false);
+      r.setErrMsg("修改用户密码失败!找不到该用户或者原始密码不正确");
     }
     return r;
   }
@@ -105,11 +140,17 @@ public class UserController {
   public CallResult resetPwUser(@RequestBody JSONObject p) {
     CallResult r = new CallResult();
     String userId = p.getString("userId");
-    User user = userService.getUser(userId);
-    if (user != null) {
-      user.setOpDate(new Date());
-      user.setPassword("e99a18c428cb38d5f260853678922e03");// 设置默认密码abc123
-      userService.updateUser(user);
+    String opUser = p.getString("opUser");
+    UserPasswordChange userPasswordChange = new UserPasswordChange();
+    userPasswordChange.setNewPassword("e99a18c428cb38d5f260853678922e03");
+    userPasswordChange.setOldPassword("");
+    userPasswordChange.setUserId(userId);
+    userPasswordChange.setOpUser(opUser);
+    userPasswordChange.setOpDate(new Date());
+    int result = userService.changeUserPassword(userPasswordChange);
+
+    if (result != 0) {
+
       r.setFlag(true);
       r.setOutMsg("重置密码成功");
     } else {
@@ -154,7 +195,6 @@ public class UserController {
     if (user != null) {
       r.setFlag(true);
       JSONObject data = new JSONObject();
-      user.setPassword("");
       data.put("user", user);
       r.setData(data);
     } else {

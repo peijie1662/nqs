@@ -6,20 +6,20 @@ import nbct.com.cn.customerquery.entity.User;
 import nbct.com.cn.customerquery.entity.UserLoginInfo;
 
 /**
-* @author PJ 
-* @version 创建时间：2019年7月6日 下午6:33:26
-*/
+ * @author PJ
+ * @version 创建时间：2019年7月6日 下午6:33:26
+ */
 
 public interface LoginMapper {
-	
-	/**
-	 * 用户登录 
-	 */
-	User findUserById(@Param("userId") String userId,@Param("password") String password);
-	
-	/**
-	 * 登录日志
-	 */
-	void userLoginInfo(UserLoginInfo uli);
+
+  /**
+   * 用户登录
+   */
+  User findUserById(@Param("userId") String userId, @Param("password") String password);
+
+  /**
+   * 登录日志
+   */
+  void userLoginInfo(UserLoginInfo uli);
 
 }

@@ -16,14 +16,14 @@ import nbct.com.cn.customerquery.mapper.web.LoginMapper;
 @Service
 public class LoginService {
 
-	@Autowired
-	LoginMapper loginMapper;
+  @Autowired
+  LoginMapper loginMapper;
 
-	public User findUserById(User loginUser) {
-		return loginMapper.findUserById(loginUser.getUserId(), loginUser.getPassword());
-	}
-	
-	public void userLoginInfo(UserLoginInfo uli){
-		loginMapper.userLoginInfo(uli);
-	}
+  public User findUserById(String userId, String password) {
+    return loginMapper.findUserById(userId, password);
+  }
+
+  public void userLoginInfo(UserLoginInfo uli) {
+    loginMapper.userLoginInfo(uli);
+  }
 }
