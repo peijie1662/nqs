@@ -26,6 +26,7 @@ import nbct.com.cn.customerquery.utils.Utils;
  */
 @Api(value = "QRY查询")
 @RestController
+@CrossOrigin(origins = "*",maxAge = 3600)
 public class CommonQryController {
 
 	@Autowired

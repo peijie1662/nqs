@@ -1,6 +1,7 @@
 package nbct.com.cn.customerquery.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ import nbct.com.cn.customerquery.service.RedisService;
  */
 @Api(value = "测试")
 @RestController
+@CrossOrigin(origins = "*",maxAge = 3600)
 public class Test {
 
 	@Autowired

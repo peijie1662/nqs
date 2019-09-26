@@ -3,6 +3,7 @@ package nbct.com.cn.customerquery.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,6 +29,7 @@ import nbct.com.cn.customerquery.service.TokenService;
  */
 @Api(value = "用户登录")
 @RestController
+@CrossOrigin(origins = "*",maxAge = 3600)
 public class Login {
 
 	private static final Logger logger = LoggerFactory.getLogger(Login.class);
