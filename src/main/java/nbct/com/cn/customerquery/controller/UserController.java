@@ -3,6 +3,8 @@ package nbct.com.cn.customerquery.controller;
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import nbct.com.cn.customerquery.annotation.CallStatistics;
+import nbct.com.cn.customerquery.annotation.NBCTWebFunction;
 import nbct.com.cn.customerquery.annotation.TokenCheck;
 import nbct.com.cn.customerquery.entity.CallResult;
 import nbct.com.cn.customerquery.entity.User;
@@ -38,8 +40,9 @@ public class UserController {
    * @param user
    * @return
    */
-  @ApiOperation(value = "用户新增", notes = "用户新增")
   @TokenCheck
+  @CallStatistics(NBCTWebFunction.ADDUSER)
+  @ApiOperation(value = "用户新增", notes = "用户新增")
   @RequestMapping(value = "/adduser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult addUser(@RequestBody JSONObject p) {
     CallResult r = new CallResult();
@@ -69,8 +72,9 @@ public class UserController {
    * @param user
    * @return 密码字段不为空时,为修改秘密,只更新秘密 密码字段为空,为修改用户信息,更新用户信息不包括密码
    */
-  @ApiOperation(value = "用户修改", notes = "用户信息修改")
   @TokenCheck
+  @CallStatistics(NBCTWebFunction.EDITUSER)
+  @ApiOperation(value = "用户修改", notes = "用户信息修改")
   @RequestMapping(value = "/edituser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult editUser(@RequestBody JSONObject p) {
     CallResult r = new CallResult();
@@ -105,8 +109,9 @@ public class UserController {
    * @param p
    * @return
    */
-  @ApiOperation(value = "用户修改密码", notes = "用户修改密码")
   @TokenCheck
+  @CallStatistics(NBCTWebFunction.CHANGEPWUSER)
+  @ApiOperation(value = "用户修改密码", notes = "用户修改密码")
   @RequestMapping(value = "/changepwuser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult changePwUser(@RequestBody JSONObject p) {
     CallResult r = new CallResult();
@@ -137,8 +142,9 @@ public class UserController {
    * @param p
    * @return
    */
-  @ApiOperation(value = "用户重置密码", notes = "用户重置密码")
   @TokenCheck
+  @CallStatistics(NBCTWebFunction.RESETPWUSER)
+  @ApiOperation(value = "用户重置密码", notes = "用户重置密码")
   @RequestMapping(value = "/resetpwuser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult resetPwUser(@RequestBody JSONObject p) {
     CallResult r = new CallResult();
@@ -169,9 +175,9 @@ public class UserController {
    * @param p
    * @return
    */
-
-  @ApiOperation(value = "用户删除", notes = "用户删除")
   @TokenCheck
+  @CallStatistics(NBCTWebFunction.DELETEUSER)
+  @ApiOperation(value = "用户删除", notes = "用户删除")
   @RequestMapping(value = "/deleteuser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult updateUser(@RequestBody JSONObject p) {
     CallResult r = new CallResult();
@@ -188,9 +194,9 @@ public class UserController {
    * @param p
    * @return
    */
-
-  @ApiOperation(value = "获得单一用户信息", notes = "获得单一用户信息")
   @TokenCheck
+  @CallStatistics(NBCTWebFunction.GETUSER)
+  @ApiOperation(value = "获得单一用户信息", notes = "获得单一用户信息")
   @RequestMapping(value = "/getuser", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult getUser(@RequestBody JSONObject p) {
     CallResult r = new CallResult();
@@ -214,9 +220,9 @@ public class UserController {
    * 
    * @return
    */
-
-  @ApiOperation(value = "获得所有用户信息", notes = "获得所有用户信息")
   @TokenCheck
+  @CallStatistics(NBCTWebFunction.GETUSERS)
+  @ApiOperation(value = "获得所有用户信息", notes = "获得所有用户信息")
   @RequestMapping(value = "/getusers", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult getUsers() {
     CallResult r = new CallResult();

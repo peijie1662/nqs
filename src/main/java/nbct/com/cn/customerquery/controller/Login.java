@@ -14,6 +14,8 @@ import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import nbct.com.cn.customerquery.annotation.CallStatistics;
+import nbct.com.cn.customerquery.annotation.NBCTWebFunction;
 import nbct.com.cn.customerquery.entity.CallResult;
 import nbct.com.cn.customerquery.entity.User;
 import nbct.com.cn.customerquery.entity.UserLoginInfo;
@@ -43,6 +45,7 @@ public class Login {
 	@Autowired
 	RedisService redisService;
 
+	@CallStatistics(NBCTWebFunction.LOGIN)
 	@ApiOperation(value = "用户登录", notes = "用户密码验证")
 	@ApiImplicitParam(name = "loginUser", required = true, dataType = "User")
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -68,15 +71,16 @@ public class Login {
 		return r;
 	}
 
+	@CallStatistics(NBCTWebFunction.LOGOUT)
 	@ApiOperation(value = "用户退出", notes = "用户退出")
-	@ApiImplicitParam(name = "loginUser", required = true, dataType = "User")
 	@RequestMapping(value = "/logout", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public CallResult logout(@RequestBody JSONObject p) {
+	public CallResult logout() {
 		CallResult r = new CallResult();
 		r.setFlag(true);
 		return r;
 	}
 
+	@CallStatistics(NBCTWebFunction.PERIODLOG)
 	@ApiOperation(value = "访问日志", notes = "查询时间范围内访问日志")
 	@RequestMapping(value = "/periodlog", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public CallResult periodFunctionCallLog(@RequestBody JSONObject p) {

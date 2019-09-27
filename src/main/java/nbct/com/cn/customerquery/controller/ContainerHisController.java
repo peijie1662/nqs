@@ -3,6 +3,8 @@ package nbct.com.cn.customerquery.controller;
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import nbct.com.cn.customerquery.annotation.CallStatistics;
+import nbct.com.cn.customerquery.annotation.NBCTWebFunction;
 import nbct.com.cn.customerquery.annotation.TokenCheck;
 import nbct.com.cn.customerquery.entity.CallResult;
 import nbct.com.cn.customerquery.entity.EmptyContainerInYardHis;
@@ -17,13 +19,13 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*",maxAge = 3600)
 public class ContainerHisController {
-  // private static final Logger logger = LoggerFactory.getLogger(Login.class);
 
   @Autowired
   ContainerHisService containerHisService;
 
-  @ApiOperation(value = "获得集装箱在场空箱历史", notes = "获得集装箱在场空箱历史")
   @TokenCheck
+  @CallStatistics(NBCTWebFunction.GETEMPTYCONTAINERINYARDHIS)
+  @ApiOperation(value = "获得集装箱在场空箱历史", notes = "获得集装箱在场空箱历史")
   @RequestMapping(value = "/getemptycontainerinyardhis", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult getEmptyContainerInYardHis(@RequestBody JSONObject p) {
     CallResult r = new CallResult();

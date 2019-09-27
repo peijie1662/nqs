@@ -26,21 +26,16 @@ import nbct.com.cn.customerquery.utils.Utils;
  */
 @Api(value = "QRY查询")
 @RestController
-@CrossOrigin(origins = "*",maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class CommonQryController {
 
 	@Autowired
 	QryService qryService;
 
-	// @TokenCheck
-	/*
-	 * 调用 { "dt": 20190726 }
-	 */
-	@TokenCheck
 	@CallStatistics(NBCTWebFunction.ORDERRECEIVE)
 	@ApiOperation(value = "接单公告", notes = "接单公告")
 	@RequestMapping(value = "/orderreceive", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public CallResult getOrderReceive(@RequestBody JSONObject p) {	
+	public CallResult getOrderReceive(@RequestBody JSONObject p) {
 		CallResult r = new CallResult();
 		int dt = p.getIntValue("dt");
 		List<OrderReceive> list = qryService.getOrderReceives(dt);
@@ -49,6 +44,7 @@ public class CommonQryController {
 		return r;
 	}
 
+	@CallStatistics(NBCTWebFunction.YARDTRUCK)
 	@ApiOperation(value = "在场集卡列表", notes = "显示当前在场集卡列表")
 	@RequestMapping(value = "/yardtruck", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public CallResult getYardTruckList() {
@@ -64,9 +60,7 @@ public class CommonQryController {
 		return r;
 	}
 
-	/*
-	 * 调用 { "startdate": 20190726, "enddate": 20190726 }
-	 */
+	@CallStatistics(NBCTWebFunction.CNTRINCLOSEDATE)
 	@ApiOperation(value = "集装箱进箱截箱时间公告", notes = "显示进箱截箱时间段在设定范围内的船舶信息")
 	@RequestMapping(value = "/cntrinclosedate", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public CallResult getCntrInCloseDateList(@RequestBody JSONObject p) {
@@ -85,9 +79,7 @@ public class CommonQryController {
 		return r;
 	}
 
-	/*
-	 * 调用 { "startdate": 20190726, "enddate": 20190726 }
-	 */
+	@CallStatistics(NBCTWebFunction.SAILINGDATENOTICE)
 	@ApiOperation(value = "船期预告", notes = "显示时间段内的船舶信息")
 	@RequestMapping(value = "/sailingdatenotice", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public CallResult getSailingDateNoticeList(@RequestBody JSONObject p) {
@@ -108,9 +100,7 @@ public class CommonQryController {
 		return r;
 	}
 
-	/*
-	 * 调用 { "cntrId": "AXIU2187556" }
-	 */
+	@CallStatistics(NBCTWebFunction.IMCUSTOMPASSINFO)
 	@ApiOperation(value = "进口箱海关放行信息查询", notes = "显示某集装箱的海关放行信息")
 	@RequestMapping(value = "/imcustompassinfo", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public CallResult getImCustomPassInfo(@RequestBody JSONObject p) {
@@ -171,9 +161,7 @@ public class CommonQryController {
 		return r;
 	}
 
-	/*
-	 * 调用 { "cntrId": "MRKU3902661" }
-	 */
+	@CallStatistics(NBCTWebFunction.EXPORTPASSINFO)
 	@ApiOperation(value = "出口箱码头放行信息查询", notes = "显示某集装箱的码头放行信息")
 	@RequestMapping(value = "/exportpassinfo", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public CallResult getExPortPassInfo(@RequestBody JSONObject p) {
@@ -222,9 +210,7 @@ public class CommonQryController {
 		return r;
 	}
 
-	/*
-	 * 调用 { "cntrId": "SNBU8272555" }
-	 */
+	@CallStatistics(NBCTWebFunction.CHECKMOVECNTRINFO)
 	@ApiOperation(value = "查验箱移箱/归位情况查询", notes = "显示某集装箱的查验移箱/归位情况")
 	@RequestMapping(value = "/checkmovecntrinfo", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public CallResult getCheckMoveCtnrInfo(@RequestBody JSONObject p) {
@@ -281,9 +267,8 @@ public class CommonQryController {
 		return r;
 	}
 
-	/*
-	 * 调用 { "lncd": "CMA","ctty":"GP"}
-	 */
+	@TokenCheck
+	@CallStatistics(NBCTWebFunction.EMPTYCONTAINER)
 	@ApiOperation(value = "在场空箱实时查询", notes = "在场空箱实时查询")
 	@RequestMapping(value = "/emptycontainer", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public CallResult getEmptyContainer(@RequestBody JSONObject p) {
@@ -295,7 +280,6 @@ public class CommonQryController {
 			List<EmptyContainer> list = qryService.getEmptyContainer(lncd, ctty);
 			r.setFlag(true);
 			r.setData(list);
-			// System.out.println(list);
 		} catch (Exception e) {
 			r.setFlag(false);
 			r.setErrMsg(e.getMessage());
@@ -304,14 +288,13 @@ public class CommonQryController {
 	}
 
 	/**
-	 * 获得用户公司关联代码 userType:V(船公司) 系统代码表 TCTBLN 根据companyId(公司代码)获得 D(堆场) 系统代码表
-	 * TCYDLN 根据companyId(公司代码)获得
-	 *
-	 * @param p
-	 * @return
+	 * 获得用户公司关联代码 userType:V(船公司)<br>
+	 * 系统代码表 TCTBLN 根据companyId(公司代码)获得 D(堆场)<br>
+	 * 系统代码表 TCYDLN 根据companyId(公司代码)获得
 	 */
-	@ApiOperation(value = "获得用户公司关联代码", notes = "获得用户公司关联代码")
 	@TokenCheck
+	@CallStatistics(NBCTWebFunction.GETUSERCOMPANYHADCODES)
+	@ApiOperation(value = "获得用户公司关联代码", notes = "获得用户公司关联代码")
 	@RequestMapping(value = "/getusercompanyhadcodes", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public CallResult getUserCompanyHadCodes(@RequestBody JSONObject p) {
 		CallResult r = new CallResult();

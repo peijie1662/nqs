@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import nbct.com.cn.customerquery.annotation.CallStatistics;
+import nbct.com.cn.customerquery.annotation.NBCTWebFunction;
 import nbct.com.cn.customerquery.annotation.TokenCheck;
 import nbct.com.cn.customerquery.entity.CallResult;
 import nbct.com.cn.customerquery.entity.EfinReport;
@@ -24,7 +26,7 @@ import nbct.com.cn.customerquery.entity.EfinReportFile;
 import nbct.com.cn.customerquery.service.EfinReportService;
 
 /**
- * @author sdw
+ * @author SDW
  * @version 创建时间：20190924 09:31 <br>
  *          调用路径：http://localhost:8864/swagger-ui.html
  */
@@ -36,15 +38,9 @@ public class EfinReportController {
 	@Autowired
 	EfinReportService efinReportService;
 
-	/**
-	 * 获得EfinReport报表列表
-	 *
-	 * @param p
-	 * @return
-	 */
-
-	@ApiOperation(value = "获得EfinReport报表列表", notes = "获得EfinReport报表列表")
 	@TokenCheck
+	@CallStatistics(NBCTWebFunction.GETEFINREPORTS)
+	@ApiOperation(value = "获得EfinReport报表列表", notes = "获得EfinReport报表列表")
 	@RequestMapping(value = "/getefinreports", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public CallResult getEfinReports(@RequestBody JSONObject p) {
 		CallResult r = new CallResult();
@@ -61,14 +57,9 @@ public class EfinReportController {
 		return r;
 	}
 
-	/**
-	 * 下载Efin报表文件
-	 * 
-	 * @param p
-	 * @param response
-	 */
-	@ApiOperation(value = "下载Efin报表文件", notes = "下载Efin报表文件")
 	@TokenCheck
+	@CallStatistics(NBCTWebFunction.DOWNLOADEFINREPORT)
+	@ApiOperation(value = "下载Efin报表文件", notes = "下载Efin报表文件")
 	@RequestMapping(value = "/downloadefinreport", method = RequestMethod.POST)
 	public void downloadEfinReport(@RequestBody JSONObject p, HttpServletResponse response) {
 		ServletOutputStream out = null;
