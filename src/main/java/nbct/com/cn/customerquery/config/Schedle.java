@@ -1,6 +1,6 @@
 package nbct.com.cn.customerquery.config;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +31,12 @@ public class Schedle {
 	/**
 	 * 定时访问
 	 */
-	@Scheduled(cron = "0 0 */1 * * ?")
+	@Scheduled(cron = "0 */15 * * * ?")
 	public void idleCall() {
 		asMapper.idleCall();
 		qryMapper.idleCall();
 		webMapper.idleCall();
 
-		System.out.println("IdleCall:" + LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+		System.out.println("IdleCall:" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 	}
 }
