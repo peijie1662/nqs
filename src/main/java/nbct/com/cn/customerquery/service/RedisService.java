@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundZSetOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Component;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
+import nbct.com.cn.customerquery.controller.Login;
 import nbct.com.cn.customerquery.entity.satistics.CallSatistics;
 
 /**
@@ -25,6 +28,8 @@ import nbct.com.cn.customerquery.entity.satistics.CallSatistics;
  */
 @Component
 public class RedisService {
+
+	private static final Logger logger = LoggerFactory.getLogger(RedisService.class);
 
 	@Autowired
 	private StringRedisTemplate redis;
@@ -36,24 +41,28 @@ public class RedisService {
 	 * @param functionId
 	 */
 	public void saveFunctionCallLog(String userId, String functionId) {
-		String key = String.format("CALLSATISTICS:%s:%s", new Object[] { userId, functionId });
-		String curDt = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-		int dt = Integer.parseInt(curDt);
-		BoundZSetOperations<String, String> ops = redis.boundZSetOps(key);
-		Set<String> items = ops.rangeByScore(dt, dt);
-		if (items.size() <= 0) {
-			JSONObject statisticsItem = new JSONObject();
-			statisticsItem.put("callDt", curDt);
-			statisticsItem.put("count", 1);
-			String item = statisticsItem.toJSONString();
-			ops.add(item, dt);
-		} else {
-			items.forEach(item -> {
-				JSONObject csi = JSON.parseObject(item, JSONObject.class);
-				csi.put("count", csi.getInteger("count") + 1);
-				ops.remove(item);
-				ops.add(JSON.toJSONString(csi), dt);
-			});
+		try {
+			String key = String.format("CALLSATISTICS:%s:%s", new Object[] { userId, functionId });
+			String curDt = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+			int dt = Integer.parseInt(curDt);
+			BoundZSetOperations<String, String> ops = redis.boundZSetOps(key);
+			Set<String> items = ops.rangeByScore(dt, dt);
+			if (items.size() <= 0) {
+				JSONObject statisticsItem = new JSONObject();
+				statisticsItem.put("callDt", curDt);
+				statisticsItem.put("count", 1);
+				String item = statisticsItem.toJSONString();
+				ops.add(item, dt);
+			} else {
+				items.forEach(item -> {
+					JSONObject csi = JSON.parseObject(item, JSONObject.class);
+					csi.put("count", csi.getInteger("count") + 1);
+					ops.remove(item);
+					ops.add(JSON.toJSONString(csi), dt);
+				});
+			}
+		} catch (Exception e) {
+			logger.info("redis服务不能访问，暂不进行访问统计。");
 		}
 	}
 
@@ -65,23 +74,27 @@ public class RedisService {
 	 */
 	public List<CallSatistics> periodFunctionCallLog(int bg, int ed) {
 		List<CallSatistics> r = new ArrayList<CallSatistics>();
-		String pattern = "CALLSATISTICS*";
-		Set<String> keys = redis.keys(pattern);
-		keys.forEach(key -> {
-			BoundZSetOperations<String, String> ops = redis.boundZSetOps(key);
-			Set<TypedTuple<String>> items = ops.rangeByScoreWithScores(bg, ed);
-			List<CallSatistics> css = items.stream().map(s -> {
-				CallSatistics cs = new CallSatistics();
-				String[] k = key.split(":");
-				cs.setUserId(k[1]);
-				cs.setFun(k[2]);
-				cs.setCallDt(s.getScore().intValue());
-				JSONObject j = JSON.parseObject(s.getValue(), JSONObject.class);
-				cs.setCallNum(j.getInteger("count"));
-				return cs;
-			}).collect(Collectors.toList());
-			r.addAll(css);
-		});
+		try {
+			String pattern = "CALLSATISTICS*";
+			Set<String> keys = redis.keys(pattern);
+			keys.forEach(key -> {
+				BoundZSetOperations<String, String> ops = redis.boundZSetOps(key);
+				Set<TypedTuple<String>> items = ops.rangeByScoreWithScores(bg, ed);
+				List<CallSatistics> css = items.stream().map(s -> {
+					CallSatistics cs = new CallSatistics();
+					String[] k = key.split(":");
+					cs.setUserId(k[1]);
+					cs.setFun(k[2]);
+					cs.setCallDt(s.getScore().intValue());
+					JSONObject j = JSON.parseObject(s.getValue(), JSONObject.class);
+					cs.setCallNum(j.getInteger("count"));
+					return cs;
+				}).collect(Collectors.toList());
+				r.addAll(css);
+			});
+		} catch (Exception e) {
+			logger.info("redis服务不能访问，暂不进行访问统计。");
+		}
 		return r;
 	}
 

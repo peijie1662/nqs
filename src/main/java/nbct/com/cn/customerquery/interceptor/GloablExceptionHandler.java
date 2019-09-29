@@ -35,6 +35,7 @@ public class GloablExceptionHandler {
 
 	@ResponseBody
 	@ExceptionHandler(Exception.class)
+	@CrossOrigin(origins = "*",maxAge = 3600)
 	public CallResult handleException(Exception e) {
 		CallResult r = new CallResult();
 		r.setFlag(false);
