@@ -36,7 +36,7 @@ public class Schedule {
 	/**
 	 * 定时访问
 	 */
-	@Scheduled(cron = "0 */15 * * * ?")
+	@Scheduled(cron = "0 */1 * * * ?")
 	public void idleCall() {
 		asMapper.idleCall();
 		qryMapper.idleCall();
