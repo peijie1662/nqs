@@ -1,8 +1,5 @@
 package nbct.com.cn.customerquery.config;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +18,7 @@ import nbct.com.cn.customerquery.service.RedisService;
 @Component
 @EnableScheduling
 public class Schedule {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(RedisService.class);
 
 	@Autowired
@@ -38,9 +35,8 @@ public class Schedule {
 	 */
 	@Scheduled(cron = "0 */1 * * * ?")
 	public void idleCall() {
-		asMapper.idleCall();
-		qryMapper.idleCall();
-		webMapper.idleCall();
-		logger.info("Idle DB Call:" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+		logger.info("Idle AS400DL Call:" + asMapper.idleCall());
+		logger.info("Idle QRY Call:" + qryMapper.idleCall());
+		logger.info("Idle WEB Call:" + webMapper.idleCall());
 	}
 }

@@ -5,6 +5,6 @@ package nbct.com.cn.customerquery.mapper.as400dl;
 */
 public interface As400dlCirculationTaskMapper {
 	
-	int idleCall();
+	String idleCall();
 
 }

@@ -5,6 +5,6 @@ package nbct.com.cn.customerquery.mapper.web;
 */
 public interface WebCirculationTaskMapper {
 	
-	int idleCall();
+	String idleCall();
 
 }

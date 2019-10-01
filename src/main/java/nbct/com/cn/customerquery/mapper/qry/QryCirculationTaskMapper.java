@@ -5,6 +5,6 @@ package nbct.com.cn.customerquery.mapper.qry;
 */
 public interface QryCirculationTaskMapper {
 	
-	int idleCall();
+	String idleCall();
 
 }
