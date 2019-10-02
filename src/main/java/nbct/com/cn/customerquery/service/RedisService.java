@@ -3,6 +3,7 @@ package nbct.com.cn.customerquery.service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,7 +12,12 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.BoundZSetOperations;
+import org.springframework.data.redis.core.Cursor;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Component;
@@ -74,9 +80,19 @@ public class RedisService {
 	public List<CallSatistics> periodFunctionCallLog(int bg, int ed) {
 		List<CallSatistics> r = new ArrayList<CallSatistics>();
 		try {
-			String pattern = "CALLSATISTICS*";
-			Set<String> keys = redis.keys(pattern);
-			keys.forEach(key -> {
+			Set<String> execute = redis.execute(new RedisCallback<Set<String>>() {
+				@Override
+				public Set<String> doInRedis(RedisConnection connection) throws DataAccessException {
+					Set<String> binaryKeys = new HashSet<>();
+					Cursor<byte[]> cursor = connection.scan(new ScanOptions.ScanOptionsBuilder().match("CALLSATISTICS*")
+							.count(Integer.MAX_VALUE).build());
+					while (cursor.hasNext()) {
+						binaryKeys.add(new String(cursor.next()));
+					}
+					return binaryKeys;
+				}
+			});
+			execute.forEach(key -> {
 				BoundZSetOperations<String, String> ops = redis.boundZSetOps(key);
 				Set<TypedTuple<String>> items = ops.rangeByScoreWithScores(bg, ed);
 				List<CallSatistics> css = items.stream().map(s -> {
