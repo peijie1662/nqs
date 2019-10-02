@@ -31,7 +31,7 @@ import nbct.com.cn.customerquery.service.TokenService;
  */
 @Api(value = "用户登录")
 @RestController
-@CrossOrigin(origins = "*",maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class Login {
 
 	private static final Logger logger = LoggerFactory.getLogger(Login.class);
@@ -101,6 +101,15 @@ public class Login {
 			r.setFlag(false);
 			r.setErrMsg("指定选项无效。");
 		}
+		return r;
+	}
+
+	@ApiOperation(value = "接口描述", notes = "系统接口描述")
+	@RequestMapping(value = "/sysinterface", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public CallResult sysInterface() {
+		CallResult r = new CallResult();
+		r.setFlag(true);
+		r.setData(NBCTWebFunction.toList());
 		return r;
 	}
 
