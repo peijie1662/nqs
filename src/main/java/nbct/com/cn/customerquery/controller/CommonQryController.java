@@ -114,7 +114,7 @@ public class CommonQryController {
   }
 
   /*
-   * 调用 { "cntrId": "AXIU2187556" }
+   * 调用 { "cntrId": "SNBU4112482" }
    */
   @ApiOperation(value = "进口箱海关放行信息查询", notes = "显示某集装箱的海关放行信息")
   @RequestMapping(value = "/imcustompassinfo", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
