@@ -26,10 +26,6 @@ public class EfinReport {
 
   private String skey;// 文件编号
 
-  private String fileName; // 文件名
-
-  private String inIECN;
-
   public JSONObject ignoreProtectionFields() {
     String origin = JSON.toJSONString(this);
     return JSON.parseObject(origin, JSONObject.class);
@@ -124,10 +120,10 @@ public class EfinReport {
   }
 
   public String getFileName() {
-    return this.fnPyCocd + "-" + this.inIECN + "(" + this.dtBg + "-" + this.dtEd + ")." + this.fileType;
+    return this.fnPyCocd + "-" + this.getInIECN() + "(" + this.dtBg + "-" + this.dtEd + ")." + this.fileType;
   }
 
-  public String getInIECN() {
+  private String getInIECN() {
 
     if ("K".equals(this.inIE)) {
       return "应收账款 ";
@@ -139,6 +135,9 @@ public class EfinReport {
       return "对账单(E)";
     }
     return "";
+  }
+
+  public void setFileName(String fileName) {
   }
 
 }

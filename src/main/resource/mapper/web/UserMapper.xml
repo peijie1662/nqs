@@ -5,24 +5,27 @@
 		insert into webuser
             (userId,userName,password,userType,groups,telephone,address,company,companyId,opUser,opDate)
 		values 
-            (#{userId},#{userName},#{password},#{userType},#{groups},#{telephone},#{address},#{company}
+            (#{userId},#{userName},'e99a18c428cb38d5f260853678922e03',#{userType},
+            #{groups},#{telephone},#{address},#{company}
             ,#{companyId},#{opUser},#{opDate})
 	  </insert>
     <update id="updateUser" parameterType="nbct.com.cn.customerquery.entity.User">
         update webuser
-        <set>
-            <if test="password != ''">
-                password = #{password},
-                opUser = #{opUser},
-                opDate = #{opDate}
-            </if>
-            <if test="password == ''">
-                userName = #{userName},userType = #{userType},groups = #{groups},
-                telephone = #{telephone},address = #{address},company = #{company},
-                companyId = #{companyId},opUser = #{opUser},opDate = #{opDate}
-            </if>
-        </set>
+        set  userName = #{userName},userType = #{userType},groups = #{groups},
+             telephone = #{telephone},address = #{address},company = #{company},
+             companyId = #{companyId},opUser = #{opUser},opDate = #{opDate}
         where userId = #{userId}
+    </update>
+    <update id="changeUserPassword" parameterType="nbct.com.cn.customerquery.entity.UserPasswordChange">
+        update webuser
+        set password = #{newPassword},
+            opUser = #{opUser},
+            opDate = #{opDate}
+
+        where userId = #{userId}
+        <if test="oldPassword != ''">
+           and password = #{oldPassword}
+        </if>            
     </update>
     <delete id="deleteUser">
         delete from webuser

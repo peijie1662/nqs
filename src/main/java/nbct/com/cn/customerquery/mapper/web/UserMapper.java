@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 import nbct.com.cn.customerquery.entity.User;
+import nbct.com.cn.customerquery.entity.UserPasswordChange;
 
 /**
  * @author sdw
@@ -19,7 +20,7 @@ public interface UserMapper {
   /**
    * 用户信息修改
    */
-  void updateUser(User user);
+  int updateUser(User user);
 
   /**
    * 用户删除
@@ -37,5 +38,13 @@ public interface UserMapper {
    * @return
    */
   List<User> getUsers();
+
+  /**
+   * 修改密码
+   * 
+   * @param userPasswordChange
+   * @return
+   */
+  int changeUserPassword(UserPasswordChange userPasswordChange);
 
 }

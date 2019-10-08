@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import nbct.com.cn.customerquery.entity.User;
+import nbct.com.cn.customerquery.entity.UserPasswordChange;
 import nbct.com.cn.customerquery.mapper.web.UserMapper;
 import java.util.List;
 
@@ -34,8 +35,8 @@ public class UserService {
    * 
    * @param user
    */
-  public void updateUser(User user) {
-    userMapper.updateUser(user);
+  public int updateUser(User user) {
+    return userMapper.updateUser(user);
   }
 
   /**
@@ -57,7 +58,22 @@ public class UserService {
     return userMapper.getUser(userId);
   }
 
+  /**
+   * 获得所有用户信息
+   * 
+   * @return
+   */
   public List<User> getUsers() {
     return userMapper.getUsers();
+  }
+
+  /**
+   * 修改密码
+   * 
+   * @param userPasswordChange
+   * @return
+   */
+  public int changeUserPassword(UserPasswordChange userPasswordChange) {
+    return userMapper.changeUserPassword(userPasswordChange);
   }
 }

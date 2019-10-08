@@ -11,7 +11,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import nbct.com.cn.customerquery.annotation.CallStatistics;
-import nbct.com.cn.customerquery.entity.User;
 import nbct.com.cn.customerquery.service.RedisService;
 
 /**
@@ -34,14 +33,12 @@ public class CallStatisticsInterceptor implements HandlerInterceptor {
 		HandlerMethod handlerMethod = (HandlerMethod) obj;
 		Method method = handlerMethod.getMethod();
 		// 2.检查
-		User user = (User) req.getAttribute("requester");
-		if (user == null) {
-			return true;
-		}
+		String userId = req.getHeader("userId");
+		userId = userId == null ? "guest" : userId;
 		if (method.isAnnotationPresent(CallStatistics.class)) {
 			CallStatistics cs = method.getAnnotation(CallStatistics.class);
 			String functionId = cs.value().toString();
-			redisService.saveFunctionCallLog(user.getUserId(), functionId);
+			redisService.saveFunctionCallLog(userId, functionId);
 		}
 		return true;
 	}

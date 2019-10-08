@@ -14,6 +14,8 @@ import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import nbct.com.cn.customerquery.annotation.CallStatistics;
+import nbct.com.cn.customerquery.annotation.NBCTWebFunction;
 import nbct.com.cn.customerquery.entity.CallResult;
 import nbct.com.cn.customerquery.entity.User;
 import nbct.com.cn.customerquery.entity.UserLoginInfo;
@@ -28,8 +30,8 @@ import nbct.com.cn.customerquery.service.TokenService;
  * @version 创建时间：2019年7月6日 下午4:57:26 用户登录
  */
 @Api(value = "用户登录")
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class Login {
 
 	private static final Logger logger = LoggerFactory.getLogger(Login.class);
@@ -43,12 +45,15 @@ public class Login {
 	@Autowired
 	RedisService redisService;
 
+	@CallStatistics(NBCTWebFunction.LOGIN)
 	@ApiOperation(value = "用户登录", notes = "用户密码验证")
 	@ApiImplicitParam(name = "loginUser", required = true, dataType = "User")
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public CallResult login(@RequestBody User loginUser) {
+	public CallResult login(@RequestBody JSONObject p) {
 		CallResult r = new CallResult();
-		User user = loginService.findUserById(loginUser);
+		String userId = p.getString("userId");
+		String password = p.getString("password");
+		User user = loginService.findUserById(userId, password);
 		if (user != null) {
 			String token = tokenService.getToken(user);
 			JSONObject data = new JSONObject();
@@ -57,15 +62,25 @@ public class Login {
 			r.setData(data);
 			r.setFlag(true);
 			loginService.userLoginInfo(new UserLoginInfo(user.getUserId()));
-			logger.info(loginUser.getUserId() + " login success.");
+			logger.info(userId + " login success.");
 		} else {
 			r.setFlag(false);
 			r.setErrMsg("用户或密码错误。");
-			logger.info(loginUser.getUserId() + " login fail.");
+			logger.info(userId + " login fail.");
 		}
 		return r;
 	}
 
+	@CallStatistics(NBCTWebFunction.LOGOUT)
+	@ApiOperation(value = "用户退出", notes = "用户退出")
+	@RequestMapping(value = "/logout", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public CallResult logout() {
+		CallResult r = new CallResult();
+		r.setFlag(true);
+		return r;
+	}
+
+	@CallStatistics(NBCTWebFunction.PERIODLOG)
 	@ApiOperation(value = "访问日志", notes = "查询时间范围内访问日志")
 	@RequestMapping(value = "/periodlog", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public CallResult periodFunctionCallLog(@RequestBody JSONObject p) {
@@ -86,6 +101,15 @@ public class Login {
 			r.setFlag(false);
 			r.setErrMsg("指定选项无效。");
 		}
+		return r;
+	}
+
+	@ApiOperation(value = "接口描述", notes = "系统接口描述")
+	@RequestMapping(value = "/sysinterface", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public CallResult sysInterface() {
+		CallResult r = new CallResult();
+		r.setFlag(true);
+		r.setData(NBCTWebFunction.toList());
 		return r;
 	}
 
