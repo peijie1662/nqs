@@ -51,7 +51,7 @@ public class Login {
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public CallResult login(@RequestBody JSONObject p) {
 		CallResult r = new CallResult();
-		String userId = p.getString("userId");
+		String userId = p.getString("userId").toUpperCase();
 		String password = p.getString("password");
 		User user = loginService.findUserById(userId, password);
 		if (user != null) {

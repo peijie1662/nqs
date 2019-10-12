@@ -5,8 +5,9 @@
 		SELECT * FROM notices
 	</select>
 
-	<insert id="addNotice" parameterType="nbct.com.cn.customerquery.entity.Notice">
-		insert into notices
-		(content,dttr) values (#{content},to_char(sysdate,'yyyymmddhh24miss'))
-	</insert>
+	<update id="updateNotice" parameterType="nbct.com.cn.customerquery.entity.Notice">
+		update notices 
+    set content = #{content},dttr = to_char(sysdate,'yyyymmddhh24miss') 
+    where dttr = #{dttr}
+	</update>
 </mapper>

@@ -34,19 +34,20 @@ public class NoticeController {
    */
 
   @TokenCheck
-  @CallStatistics(NBCTWebFunction.ADDNOTICE)
-  @ApiOperation(value = "公告新增", notes = "公告新增")
-  @RequestMapping(value = "/addnotice", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-  public CallResult addNotice(@RequestBody JSONObject p) {
+  @CallStatistics(NBCTWebFunction.UPDATENOTICE)
+  @ApiOperation(value = "公告更新", notes = "公告更新")
+  @RequestMapping(value = "/updatenotice", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+  public CallResult updateNotice(@RequestBody JSONObject p) {
 
     logger.info("添加公告");
     CallResult r = new CallResult();
     String content = p.getString("content");
+    String dttr = p.getString("dttr");
     // 写公告信息
     Notice notice = new Notice();
     notice.setContent(content);
-    notice.setDttr("12345678901234");
-    int count = noticeService.addNotice(notice);
+    notice.setDttr(dttr);
+    int count = noticeService.updateNotice(notice);
 
     if (count < 1) {
       r.setFlag(false);

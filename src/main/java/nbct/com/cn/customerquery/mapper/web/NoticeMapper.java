@@ -7,9 +7,9 @@ import nbct.com.cn.customerquery.entity.Notice;
 public interface NoticeMapper {
 
   /**
-   * 公告新增
+   * 公告更新
    */
-  int addNotice(Notice notice);
+  int updateNotice(Notice notice);
 
   /**
    * 公告查询

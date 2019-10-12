@@ -44,7 +44,7 @@ public enum NBCTWebFunction {
   DELETEUSER("DELETEUSER", "用户删除"), //
   GETUSER("GETUSER", "获得单一用户信息"), //
   GETUSERS("GETUSERS", "获得所有用户信息"), //
-  ADDNOTICE("ADDNOTICE", "添加公告"), //
+  UPDATENOTICE("UPDATENOTICE", "更新公告"), //
   GETNOTICES("GETNOTICES", "获得所有公告"), //
   NODEFINED("NODEFINED", "未定义");
 

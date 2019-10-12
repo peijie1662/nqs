@@ -15,13 +15,13 @@ public class NoticeService {
   NoticeMapper noticeMapper;
 
   /**
-   * 添加公告
+   * 修改公告
    * 
    * @param notice
    * @return
    */
-  public int addNotice(Notice notice) {
-    return noticeMapper.addNotice(notice);
+  public int updateNotice(Notice notice) {
+    return noticeMapper.updateNotice(notice);
   }
 
   /**
