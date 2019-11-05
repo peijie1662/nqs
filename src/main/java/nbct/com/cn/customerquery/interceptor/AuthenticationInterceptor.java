@@ -71,6 +71,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 			Date expireDate = jm.getExpiresAt();
 			if (expireDate.getTime() - System.currentTimeMillis() < secrity.getExpireRefresh()) {
 				String newToken = tokenService.getToken(user);
+				res.setHeader("Access-Control-Expose-Headers","token");
 				res.setHeader("token", newToken);
 			}
 		}

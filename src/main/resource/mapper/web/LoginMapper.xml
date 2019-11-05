@@ -4,7 +4,7 @@
 	<select id="findUserById" resultType="nbct.com.cn.customerquery.entity.User">
 		SELECT * FROM webuser
 		where
-		userId=#{userId} and password=#{password}
+		upper(userId)=#{userId} and password=#{password}
 	</select>
 
 	<insert id="userLoginInfo" parameterType="nbct.com.cn.customerquery.entity.UserLoginInfo">

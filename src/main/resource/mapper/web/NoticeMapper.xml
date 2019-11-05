@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="nbct.com.cn.customerquery.mapper.web.NoticeMapper">
+	<select id="getNotices" resultType="nbct.com.cn.customerquery.entity.Notice">
+		SELECT * FROM notices
+	</select>
+
+	<update id="updateNotice" parameterType="nbct.com.cn.customerquery.entity.Notice">
+		update notices 
+    set content = #{content},dttr = to_char(sysdate,'yyyymmddhh24miss') 
+    where dttr = #{dttr}
+	</update>
+</mapper>
