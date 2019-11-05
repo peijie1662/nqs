@@ -166,7 +166,7 @@ public class ContainerService {
 					crcd = "MAR";
 				}
 			} else {
-				crcd = vcMapper.getCrcd(vscd);
+				crcd = vcMapper.getCrcd(vscd.trim());
 			}
 
 			//船舶经营人的母公司代码
@@ -217,11 +217,11 @@ public class ContainerService {
 					crcd = "MAR";
 				}
 			} else {
-				crcd = vcMapper.getCrcd(vscd);
+				crcd = vcMapper.getCrcd(vscd.trim());
 			}
 
 			// 船舶经营人的母公司代码
-			if (!"".equals(crcd)) {
+			if(!(crcd==null||"".equals(crcd))){
 				plncd = vcMapper.getParentLncd(crcd);
 			}
 			// 传入的船舶的经营人=传入的箱主 或 传入的船舶的经营人的母公司=传入的箱主 或 传入的箱主=YYY
