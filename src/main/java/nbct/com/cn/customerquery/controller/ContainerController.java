@@ -41,8 +41,13 @@ public class ContainerController {
 		String cntrId = p.getString("cntrId");
 		try {
 			ContainerInfo ci = containerService.getContainerInfo(cntrId);
-			r.setFlag(true);
-			r.setData(ci);
+			if (ci != null) {
+				r.setFlag(true);
+				r.setData(ci);
+			} else {
+				r.setFlag(false);
+				r.setErrMsg("该箱不在场地");
+			}
 		} catch (Exception e) {
 			r.setFlag(false);
 			r.setErrMsg(e.getMessage());
@@ -151,6 +156,9 @@ public class ContainerController {
 			int bnum = 0;// 内支线中转箱量
 			String isPass, ints;
 			JSONObject jo = new JSONObject();
+			
+			
+			System.out.println("111");
 
 			// 未装船列表
 			List<ExContainer> list1 = containerService.getExContainerListInYard(vscd, vsvy, vsdr, usertype, lncd, caag,
@@ -183,6 +191,9 @@ public class ContainerController {
 			jot1.put("znum", znum);
 			jot1.put("bnum", bnum);
 			jo.put("total1", jot1);
+			
+			
+			System.out.println("222");
 
 			// 已装船列表
 			List<ExContainer> list2 = containerService.getExContainerListInShip(vscd, vsvy, vsdr, usertype, lncd, caag,
