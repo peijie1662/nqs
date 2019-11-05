@@ -129,7 +129,13 @@ public class ContainerController {
 		return r;
 	}
 
-	//@TokenCheck
+/*    {"vscd": "ROSA",
+            "vsvy": "022W",
+            "vsdr": "E",
+            "lncd": "PIL",
+            "usertype": "V",
+            "ordertype": "PORT"}*/
+	@TokenCheck
 	@CallStatistics(NBCTWebFunction.EXCONTAINERLIST)
 	@ApiOperation(value = "船公司/货代出口箱清单", notes = "根据航次和箱主/货代列出该航次下箱主/货代所属的所有出口箱")
 	@RequestMapping(value = "/excontainerlist", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
