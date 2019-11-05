@@ -129,15 +129,15 @@ public class ContainerController {
 		return r;
 	}
 
-	@TokenCheck
+	//@TokenCheck
 	@CallStatistics(NBCTWebFunction.EXCONTAINERLIST)
 	@ApiOperation(value = "船公司/货代出口箱清单", notes = "根据航次和箱主/货代列出该航次下箱主/货代所属的所有出口箱")
 	@RequestMapping(value = "/excontainerlist", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public CallResult getExContainerList(@RequestBody JSONObject p) {
 		CallResult r = new CallResult();
 		try {
-			String vscd = Utils.getFillStr(p.getString("vscd"), "R", 5, " ");
-			String vsvy = Utils.getFillStr(p.getString("vsvy"), "R", 20, " ");
+			String vscd = Utils.getFillStr(p.getString("vscd"), "R", 5, " ").trim();
+			String vsvy = Utils.getFillStr(p.getString("vsvy"), "R", 20, " ").trim();
 			String vsdr = p.getString("vsdr");
 			String lncd = Utils.getFillStr(p.getString("lncd"), "R", 3, " ");
 			String usertype = p.getString("usertype");
@@ -152,6 +152,7 @@ public class ContainerController {
 			String isPass, ints;
 			JSONObject jo = new JSONObject();
 
+			System.out.println(lncd);
 			// 未装船列表
 			List<ExContainer> list1 = containerService.getExContainerListInYard(vscd, vsvy, vsdr, usertype, lncd, caag,
 					ordertype);
