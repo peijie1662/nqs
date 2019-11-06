@@ -128,16 +128,16 @@ public class ContainerService {
 				crcd = "MAR";
 			}
 		} else {
-			crcd = vcMapper.getCrcd(vscd);
+			crcd = vcMapper.getCrcd(vscd.trim());
 		}
 
 		// 船舶经营人的母公司代码
-		if (!"".equals(crcd)) {
+		if(!(crcd==null||"".equals(crcd))){
 			plncd = vcMapper.getParentLncd(crcd);
 		}
 
 		// 传入的船舶的经营人=传入的箱主 或 传入的船舶的经营人的母公司=传入的箱主 或 传入的箱主=YYY
-		if ((crcd.equals(lncd)) || (plncd != null && plncd.equals(lncd)) || "YYY".equals(lncd)) {
+		if ((crcd.equals(lncd)) || (!(plncd==null||plncd.equals(""))&& plncd.equals(lncd)) || "YYY".equals(lncd)) {
 			return vcMapper.getImContainerList(vscd, vsvy, vsdr, "", ordertype);
 		} else {
 			if (lncd != null && lncd != "") {
@@ -174,7 +174,7 @@ public class ContainerService {
 				plncd=vcMapper.getParentLncd(crcd);
 			}
 			// 传入的船舶的经营人=传入的箱主 或 传入的船舶的经营人的母公司=传入的箱主 或 传入的箱主=YYY
-			if ((crcd.equals(lncd)) || (plncd != null && plncd.equals(lncd)) || "YYY".equals(lncd)) {
+			if ((crcd.equals(lncd)) || (!(plncd==null||plncd.equals(""))&& plncd.equals(lncd)) || "YYY".equals(lncd)) {
 				return vcMapper.getExContainerListInYard(vscd, vsvy, vsdr, usertype, "", "", ordertype);
 			} else {
 				if (lncd != null && lncd != "") {
@@ -225,7 +225,7 @@ public class ContainerService {
 				plncd = vcMapper.getParentLncd(crcd);
 			}
 			// 传入的船舶的经营人=传入的箱主 或 传入的船舶的经营人的母公司=传入的箱主 或 传入的箱主=YYY
-			if ((crcd.equals(lncd)) || (plncd != null && plncd.equals(lncd)) || "YYY".equals(lncd)) {
+			if ((crcd.equals(lncd)) || (!(plncd==null||plncd.equals(""))&& plncd.equals(lncd)) || "YYY".equals(lncd)) {
 				return vcMapper.getExContainerListInShip(vscd, vsvy, vsdr, usertype, "", "", ordertype);
 			} else {
 				if (lncd != null && lncd != "") {
