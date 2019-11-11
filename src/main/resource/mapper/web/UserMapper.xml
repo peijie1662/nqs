@@ -5,7 +5,7 @@
 		insert into webuser
             (userId,userName,password,userType,groups,telephone,address,company,companyId,opUser,opDate)
 		values 
-            (#{userId},#{userName},'e99a18c428cb38d5f260853678922e03',#{userType},
+            (#{userId},#{userName},#{password},#{userType},
             #{groups},#{telephone},#{address},#{company}
             ,#{companyId},#{opUser},#{opDate})
 	  </insert>

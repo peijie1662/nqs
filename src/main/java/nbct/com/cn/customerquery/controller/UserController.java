@@ -10,6 +10,7 @@ import nbct.com.cn.customerquery.entity.CallResult;
 import nbct.com.cn.customerquery.entity.User;
 import nbct.com.cn.customerquery.entity.UserPasswordChange;
 import nbct.com.cn.customerquery.service.UserService;
+import nbct.com.cn.customerquery.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,7 @@ public class UserController {
     user.setGroups(p.getString("groups"));
     user.setOpUser(p.getString("opUser"));
     user.setOpDate(new Date());
+    user.setPassword(Utils.textToMD5L32(p.getString("userId").toLowerCase()));
     logger.info(user.toString());
     userService.addUser(user);
 
@@ -151,7 +153,7 @@ public class UserController {
     String userId = p.getString("userId");
     String opUser = p.getString("opUser");
     UserPasswordChange userPasswordChange = new UserPasswordChange();
-    userPasswordChange.setNewPassword("e99a18c428cb38d5f260853678922e03");
+    userPasswordChange.setNewPassword(Utils.textToMD5L32(userId.toLowerCase()));
     userPasswordChange.setOldPassword("");
     userPasswordChange.setUserId(userId);
     userPasswordChange.setOpUser(opUser);
