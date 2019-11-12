@@ -178,7 +178,7 @@ public class ContainerService {
 				return vcMapper.getExContainerListInYard(vscd, vsvy, vsdr, usertype, "", "", ordertype);
 			} else {
 				if (lncd != null && lncd != "") {
-					return vcMapper.getExContainerListInYard(vscd, vsvy, vsdr, usertype, lncd, "", ordertype);
+					return vcMapper.getExContainerListInYard(vscd, vsvy, vsdr, usertype, lncd.trim(), "", ordertype);
 				} else {// lncd="",不能查询
 					return null;
 				}
@@ -188,7 +188,7 @@ public class ContainerService {
 				return vcMapper.getExContainerListInYard(vscd, vsvy, vsdr, usertype, "", "", ordertype);
 			} else {
 				if (caag != null && caag != "") {
-					return vcMapper.getExContainerListInYard(vscd, vsvy, vsdr, usertype, "", caag, ordertype);
+					return vcMapper.getExContainerListInYard(vscd, vsvy, vsdr, usertype, "", caag.trim(), ordertype);
 				} else {// caag="",不能查询
 					return null;
 				}
@@ -229,7 +229,7 @@ public class ContainerService {
 				return vcMapper.getExContainerListInShip(vscd, vsvy, vsdr, usertype, "", "", ordertype);
 			} else {
 				if (lncd != null && lncd != "") {
-					return vcMapper.getExContainerListInShip(vscd, vsvy, vsdr, usertype, lncd, "", ordertype);
+					return vcMapper.getExContainerListInShip(vscd, vsvy, vsdr, usertype, lncd.trim(), "", ordertype);
 				} else {// lncd="",不能查询
 					return null;
 				}
