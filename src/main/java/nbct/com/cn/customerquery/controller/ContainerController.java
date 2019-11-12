@@ -134,12 +134,6 @@ public class ContainerController {
 		return r;
 	}
 
-/*    {"vscd": "ROSA",
-            "vsvy": "022W",
-            "vsdr": "E",
-            "lncd": "PIL",
-            "usertype": "V",
-            "ordertype": "PORT"}*/
 	//@TokenCheck
 	@CallStatistics(NBCTWebFunction.EXCONTAINERLIST)
 	@ApiOperation(value = "船公司/货代出口箱清单", notes = "根据航次和箱主/货代列出该航次下箱主/货代所属的所有出口箱")
@@ -162,11 +156,6 @@ public class ContainerController {
 			int bnum = 0;// 内支线中转箱量
 			String isPass, ints;
 			JSONObject jo = new JSONObject();
-			
-			
-			System.out.println("111");
-
-			System.out.println(lncd);
 			// 未装船列表
 			List<ExContainer> list1 = containerService.getExContainerListInYard(vscd, vsvy, vsdr, usertype, lncd, caag,
 					ordertype);
@@ -198,10 +187,6 @@ public class ContainerController {
 			jot1.put("znum", znum);
 			jot1.put("bnum", bnum);
 			jo.put("total1", jot1);
-			
-			
-			System.out.println("222");
-
 			// 已装船列表
 			List<ExContainer> list2 = containerService.getExContainerListInShip(vscd, vsvy, vsdr, usertype, lncd, caag,
 					ordertype);
