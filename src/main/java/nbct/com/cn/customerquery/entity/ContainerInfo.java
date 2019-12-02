@@ -294,14 +294,6 @@ public class ContainerInfo {
 		this.caag = caag;
 	}
 
-	public String getWeighingWayVGM() {
-		return weighingWayVGM;
-	}
-
-	public void setWeighingWayVGM(String weighingWayVGM) {
-		this.weighingWayVGM = weighingWayVGM;
-	}
-
 	public String getWeightVGM() {
 		return weightVGM;
 	}
@@ -340,6 +332,14 @@ public class ContainerInfo {
 
 	public void setCurvsdr(String curvsdr) {
 		this.curvsdr = curvsdr;
+	}
+
+	public String getWeighingWayVGM() {
+		return weighingWayVGM;
+	}
+
+	public void setWeighingWayVGM(String weighingWayVGM) {
+		this.weighingWayVGM = weighingWayVGM;
 	}
 	
 }
