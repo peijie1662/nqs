@@ -38,8 +38,6 @@ public class NoticeController {
   @ApiOperation(value = "公告更新", notes = "公告更新")
   @RequestMapping(value = "/updatenotice", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult updateNotice(@RequestBody JSONObject p) {
-
-    logger.info("添加公告");
     CallResult r = new CallResult();
     String content = p.getString("content");
     String dttr = p.getString("dttr");
@@ -48,7 +46,6 @@ public class NoticeController {
     notice.setContent(content);
     notice.setDttr(dttr);
     int count = noticeService.updateNotice(notice);
-
     if (count < 1) {
       r.setFlag(false);
       r.setErrMsg("添加公告失败");
@@ -68,10 +65,7 @@ public class NoticeController {
   @ApiOperation(value = "获得公告", notes = "获得公告")
   @RequestMapping(value = "/getnotices", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult getNotices() {
-
-    logger.info("获得公告");
     CallResult r = new CallResult();
-
     List<Notice> notices = noticeService.getNotices();
     if (notices.size() != 0) {
       r.setFlag(true);
