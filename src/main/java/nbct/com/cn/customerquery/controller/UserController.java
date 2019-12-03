@@ -60,9 +60,7 @@ public class UserController {
     user.setOpUser(p.getString("opUser"));
     user.setOpDate(new Date());
     user.setPassword(Utils.textToMD5L32(p.getString("userId").toLowerCase()));
-    logger.info(user.toString());
     userService.addUser(user);
-
     r.setFlag(true);
     r.setOutMsg("新增成功!");
     return r;
@@ -91,9 +89,7 @@ public class UserController {
     user.setGroups(p.getString("groups"));
     user.setOpUser(p.getString("opUser"));
     user.setOpDate(new Date());
-    logger.info(user.toString());
     int reslut = userService.updateUser(user);
-
     if (reslut != 0) {
       r.setFlag(true);
       r.setOutMsg("修改用户信息成功!");
@@ -101,7 +97,6 @@ public class UserController {
       r.setFlag(false);
       r.setErrMsg("修改用户信息失败!找不到该用户");
     }
-
     return r;
   }
 
@@ -159,9 +154,7 @@ public class UserController {
     userPasswordChange.setOpUser(opUser);
     userPasswordChange.setOpDate(new Date());
     int result = userService.changeUserPassword(userPasswordChange);
-
     if (result != 0) {
-
       r.setFlag(true);
       r.setOutMsg("重置密码成功");
     } else {
@@ -203,7 +196,6 @@ public class UserController {
   public CallResult getUser(@RequestBody JSONObject p) {
     CallResult r = new CallResult();
     String userId = p.getString("userId");
-
     User user = userService.getUser(userId);
     if (user != null) {
       r.setFlag(true);
@@ -228,7 +220,6 @@ public class UserController {
   @RequestMapping(value = "/getusers", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
   public CallResult getUsers() {
     CallResult r = new CallResult();
-
     List<User> users = userService.getUsers();
     if (users.size() != 0) {
       r.setFlag(true);
