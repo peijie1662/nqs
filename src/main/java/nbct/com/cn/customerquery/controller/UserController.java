@@ -28,7 +28,7 @@ import java.util.List;
  */
 @Api(value = "用户维护")
 @RestController
-@CrossOrigin(origins = "*",maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class UserController {
   private static final Logger logger = LoggerFactory.getLogger(Login.class);
 
@@ -64,7 +64,7 @@ public class UserController {
     userService.addUser(user);
 
     r.setFlag(true);
-    r.setOutMsg("新增成功");
+    r.setOutMsg("新增成功!");
     return r;
   }
 
