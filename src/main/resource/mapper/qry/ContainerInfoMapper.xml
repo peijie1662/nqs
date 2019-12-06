@@ -3,7 +3,7 @@
 <mapper namespace="nbct.com.cn.customerquery.mapper.qry.ContainerInfoMapper">
 	<select id="getMainContainerInfo" resultType="nbct.com.cn.customerquery.entity.ContainerInfo">
 		select *
-		from (select ctpfco || lpad(ctnrco, 6, '0') || ctckco as cntrId,
+		from (select trim(ctpfco || lpad(ctnrco, 6, '0') || ctckco) as cntrId,
 		lncdco as lncd,
 		ctszco as ctsz,
 		cttyco as ctty,
