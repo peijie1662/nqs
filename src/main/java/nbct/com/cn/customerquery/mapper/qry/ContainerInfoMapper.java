@@ -13,7 +13,7 @@ public interface ContainerInfoMapper {
 	/**
 	 * 单箱主信息
 	 */
-	ContainerInfo getMainContainerInfo(@Param("cntrId") String cntrId);
+	ContainerInfo getMainContainerInfo(@Param("ctpf") String ctpf, @Param("ctnr") int ctnr, @Param("ctck") String ctck);
 
 	/**
 	 * 单箱海关放行信息
@@ -31,7 +31,7 @@ public interface ContainerInfoMapper {
 	 */
 	String getCabl(@Param("vscd") String vscd, @Param("vsvy") String vsvy, @Param("vsdr") String vsdr,
 			@Param("cntrId") String cntrId);
-	
+
 	/**
 	 * VGM信息
 	 */

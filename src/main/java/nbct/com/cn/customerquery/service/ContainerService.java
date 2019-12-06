@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import nbct.com.cn.customerquery.entity.BLInfo;
 import nbct.com.cn.customerquery.entity.Container;
@@ -14,6 +15,7 @@ import nbct.com.cn.customerquery.entity.ImContainer;
 import nbct.com.cn.customerquery.entity.Voyage;
 import nbct.com.cn.customerquery.mapper.qry.ContainerInfoMapper;
 import nbct.com.cn.customerquery.mapper.qry.VoyageContainerMapper;
+import nbct.com.cn.customerquery.utils.Utils;
 
 /**
  * @author PJ
@@ -32,7 +34,9 @@ public class ContainerService {
 	 * 单箱主信息
 	 */
 	public ContainerInfo getContainerInfo(String cntrId) {
-		ContainerInfo ci = ciMapper.getMainContainerInfo(cntrId);
+		cntrId = Utils.getFillStr(cntrId.trim(), "R", 12, " ");
+		ContainerInfo ci = ciMapper.getMainContainerInfo(cntrId.substring(0, 4),
+				Integer.parseInt(cntrId.substring(4, 10)), cntrId.substring(10));
 		if (ci != null) {
 			// 1.海关放行
 			String customRelease = this.getCustomRelease(ci.getCurvscd(), ci.getCurvsvy(), ci.getCurvsdr(),
@@ -132,12 +136,12 @@ public class ContainerService {
 		}
 
 		// 船舶经营人的母公司代码
-		if(!(crcd==null||"".equals(crcd))){
+		if (!(crcd == null || "".equals(crcd))) {
 			plncd = vcMapper.getParentLncd(crcd);
 		}
 
 		// 传入的船舶的经营人=传入的箱主 或 传入的船舶的经营人的母公司=传入的箱主 或 传入的箱主=YYY
-		if ((crcd.equals(lncd)) || (!(plncd==null||plncd.equals(""))&& plncd.equals(lncd)) || "YYY".equals(lncd)) {
+		if ((crcd.equals(lncd)) || (!(plncd == null || plncd.equals("")) && plncd.equals(lncd)) || "YYY".equals(lncd)) {
 			return vcMapper.getImContainerList(vscd, vsvy, vsdr, "", ordertype);
 		} else {
 			if (lncd != null && lncd != "") {
@@ -169,12 +173,13 @@ public class ContainerService {
 				crcd = vcMapper.getCrcd(vscd.trim());
 			}
 
-			//船舶经营人的母公司代码
-			if(!(crcd==null||"".equals(crcd))){
-				plncd=vcMapper.getParentLncd(crcd);
+			// 船舶经营人的母公司代码
+			if (!(crcd == null || "".equals(crcd))) {
+				plncd = vcMapper.getParentLncd(crcd);
 			}
 			// 传入的船舶的经营人=传入的箱主 或 传入的船舶的经营人的母公司=传入的箱主 或 传入的箱主=YYY
-			if ((crcd.equals(lncd)) || (!(plncd==null||plncd.equals(""))&& plncd.equals(lncd)) || "YYY".equals(lncd)) {
+			if ((crcd.equals(lncd)) || (!(plncd == null || plncd.equals("")) && plncd.equals(lncd))
+					|| "YYY".equals(lncd)) {
 				return vcMapper.getExContainerListInYard(vscd, vsvy, vsdr, usertype, "", "", ordertype);
 			} else {
 				if (lncd != null && lncd != "") {
@@ -221,11 +226,12 @@ public class ContainerService {
 			}
 
 			// 船舶经营人的母公司代码
-			if(!(crcd==null||"".equals(crcd))){
+			if (!(crcd == null || "".equals(crcd))) {
 				plncd = vcMapper.getParentLncd(crcd);
 			}
 			// 传入的船舶的经营人=传入的箱主 或 传入的船舶的经营人的母公司=传入的箱主 或 传入的箱主=YYY
-			if ((crcd.equals(lncd)) || (!(plncd==null||plncd.equals(""))&& plncd.equals(lncd)) || "YYY".equals(lncd)) {
+			if ((crcd.equals(lncd)) || (!(plncd == null || plncd.equals("")) && plncd.equals(lncd))
+					|| "YYY".equals(lncd)) {
 				return vcMapper.getExContainerListInShip(vscd, vsvy, vsdr, usertype, "", "", ordertype);
 			} else {
 				if (lncd != null && lncd != "") {

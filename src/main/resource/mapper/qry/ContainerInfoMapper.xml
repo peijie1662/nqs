@@ -3,42 +3,37 @@
 <mapper namespace="nbct.com.cn.customerquery.mapper.qry.ContainerInfoMapper">
 	<select id="getMainContainerInfo" resultType="nbct.com.cn.customerquery.entity.ContainerInfo">
 		select *
-		from
-		(select trim(cntrif) as cntrId,
-		lncdif as lncd,
-		ctszif as ctsz,
-		cttyif as ctty,
-               decode(crvsdrif,
-                      'I',
-                      crvscdif || '/' || trim(crvsvyif) || '-' || crvsdrif,
-                      ' ') as imvsvy,
-               decode(crvsdrif,
-                      'E',
-                      crvscdif || '/' || trim(crvsvyif) || '-' || crvsdrif,
-                      ' ') as exvsvy,   
-		crvscdif as curvscd,
-		crvsvyif as curvsvy,
-		crvsdrif as curvsdr,
-		intdif as
-		intd,
-		infeif as infe,
-		inogif as inog,
-		inthif as inth,
-		inhzif as inhz,
-		indmif as indm,
+		from (select ctpfco || lpad(ctnrco, 6, '0') || ctckco as cntrId,
+		lncdco as lncd,
+		ctszco as ctsz,
+		cttyco as ctty,
+		decode(vsdrco,
+		'I',
+		vscdco || '/' || trim(vsvyco) || '-' || vsdrco,
+		' ') as imvsvy,
+		decode(vsdrco,
+		'E',
+		vscdco || '/' || trim(vsvyco) || '-' || vsdrco,
+		' ') as exvsvy,
+		vscdco as curvscd,
+		vsvyco as curvsvy,
+		vsdrco as curvsdr,
+		intdco as intd,
+		infeco as infe,
+		inogco as inog,
+		inthco as inth,
+		inhzco as inhz,
+		indmco as indm,
 		decode(iydtif,
 		0,
 		'',
-		to_char(to_date(iydtif ||
-		lpad(iytmif, 6, '0'),
+		to_char(to_date(iydtif || lpad(iytmif, 6, '0'),
 		'yyyymmddhh24miss'),
-		'yyyy-mm-dd hh24:mi:ss')) as
-		inYardDt,
+		'yyyy-mm-dd hh24:mi:ss')) as inYardDt,
 		decode(oydtif,
 		0,
 		'',
-		to_char(to_date(oydtif || lpad(oytmif, 6,
-		'0'),
+		to_char(to_date(oydtif || lpad(oytmif, 6, '0'),
 		'yyyymmddhh24miss'),
 		'yyyy-mm-dd hh24:mi:ss')) as outYardDt,
 		decode(iyopcdif,
@@ -54,25 +49,23 @@
 		'装箱',
 		'LI',
 		'拆箱') as inPortType,
-		decode(crvsdrif, 'I', ptldif, 'E',
-		ptdsif) as port,
+		decode(vsdrco, 'I', ptldco, 'E', ptdsco) as port,
 		ceil(decode(oydtif,
 		0,
 		sysdate,
-		to_date(oydtif ||
-		lpad(oytmif, 6, '0'),
+		to_date(oydtif || lpad(oytmif, 6, '0'),
 		'yyyymmddhh24miss')) -
-		to_date(iydtif ||
-		lpad(iytmif, 6, '0'),
+		to_date(iydtif || lpad(iytmif, 6, '0'),
 		'yyyymmddhh24miss')) as storageDays,
-		ctgwif as
-		weight,
+		ctgwco as weight,
 		decode(decode(crvsdrif, 'E', inotif), 'Y', 'Y', ' ') as loaded,
-		caagif as caag
-		from tcctifp
-		where cntrif = rpad(#{cntrId},12,' ')
-		order
-		by iydtif desc, iytmif desc) a
+		caagco as caag
+		from tcmscop, tcctifp
+		where ctpfco = #{ctpf}
+		and ctnrco = #{ctnr}
+		and ctckco = #{ctck}
+		and iyidco = iyidif
+		order by iydtif desc, iytmif desc) a
 		where rownum = 1
 	</select>
 
@@ -99,9 +92,11 @@
 	</select>
 
 	<select id="getVgm" resultType="nbct.com.cn.customerquery.entity.ContainerInfo">
-		select trim(vgmmvg) as weighingWayVGM,
+		select trim(vgmmvg) as
+		weighingWayVGM,
 		trim(vgmwvg) as weightVGM,trim(vgmsvg) as signVGM
-		from ctnvgm where vscdvg = #{vscd} and vsvyvg = #{vsvy} and vsdrvg =
+		from
+		ctnvgm where vscdvg = #{vscd} and vsvyvg = #{vsvy} and vsdrvg =
 		#{vsdr}
 		and trim(cntrvg) = trim(#{cntrId})
 	</select>
