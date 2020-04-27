@@ -2,7 +2,6 @@ package nbct.com.cn.customerquery.service;
 
 import java.util.List;
 
-import org.apache.ibatis.javassist.bytecode.analysis.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
