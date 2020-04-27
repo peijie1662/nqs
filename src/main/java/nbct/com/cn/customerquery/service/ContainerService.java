@@ -2,9 +2,9 @@ package nbct.com.cn.customerquery.service;
 
 import java.util.List;
 
+import org.apache.ibatis.javassist.bytecode.analysis.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import nbct.com.cn.customerquery.entity.BLInfo;
 import nbct.com.cn.customerquery.entity.Container;
@@ -41,29 +41,17 @@ public class ContainerService {
 			// 1.海关放行
 			String customRelease = this.getCustomRelease(ci.getCurvscd(), ci.getCurvsvy(), ci.getCurvsdr(),
 					ci.getCntrId());
-			if (customRelease == null) {
-				ci.setCustomRelease("N");
-			} else {
-				ci.setCustomRelease("Y");
-			}
+			ci.setCustomRelease(customRelease == null ? "N" : "Y");
 			// 2.出口箱码头放行
 			if ("E".equals(ci.getCurvsdr())) {
 				String terminalRelease = this.getTerminalRelease(ci.getCurvscd(), ci.getCurvsvy(), ci.getCntrId());
-				if (terminalRelease == null) {
-					ci.setTerminalRelease("N");
-				} else {
-					ci.setTerminalRelease("Y");
-				}
+				ci.setTerminalRelease(terminalRelease == null ? "N" : "Y");
 			} else {
 				ci.setTerminalRelease(" ");
 			}
 			// 3.提单
 			String cabl = this.getCabl(ci.getCurvscd(), ci.getCurvsvy(), ci.getCurvsdr(), ci.getCntrId());
-			if (cabl == null) {
-				ci.setCabl(" ");
-			} else {
-				ci.setCabl(cabl);
-			}
+			ci.setCabl(cabl == null ? " " : cabl);
 			// 4.VGM
 			ContainerInfo tc = ciMapper.getVgm(ci.getCurvscd(), ci.getCurvsvy(), ci.getCurvsdr(), ci.getCntrId());
 			if (tc != null) {
@@ -110,8 +98,8 @@ public class ContainerService {
 		return vcMapper.getVoyageList(vsvy, vsdr, lncd);
 
 		/*
-		 * List<Voyage> list = commonMapper.getVoyageList(vsvy,vsdr,lncd);
-		 * for(Voyage v:list){ v.setCnnmvr(); } return list;
+		 * List<Voyage> list = commonMapper.getVoyageList(vsvy,vsdr,lncd); for(Voyage
+		 * v:list){ v.setCnnmvr(); } return list;
 		 */
 	}
 

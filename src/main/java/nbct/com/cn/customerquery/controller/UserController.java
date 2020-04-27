@@ -11,8 +11,6 @@ import nbct.com.cn.customerquery.entity.User;
 import nbct.com.cn.customerquery.entity.UserPasswordChange;
 import nbct.com.cn.customerquery.service.UserService;
 import nbct.com.cn.customerquery.utils.Utils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +28,6 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class UserController {
-  private static final Logger logger = LoggerFactory.getLogger(Login.class);
 
   @Autowired
   UserService userService;

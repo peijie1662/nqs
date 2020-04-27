@@ -68,7 +68,6 @@ public class CommonQryController {
 		try {
 			int startdate = p.getIntValue("startdate");
 			int enddate = p.getIntValue("enddate");
-
 			List<CntrInCloseDate> list = qryService.getCntrInCloseDateList(startdate, enddate);
 			r.setFlag(true);
 			r.setData(list);
@@ -87,10 +86,7 @@ public class CommonQryController {
 		try {
 			int startdate = p.getIntValue("startdate");
 			int enddate = p.getIntValue("enddate");
-
 			List<SailingDateNotice> list = qryService.getSailingDateNoticeList(startdate, enddate);
-			// SQL返回空记录集时也不报错
-
 			r.setFlag(true);
 			r.setData(list);
 		} catch (Exception e) {
