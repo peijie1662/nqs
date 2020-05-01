@@ -36,6 +36,15 @@ public class ContainerService {
 		cntrId = Utils.getFillStr(cntrId.trim(), "R", 12, " ");
 		ContainerInfo ci = ciMapper.getMainContainerInfo(cntrId.substring(0, 4),
 				Integer.parseInt(cntrId.substring(4, 10)), cntrId.substring(10));
+		// 1.处理下进口航次 
+		if (ci.getImvsvy().endsWith("E")) {
+			ci.setImvsvy("-/");
+		}
+		if ("I".equals(ci.getCurvsdr())) {
+			ci.setImvsvy(ci.getCurvscd() + "/" + ci.getCurvsvy().trim() + "-" + ci.getCurvsdr());
+		}else {
+			ci.setExvsvy(ci.getCurvscd() + "/" + ci.getCurvsvy().trim() + "-" + ci.getCurvsdr());
+		}
 		if (ci != null) {
 			// 1.海关放行
 			String customRelease = this.getCustomRelease(ci.getCurvscd(), ci.getCurvsvy(), ci.getCurvsdr(),
