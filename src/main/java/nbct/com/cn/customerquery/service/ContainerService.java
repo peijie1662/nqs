@@ -34,18 +34,23 @@ public class ContainerService {
 	 */
 	public ContainerInfo getContainerInfo(String cntrId) {
 		cntrId = Utils.getFillStr(cntrId.trim(), "R", 12, " ");
-		ContainerInfo ci = ciMapper.getMainContainerInfo(cntrId.substring(0, 4),
-				Integer.parseInt(cntrId.substring(4, 10)), cntrId.substring(10));
-		// 1.处理下进口航次 
-		if (ci.getImvsvy().endsWith("E")) {
-			ci.setImvsvy("-/");
+		String ctpf = cntrId.substring(0, 4);
+		String ctnr = cntrId.substring(4, 10);
+		String ctck = cntrId.substring(10);
+		if (!Utils.isNumber(ctnr)) {
+			return null;
 		}
-		if ("I".equals(ci.getCurvsdr())) {
-			ci.setImvsvy(ci.getCurvscd() + "/" + ci.getCurvsvy().trim() + "-" + ci.getCurvsdr());
-		}else {
-			ci.setExvsvy(ci.getCurvscd() + "/" + ci.getCurvsvy().trim() + "-" + ci.getCurvsdr());
-		}
+		ContainerInfo ci = ciMapper.getMainContainerInfo(ctpf, Integer.parseInt(ctnr), ctck);
 		if (ci != null) {
+			// 1.处理下进口航次
+			if (ci.getImvsvy().endsWith("E")) {
+				ci.setImvsvy("-/");
+			}
+			if ("I".equals(ci.getCurvsdr())) {
+				ci.setImvsvy(ci.getCurvscd() + "/" + ci.getCurvsvy().trim() + "-" + ci.getCurvsdr());
+			} else {
+				ci.setExvsvy(ci.getCurvscd() + "/" + ci.getCurvsvy().trim() + "-" + ci.getCurvsdr());
+			}
 			// 1.海关放行
 			String customRelease = this.getCustomRelease(ci.getCurvscd(), ci.getCurvsvy(), ci.getCurvsdr(),
 					ci.getCntrId());
